@@ -101,10 +101,10 @@ export default function ServicesPage() {
             Contact Sanjay Jain to discuss your property and ask which consultation format may suit your needs.
           </p>
           <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-            <Link href={`https://wa.me/919828088678?text=${encodeURIComponent('Hello, I would like to ask about a consultation. My property is residential/commercial and I am interested in an on-site/online consultation.')}`} target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation." target="_blank" rel="noopener noreferrer">
               <MessageCircle className="mr-2 h-5 w-5" />
               Inquire via WhatsApp
-            </Link>
+            </a>
           </Button>
         </section>
       </div>

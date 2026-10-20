@@ -15,7 +15,7 @@ export function Footer() {
           </p>
         </div>
         <nav aria-label="Footer navigation">
-          <h2 className="font-semibold">Explore</h2>
+          <h2 className="font-semibold text-white">Explore</h2>
           <ul className="mt-4 space-y-3 text-sm text-white/75">
             <li><Link href="/services" className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">Services</Link></li>
             <li><Link href="/about" className="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">About</Link></li>
@@ -23,7 +23,7 @@ export function Footer() {
           </ul>
         </nav>
         <div>
-          <h2 className="font-semibold">Get in touch</h2>
+          <h2 className="font-semibold text-white">Get in touch</h2>
           <div className="mt-4 flex flex-col items-start gap-3 text-sm">
             <a href="tel:+919828088678" className="inline-flex items-center gap-2 rounded-sm text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
               <Phone className="h-4 w-4" aria-hidden="true" /> +91 98280 88678

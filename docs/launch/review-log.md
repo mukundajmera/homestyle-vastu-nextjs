@@ -50,3 +50,28 @@ This file records verified repository behavior and review evidence. It is not a 
 - **Round 4:** Final regression review, responsive/browser checks, documentation accuracy, and release readiness.
 
 No round constitutes a live lead-submission or deployment verification unless it explicitly records a real, authorized integration test and its evidence.
+
+## Round 2 of 4 — Content, positioning, and lead conversion
+
+**Date:** 2026-10-21
+**Patch contributor:** Jules
+
+### Changes reviewed
+
+- Updated homepage positioning to explicitly include "22 years of experience as of 2026" and removed unsupported slash-separated alternatives in WhatsApp URLs across all pages (Home, Services, Contact).
+- Contact form WhatsApp redirect was simplified to not include PII while maintaining context.
+- About page text was updated to include the owner-confirmed "22 years of experience as of 2026" detail for Sanjay Jain.
+- An `alt` visual variant was added to the `SpacePlanIllustration` component to prevent exact duplication between the hero and the About preview sections on the homepage.
+- Footer heading colors were explicitly set to `text-white` to resolve low-contrast issues against the dark background, and the phone CTA styles were improved for contrast.
+
+### Verification evidence
+
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm test`: 5 suites and 20 tests passed.
+- `npm run build`: passed successfully.
+
+### Findings to carry into later reviews
+
+- **Fact gap requiring owner input**: Competitor market scans show services like industrial/factory, plot/land selection, new build/renovation, and online plan review. These have *not* been added. Owner confirmation is required to determine if these specific additional categories should be listed on the site.
+- The `consent` field is required in the browser form and documented in the Privacy policy, but it is not currently sent in the API payload or persisted to the MySQL database. This data-handling discrepancy should be addressed in Round 3 (API security, privacy/data handling).

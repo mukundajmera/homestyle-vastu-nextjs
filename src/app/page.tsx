@@ -5,10 +5,6 @@ import { ArrowRight, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { SpacePlanIllustration } from '@/components/space-plan-illustration';
 
-const whatsappInquiryUrl = `https://wa.me/919828088678?text=${encodeURIComponent(
-  'Hello, I would like to ask about a Vastu or Feng Shui consultation. My property is residential/commercial and I am interested in an on-site/online consultation.'
-)}`;
-
 export const metadata: Metadata = {
   title: 'Vastu & Feng Shui for Homes and Businesses',
   description: 'Vastu Shastra and Feng Shui consultations for homes and businesses with Sanjay Jain. Ask about residential or commercial guidance and available formats.',
@@ -45,16 +41,16 @@ export default function Home() {
             </p>
             <div className="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row lg:justify-start">
               <Button asChild size="lg" className="h-12 rounded-md bg-primary px-6 text-base font-semibold text-primary-foreground shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md">
-                <Link href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation." target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Message on WhatsApp
-                </Link>
+                </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-12 rounded-md border-[#bcae9a] bg-white/70 px-6 text-base font-semibold hover:bg-secondary/20">
                 <Link href="/services">Explore services</Link>
               </Button>
             </div>
-            <p className="mt-5 text-sm text-foreground/60">For homes and businesses. On-site and online/remote formats.</p>
+            <p className="mt-5 text-sm text-foreground/60 font-medium">22 years of experience as of 2026. For homes and businesses. On-site and online/remote formats.</p>
           </div>
           <div className="mx-auto w-full max-w-xl lg:max-w-none">
             <SpacePlanIllustration />
@@ -157,7 +153,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="w-full md:w-1/2">
               <div className="w-full max-w-md mx-auto">
-                <SpacePlanIllustration />
+                <SpacePlanIllustration variant="alt" />
               </div>
             </div>
 
@@ -217,14 +213,14 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-bold h-12 px-8">
-              <Link href={whatsappInquiryUrl} target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation." target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" />
                 WhatsApp Us
-              </Link>
+              </a>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white/10 h-12 px-8 font-medium">
-              <a href="tel:+919828088678">Call +91 98280 88678</a>
-            </Button>
+            <a href="tel:+919828088678" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-bold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-white text-white bg-transparent hover:bg-white/10 h-12 px-8">
+              Call +91 98280 88678
+            </a>
           </div>
         </div>
       </section>

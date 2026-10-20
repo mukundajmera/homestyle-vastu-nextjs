@@ -259,10 +259,10 @@ export function ContactForm() {
           name="inquiry"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Short Inquiry (Optional)</FormLabel>
+              <FormLabel>What guidance are you looking for? (Optional)</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Briefly describe what you're looking for..."
+                  placeholder="e.g., I would like to review the floor plan for a new office space before finalizing the layout."
                   className="resize-y min-h-[100px]"
                   {...field}
                 />
@@ -295,7 +295,7 @@ export function ContactForm() {
 
         <div className="bg-muted/30 p-4 rounded-md text-sm text-muted-foreground flex flex-col space-y-2">
           <p>
-            <strong>Note:</strong> Upon successful submission, your details will be saved to our system, and you will be securely redirected to WhatsApp to continue the conversation with a brief, private message.
+            <strong>Next step:</strong> After you submit this form, you will be redirected to WhatsApp to send a pre-filled message to start the conversation. Your details above are saved securely and are not included in the WhatsApp link.
           </p>
         </div>
 

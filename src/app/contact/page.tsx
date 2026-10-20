@@ -26,7 +26,7 @@ export default function ContactPage() {
   const whatsappNumber = "919828088678";
   const displayPhone = "+91 98280 88678";
 
-  const whatsappMessage = encodeURIComponent("Hello, I would like to ask about a consultation. My property is residential/commercial and I am interested in an on-site/online consultation.");
+  const whatsappMessage = "Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation.";
 
   return (
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-4xl">
