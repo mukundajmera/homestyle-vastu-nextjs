@@ -1,19 +1,23 @@
 import type { Metadata } from 'next';
+import { Inter, Literata } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
+import { getSiteOrigin, isPublicProduction } from '@/lib/site';
 
-const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === 'production';
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002';
+const isProduction = isPublicProduction();
+const baseUrl = getSiteOrigin();
+const bodyFont = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
+const headlineFont = Literata({ subsets: ['latin'], display: 'swap', variable: '--font-literata' });
 
 export const metadata: Metadata = {
   title: {
     default: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
     template: '%s | Homestyle Vastu'
   },
-  description: 'Vastu Shastra and Feng Shui consultations for homes and businesses with Sanjay Jain. Ask about residential or commercial guidance and available formats.',
-  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'space planning', 'residential vastu', 'commercial vastu', 'Sanjay Jain'],
+  description: 'Vastu Shastra and Feng Shui guidance for homes and businesses, including plot selection, construction, factory Vastu, and online plan review.',
+  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'space planning', 'residential vastu', 'commercial vastu', 'plot selection', 'industrial vastu', 'Sanjay Jain'],
   authors: [{ name: 'Sanjay Jain' }],
   creator: 'Homestyle Vastu',
   publisher: 'Homestyle Vastu',
@@ -58,7 +62,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Homestyle Vastu",
-  "@id": baseUrl,
+  "@id": `${baseUrl}/#business`,
   "url": baseUrl,
   "telephone": "+919828088678",
   "address": {
@@ -70,28 +74,14 @@ const jsonLd = {
     "addressCountry": "IN"
   },
   "makesOffer": [
-    {
-      "@type": "Offer",
-      "itemOffered": {
-        "@type": "Service",
-        "name": "Residential Vastu Consultation"
-      }
-    },
-    {
-      "@type": "Offer",
-      "itemOffered": {
-        "@type": "Service",
-        "name": "Commercial Vastu Consultation"
-      }
-    },
-    {
-      "@type": "Offer",
-      "itemOffered": {
-        "@type": "Service",
-        "name": "Feng Shui Consultation"
-      }
-    }
-  ]
+    "Residential Vastu consultation",
+    "Commercial Vastu consultation",
+    "Feng Shui consultation",
+    "Plot and land selection guidance",
+    "Vastu guidance for new construction or renovation",
+    "Industrial and factory Vastu guidance",
+    "Online floor-plan review"
+  ].map((name) => ({ "@type": "Offer", "itemOffered": { "@type": "Service", name } }))
 };
 
 export default function RootLayout({
@@ -100,11 +90,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`${bodyFont.variable} ${headlineFont.variable} scroll-smooth`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

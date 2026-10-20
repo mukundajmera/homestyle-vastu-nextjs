@@ -1,72 +1,77 @@
-import '@testing-library/jest-dom'
-import * as React from 'react'
-import { TextEncoder, TextDecoder } from 'util';
+import '@testing-library/jest-dom';
 
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
+// Next.js Request/Response mocks for Node environment
+if (typeof global.Response === 'undefined') {
+  global.Response = class Response {
+    constructor(body, init) {
+      this.body = body;
+      this.status = init?.status || 200;
+      this.headers = init?.headers || new Headers();
+    }
+    async json() {
+      return typeof this.body === 'string' ? JSON.parse(this.body) : this.body;
+    }
+    static json(body, init) {
+      return new Response(JSON.stringify(body), { ...init, headers: { 'content-type': 'application/json' } });
+    }
+  };
+}
 
+// Next.js NextResponse mock
+jest.mock('next/server', () => {
+  return {
+    NextResponse: {
+      json: (body, init) => {
+        return new Response(JSON.stringify(body), { ...init, headers: { 'content-type': 'application/json' } });
+      }
+    }
+  };
+});
+
+// Mock embla carousel for testing components
+jest.mock('embla-carousel-react', () => {
+  return jest.fn().mockReturnValue([
+    jest.fn(),
+    {
+      on: jest.fn(),
+      off: jest.fn(),
+      canScrollNext: jest.fn().mockReturnValue(true),
+      canScrollPrev: jest.fn().mockReturnValue(true),
+      scrollNext: jest.fn(),
+      scrollPrev: jest.fn(),
+    },
+  ]);
+});
+
+// Polyfill for IntersectionObserver which isn't available in jsdom
+class IntersectionObserver {
+  constructor() {}
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+global.IntersectionObserver = IntersectionObserver;
+
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
+// Polyfill ResizeObserver
 class ResizeObserver {
+  constructor() {}
   observe() {}
   unobserve() {}
   disconnect() {}
 }
 global.ResizeObserver = ResizeObserver;
-window.ResizeObserver = ResizeObserver;
-
-// Mock Request to fix API tests in jsdom environment
-if (typeof global.Request === 'undefined') {
-  global.Request = class Request {
-    constructor(input, init) {
-      this.url = input;
-      this.method = init?.method || 'GET';
-      this.body = init?.body;
-    }
-    async json() {
-      if (!this.body) return null;
-      return JSON.parse(this.body);
-    }
-  };
-}
-if (typeof global.Response === 'undefined') {
-  global.Response = class Response {};
-}
-
-jest.mock('lucide-react', () => ({
-  ArrowRight: (props) => React.createElement('span', { ...props, 'data-testid': 'arrow-right-icon' }, '→'),
-  Sparkles: (props) => React.createElement('span', { ...props, 'data-testid': 'sparkles-icon' }, '✨'),
-  Menu: (props) => React.createElement('span', { ...props, 'data-testid': 'menu-icon' }, '☰'),
-  Search: (props) => React.createElement('span', { ...props, 'data-testid': 'search-icon' }, '🔍'),
-  ArrowLeft: (props) => React.createElement('span', { ...props, 'data-testid': 'arrow-left-icon' }, '←'),
-  X: (props) => React.createElement('span', { ...props, 'data-testid': 'x-icon' }, '×'),
-  Compass: (props) => React.createElement('span', { ...props, 'data-testid': 'compass-icon' }, '⌖'),
-  MessageCircle: (props) => React.createElement('span', { ...props, 'data-testid': 'message-circle-icon' }, '💬'),
-  Phone: (props) => React.createElement('span', { ...props, 'data-testid': 'phone-icon' }, '📞'),
-  MapPin: (props) => React.createElement('span', { ...props, 'data-testid': 'map-pin-icon' }, '📍'),
-  Home: (props) => React.createElement('span', { ...props, 'data-testid': 'home-icon' }, '🏠'),
-  Building2: (props) => React.createElement('span', { ...props, 'data-testid': 'building-icon' }, '🏢'),
-  Globe: (props) => React.createElement('span', { ...props, 'data-testid': 'globe-icon' }, '🌐'),
-  Loader2: (props) => React.createElement('span', { ...props, 'data-testid': 'loader-icon' }, '↻'),
-  Check: (props) => React.createElement('span', { ...props, 'data-testid': 'check-icon' }, '✓'),
-  Circle: (props) => React.createElement('span', { ...props, 'data-testid': 'circle-icon' }, '○'),
-}))
-
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: function MockImage(props) {
-    const { fill, priority, placeholder, blurDataURL, ...rest } = props
-    return React.createElement('img', {
-      ...rest,
-      'data-fill': fill?.toString(),
-      'data-priority': priority?.toString(),
-      'data-placeholder': placeholder,
-      'data-blur': blurDataURL ? 'true' : 'false'
-    })
-  }
-}))
-
-jest.mock('next/link', () => ({
-  __esModule: true,
-  default: function MockLink({ children, href, ...props }) {
-    return React.createElement('a', { href, ...props }, children)
-  }
-}))

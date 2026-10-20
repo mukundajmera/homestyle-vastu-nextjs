@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Phone, MapPin } from 'lucide-react';
-import Link from "next/link";
+import { Phone, MapPin } from 'lucide-react';
 import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
@@ -25,8 +24,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   const whatsappNumber = "919828088678";
   const displayPhone = "+91 98280 88678";
-
-  const whatsappMessage = "Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation.";
 
   return (
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-4xl">

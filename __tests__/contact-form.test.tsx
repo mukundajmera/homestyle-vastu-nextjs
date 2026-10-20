@@ -1,60 +1,119 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { ContactForm } from '@/components/contact-form';
 
-// Mock fetch
-global.fetch = jest.fn();
+const mockFetch = jest.fn();
 
-// Mock Next router if needed, though form is client side with standard a tag replacement
+beforeAll(() => {
+  global.fetch = mockFetch;
+  Object.defineProperty(window.crypto, 'randomUUID', {
+    configurable: true,
+    value: jest.fn(() => 'c9a64604-e2ca-4b4b-8f1b-e2d7d6eb27a4'),
+  });
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+  jest.clearAllTimers();
+  jest.useRealTimers();
+});
 
 describe('ContactForm', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders correctly', () => {
+  it('renders the form and the approved service choices', () => {
     render(<ContactForm />);
+
     expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Phone Number/i)).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: /What guidance are you looking for/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /Plot or land selection/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /New construction or renovation/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /Industrial or factory Vastu/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /Online floor-plan review/i })).toBeInTheDocument();
   });
 
-  it('shows validation errors for empty required fields', async () => {
+  it('announces required-field errors and does not send an incomplete form', async () => {
+    const user = userEvent.setup();
     render(<ContactForm />);
 
-    fireEvent.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
+    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
 
-    await waitFor(() => {
-      expect(screen.getByText('Name must be at least 2 characters')).toBeInTheDocument();
-      expect(screen.getByText('Phone number must be at least 10 characters')).toBeInTheDocument();
-      expect(screen.getByText('City/Location is required')).toBeInTheDocument();
-      expect(screen.getByText('Please select a service type')).toBeInTheDocument();
-      expect(screen.getByText('Please select a consultation format')).toBeInTheDocument();
-      expect(screen.getByText('You must consent to be contacted')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Name must be at least 2 characters')).toBeInTheDocument();
+    expect(screen.getByText('Phone number must be at least 10 characters')).toBeInTheDocument();
+    expect(screen.getByText('City/Location is required')).toBeInTheDocument();
+    expect(screen.getByText('Please select a service type')).toBeInTheDocument();
+    expect(screen.getByText('Please select a service')).toBeInTheDocument();
+    expect(screen.getByText('Please select a consultation format')).toBeInTheDocument();
+    expect(screen.getByText('Please consent to being contacted about this inquiry')).toBeInTheDocument();
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
-  // Re-evaluating the radio button selection for Radix UI. Radix UI radio group requires
-  // aria-checked true/false interactions or label clicks.
-  it('submits form when all fields are valid', async () => {
-    (global.fetch as jest.Mock).mockResolvedValue({
+  it('saves the questionnaire, explains the WhatsApp handoff, and excludes personal details from its link', async () => {
+    jest.useFakeTimers();
+    mockFetch.mockResolvedValue({
       ok: true,
-      json: async () => ({ success: true }),
+      json: async () => ({ success: true, dbSuccess: true }),
     });
-
-    // Mock window.location.href
-    delete (window as any).location;
-    const mockLocation = new URL('http://localhost');
-    delete (window as any).location;
-    window.location = mockLocation as any;
-
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<ContactForm />);
 
-    fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'John Doe' } });
-    fireEvent.change(screen.getByLabelText(/Phone Number/i), { target: { value: '1234567890' } });
-    fireEvent.change(screen.getByLabelText(/City\/Location/i), { target: { value: 'Jaipur' } });
+    await user.type(screen.getByLabelText(/Name/i), 'John Doe');
+    await user.type(screen.getByLabelText(/Phone Number/i), '+91 98280 88678');
+    await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
+    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'floor_plan_review');
+    await user.click(screen.getByRole('radio', { name: 'Residential' }));
+    await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
+    await user.click(screen.getByRole('checkbox'));
+    await user.type(screen.getByPlaceholderText(/review the floor plan for a new office space/i), 'Review my new floor plan');
+    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
 
-    // Radix radio inputs might not be standard labels directly controlling standard radios in testing easily without act.
-    // Wait for the UI or use form control values if needed.
-    // For now let's just make sure it fails fast if not.
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+    const request = JSON.parse(mockFetch.mock.calls[0][1].body as string);
+    expect(request).toMatchObject({
+      submissionId: 'c9a64604-e2ca-4b4b-8f1b-e2d7d6eb27a4',
+      name: 'John Doe',
+      phone: '+91 98280 88678',
+      location: 'Jaipur',
+      type: 'residential',
+      serviceInterest: 'floor_plan_review',
+      format: 'online',
+      consent: true,
+    });
+    expect(request.consentTimestamp).toBeUndefined();
+    expect(request.privacyPolicyVersion).toBeUndefined();
+
+    expect(await screen.findByRole('status')).toHaveTextContent('Your inquiry has been saved');
+    const whatsappLink = screen.getByRole('link', { name: 'Continue to WhatsApp now' });
+    expect(whatsappLink).toHaveAttribute('href', expect.stringContaining('wa.me/919828088678'));
+    const whatsappMessage = decodeURIComponent((whatsappLink.getAttribute('href') ?? '').split('?text=')[1] ?? '');
+    expect(whatsappMessage).toContain('online floor-plan review');
+    expect(whatsappMessage).not.toContain('John Doe');
+    expect(whatsappMessage).not.toContain('98280');
+    expect(whatsappMessage).not.toContain('Jaipur');
+    expect(whatsappMessage).not.toContain('Review my new floor plan');
+    expect(jest.getTimerCount()).toBe(1);
+  });
+
+  it('shows a screen-reader alert and does not offer WhatsApp if persistence fails', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'We could not save your inquiry.' }),
+    });
+
+    const user = userEvent.setup();
+    render(<ContactForm />);
+    await user.type(screen.getByLabelText(/Name/i), 'Jane Doe');
+    await user.type(screen.getByLabelText(/Phone Number/i), '9876543210');
+    await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
+    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'general_vastu');
+    await user.click(screen.getByRole('radio', { name: 'Residential' }));
+    await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('We could not save your inquiry');
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Continue to WhatsApp now' })).not.toBeInTheDocument();
   });
 });

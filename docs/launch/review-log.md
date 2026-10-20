@@ -1,77 +1,61 @@
-# Homestyle Vastu launch review log
+# Homestyle Vastu release review log
 
-This file records verified repository behavior and review evidence. It is not a record of a live Hostinger deployment.
+This log records local repository checks only. It is not evidence of a live Hostinger deployment, database connection, or real customer submission.
 
-## Current implementation status
+## Owner-confirmed scope
 
-- Next.js application routes exist for Home, Services, About, Contact, and Privacy, plus a contact API route.
-- The contact API validates submissions with Zod, rejects a populated honeypot, uses parameterized MySQL insertion, and attempts SMTP notification only when its environment configuration is present.
-- The browser form currently redirects to WhatsApp after any successful HTTP response. The API response can report `mailSuccess: false`; the browser does not yet surface that state.
-- The browser form includes consent, but the request payload and API schema do not currently include or persist it.
-- Database and SMTP behavior have only been exercised with mocked unit/browser tests. No live database or email delivery is configured or verified.
-- Hostinger has not been changed for this project. Existing hosting, domains, DNS, and email records remain outside this review.
-- Do not treat previous sample environment values or deployment instructions as verified account configuration.
+- Public name: Homestyle Vastu; consultant: Sanjay Jain.
+- Experience claim: 22 years as of 2026.
+- Address approved for reuse: Shivam Apartment, Acharya Kriplani Marg, Anand Puri, Bees Dukan, Adarsh Nagar, Jaipur, Rajasthan 302004.
+- Approved scope: residential and commercial Vastu and Feng Shui; plot/land selection; new construction or renovation guidance; industrial/factory Vastu; online floor-plan review; on-site and online/remote consultation.
+- Phone and WhatsApp: +91 98280 88678.
+- Email lead notifications are deferred by owner direction. The form flow saves to MySQL and then offers WhatsApp; no SMTP integration is in this release.
 
 ## Round 1 of 4 — Responsive UI and interaction
 
-**Date:** 2026-10-21
-**Patch contributor:** Jules
-**Independent verification:** Codex
+**Contributor:** Jules. **Independent review:** Codex.
 
-### Changes reviewed
+Jules improved touch target sizes, mobile navigation spacing, shared illustration use, and About-page layout. The round's recorded checks passed typecheck, lint, 5 test suites / 20 tests, and production build. A local viewport audit found no horizontal overflow at five viewport sizes (360x800 through 1440x900); it did not include 320px. The mobile menu and a mocked form handoff were exercised. The form mock did not test a real database or email.
 
-- Increased minimum heights for shared buttons, inputs, and textareas and added mobile navigation link padding.
-- Reused the existing space-plan illustration component and refined About-page layout.
-- Updated Jest setup and the contact-form test to make the existing suite pass reliably in jsdom.
+Carry-forward review noted repeated floor-plan artwork and contrast concerns. These were rechecked in later rounds.
 
-### Verification evidence
+## Round 2 of 4 — Content, positioning, and conversion
 
-- `npm run typecheck`: passed.
-- `npm run lint`: passed with no ESLint warnings or errors; Next.js reports that `next lint` is deprecated for Next.js 16 migration.
-- `npm test`: 5 suites and 20 tests passed. One database-error test intentionally exercises and logs a simulated failure.
-- Playwright viewport audit by Codex: Home, Services, About, Contact, and Privacy at 360x800, 390x844, 768x1024, 1024x768, and 1440x900; 25/25 combinations had one H1 and no horizontal overflow.
-- Mobile navigation at 390x844: trigger measured 48x48, opened the dialog, received focus, navigated to Contact, and closed the menu.
-- Synthetic contact-form browser test intercepted `/api/contact`; it confirmed the expected test payload and WhatsApp redirect without sending a real inquiry. This did not verify MySQL or SMTP. The captured payload omitted the consent field.
-- `npm run build`: passed on Next.js 15.5.4, generating all five public pages and the contact API route.
-- Production smoke check: all five routes returned HTTP 200 with one H1 each and no horizontal overflow at 390x844; no browser console or page errors were recorded.
-- A stable 390x844 Contact screenshot confirmed the form layout. The dev-only hydration mismatch did not reproduce against the production server; keep an eye on it during later checks.
+**Contributor:** Jules.
 
-### Findings to carry into later reviews
+The owner-confirmed 22-year experience claim was added to the homepage and About page. The homepage phone CTA and footer contrast were improved; an alternate floor-plan illustration variant was introduced. WhatsApp copy was simplified to avoid including form personal details.
 
-- Local development browser logs showed React hydration-mismatch errors around Radix-generated header/form elements; the production smoke check had no console errors, so this currently appears limited to the development run.
-- The same space-plan illustration appears in both the hero and About preview; consider adding visual variation.
-- Screenshot review found low-contrast footer headings and a phone CTA whose text was difficult to read. Recheck contrast after shared typography and button styles are reviewed.
-- The Contact screenshot was captured before the page finished loading and is not valid evidence of the settled form layout; recapture after the route is stable.
+The round's recorded typecheck, lint, 5 suites / 20 tests, and build passed. The later owner-approved service categories and Jaipur address were not yet confirmed during this round and were added to the R4 release review scope.
 
-## Remaining Jules review rounds
+## Round 3 of 4 — API, privacy, and Next.js 16 migration
 
-- **Round 2:** Content accuracy, positioning, service descriptions, contact flow, privacy alignment, and SEO copy.
-- **Round 3:** API security, privacy/data handling, technical SEO, performance, and dependency health.
-- **Round 4:** Final regression review, responsive/browser checks, documentation accuracy, and release readiness.
+**Contributor:** Jules, followed by Codex corrections after independent review.
 
-No round constitutes a live lead-submission or deployment verification unless it explicitly records a real, authorized integration test and its evidence.
+The code now streams and caps request bodies, validates consent, records consent time and policy version on the server, rejects honeypot submissions, uses parameterized MySQL writes and an idempotency key, and applies a process-local per-phone rate limit. The privacy copy matches these behaviors. The old email path was removed after the owner deferred notifications. The public-origin fallback now uses the confirmed existing domain, `https://www.fengshuihomestylevastu.com`; sitemap, robots, metadata, and JSON-LD use that configured origin. Next.js 16 uses `src/proxy.ts` and a flat ESLint config.
 
-## Round 2 of 4 — Content, positioning, and lead conversion
+Independent review caught and corrected the Jules patch's invented canonical host, false honeypot success response, incomplete body-size cap, client-controlled consent evidence, missing idempotency, and schema/migration mismatch. Database behavior remains tested with mocks only. The rate limiter is in process memory and is not a shared/distributed control.
 
-**Date:** 2026-10-21
-**Patch contributor:** Jules
-
-### Changes reviewed
-
-- Updated homepage positioning to explicitly include "22 years of experience as of 2026" and removed unsupported slash-separated alternatives in WhatsApp URLs across all pages (Home, Services, Contact).
-- Contact form WhatsApp redirect was simplified to not include PII while maintaining context.
-- About page text was updated to include the owner-confirmed "22 years of experience as of 2026" detail for Sanjay Jain.
-- An `alt` visual variant was added to the `SpacePlanIllustration` component to prevent exact duplication between the hero and the About preview sections on the homepage.
-- Footer heading colors were explicitly set to `text-white` to resolve low-contrast issues against the dark background, and the phone CTA styles were improved for contrast.
-
-### Verification evidence
+**Checks on the current code and dependency tree:**
 
 - `npm run typecheck`: passed.
-- `npm run lint`: passed.
-- `npm test`: 5 suites and 20 tests passed.
-- `npm run build`: passed successfully.
+- `npm run lint`: passed with no findings.
+- `npm test`: 5 suites, 31 tests passed.
+- `npm run build`: passed on Next.js 16.4.2. Build emitted a warning that React 18 support is deprecated in Next.js 16.
+- Removed `patch-package` and its unused postinstall script because the repository has no `patches/` directory.
+- `npm audit --omit=dev`: 7 advisories (5 high, 2 moderate), all in the Tailwind CSS 3 build dependency chain. npm's automated fix requires Tailwind CSS 4 (a major-version change); migration safety is under final Jules review.
+- `npm audit`: 28 advisories in the full dependency tree (7 high, 21 moderate, 0 critical). The production-scope results above are the relevant deployment subset for this review.
 
-### Findings to carry into later reviews
+`npm audit fix` refreshed compatible transitive versions before the current checks. The full audit still has findings outside the production-scope report; record the fresh totals in Round 4 and distinguish build-time dependencies from runtime packages. Do not claim the project is vulnerability-free.
 
-- **Fact gap requiring owner input**: Competitor market scans show services like industrial/factory, plot/land selection, new build/renovation, and online plan review. These have *not* been added. Owner confirmation is required to determine if these specific additional categories should be listed on the site.
-- The `consent` field is required in the browser form and documented in the Privacy policy, but it is not currently sent in the API payload or persisted to the MySQL database. This data-handling discrepancy should be addressed in Round 3 (API security, privacy/data handling).
+## Round 4 of 4 — Release readiness
+
+**Status:** Pending Jules review and current-tree verification.
+
+Required checks include the approved service copy and owner facts, responsive and accessibility browser review at 320x740, 360x800, 390x844, 768x1024, 1024x768, and 1440x900; metadata/JSON-LD consistency; DB-success and failure paths with safe mocks; and review of current dependency audit findings. No real leads or email are to be sent.
+
+## External gates
+
+- No Hostinger site or database has been provisioned or changed. Before provisioning a temporary Hostinger site/database, obtain confirmation naming the generated free-hostname staging setup; existing domains, sites, DNS, and mail records must remain untouched.
+- MySQL persistence cannot be called live-verified until Hostinger DB configuration is supplied and an authorized test path is agreed.
+- Email notifications are deferred and are not a launch dependency for this version.
+- NotebookLM sources were unavailable in this work session; only reviewed, accessible source material should be used.

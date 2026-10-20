@@ -1,10 +1,8 @@
 import { MetadataRoute } from 'next';
+import { getSiteOrigin, isPublicProduction } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
-  const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === 'production';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002';
-
-  if (!isProduction) {
+  if (!isPublicProduction()) {
     return {
       rules: {
         userAgent: '*',
@@ -18,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${getSiteOrigin()}/sitemap.xml`,
   };
 }

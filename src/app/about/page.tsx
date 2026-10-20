@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { MessageCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About Sanjay Jain',

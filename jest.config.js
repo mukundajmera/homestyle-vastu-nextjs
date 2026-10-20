@@ -1,31 +1,20 @@
-const nextJest = require('next/jest')
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Next.js exposes this config factory as CommonJS.
+const nextJest = require('next/jest');
 
-/** @type {import('jest').Config} */
 const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files
   dir: './',
-})
+});
 
-// Add any custom config to be passed to Jest
-const config = {
-  coverageProvider: 'v8',
-  testEnvironment: 'jsdom',
-  // Add more setup options before each test is run
+const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^lucide-react$': require.resolve('lucide-react'),
   },
-  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
   transformIgnorePatterns: [
-    'node_modules/(?!(lucide-react)/)',
+    '/node_modules/'
   ],
-  collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/app/layout.tsx',
-    '!src/ai/**/*',
-  ],
-}
+};
 
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(config)
+module.exports = createJestConfig(customJestConfig);

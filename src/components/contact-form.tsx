@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -19,81 +19,116 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
   phone: z.string().min(10, "Phone number must be at least 10 characters").max(20),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
   location: z.string().min(2, "City/Location is required").max(100),
-  type: z.enum(["residential", "commercial"], {
-    required_error: "Please select a service type",
-  }),
-  format: z.enum(["onsite", "online"], {
-    required_error: "Please select a consultation format",
-  }),
+  type: z.enum(["", "residential", "commercial"]).refine((value): boolean => value !== "", "Please select a service type"),
+  serviceInterest: z.enum([
+    "",
+    "general_vastu",
+    "feng_shui",
+    "plot_selection",
+    "construction_renovation",
+    "industrial_vastu",
+    "floor_plan_review",
+    "other",
+  ]).refine((value): boolean => value !== "", "Please select a service"),
+  format: z.enum(["", "onsite", "online"]).refine((value): boolean => value !== "", "Please select a consultation format"),
   inquiry: z.string().max(1000).optional().or(z.literal("")),
-  consent: z.literal(true, {
-    errorMap: () => ({ message: "You must consent to be contacted" }),
-  }),
+  consent: z.boolean().refine((value) => value, "Please consent to being contacted about this inquiry"),
   honeypot: z.string().max(0).optional(),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormInput = z.input<typeof formSchema>;
+type FormValues = z.output<typeof formSchema>;
+
+const serviceLabels: Record<FormValues["serviceInterest"], string> = {
+  "": "a consultation",
+  general_vastu: "Vastu consultation",
+  feng_shui: "Feng Shui consultation",
+  plot_selection: "plot or land selection",
+  construction_renovation: "new construction or renovation guidance",
+  industrial_vastu: "industrial or factory Vastu",
+  floor_plan_review: "online floor-plan review",
+  other: "another Vastu or Feng Shui service",
+};
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [whatsAppUrl, setWhatsAppUrl] = useState<string | null>(null);
+  const submissionId = useRef<string | null>(null);
 
-  const form = useForm<FormValues>({
+  const form = useForm<FormInput, unknown, FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       phone: "",
       email: "",
       location: "",
-      type: undefined,
-      format: undefined,
+      type: "",
+      serviceInterest: "",
+      format: "",
       inquiry: "",
       honeypot: "",
+      consent: false,
     },
   });
 
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     setError(null);
+    setSuccess(null);
 
     try {
+      if (!data.type || !data.serviceInterest || !data.format) {
+        throw new Error("Please complete the required consultation selections.");
+      }
+
+      submissionId.current ??= window.crypto.randomUUID();
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          submissionId: submissionId.current,
           name: data.name,
           phone: data.phone,
           email: data.email,
           location: data.location,
           type: data.type,
+          serviceInterest: data.serviceInterest,
           format: data.format,
           inquiry: data.inquiry,
           honeypot: data.honeypot,
+          consent: data.consent,
         }),
       });
 
-      if (!response.ok) {
-        const result = await response.json();
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || result.success !== true || result.dbSuccess !== true) {
         throw new Error(result.error || "Failed to submit");
       }
 
-      // On successful DB persistence, direct to WhatsApp
       const whatsappNumber = "919828088678";
-      // Construct a concise message that does NOT include private details (PII)
       const whatsappMessage = encodeURIComponent(
-        `Hello, I just submitted an inquiry for a ${data.type} ${data.format} consultation on the website.`
+        `Hello, I have submitted an inquiry about ${serviceLabels[data.serviceInterest]} for a ${data.type} property and would like to continue the conversation.`
       );
+      const nextWhatsAppUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
-      window.location.href = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+      setWhatsAppUrl(nextWhatsAppUrl);
+      setSuccess("Your inquiry has been saved. WhatsApp will open with a short message; review it and press Send to start the conversation.");
+      submissionId.current = null;
+      form.reset();
+      window.setTimeout(() => window.location.assign(nextWhatsAppUrl), 1200);
 
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred. Please try calling us instead.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred. Please try calling us instead.");
     } finally {
       setIsSubmitting(false);
     }
@@ -101,11 +136,19 @@ export function ContactForm() {
 
   return (
     <Form {...form}>
+      {/* RHF reads its internal refs when this event handler runs after a user submit. */}
+      {/* eslint-disable-next-line react-hooks/refs */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
         {error && (
-          <div className="bg-destructive/10 text-destructive text-sm font-medium p-4 rounded-md border border-destructive/20">
+          <div role="alert" aria-live="assertive" className="bg-destructive/10 text-destructive text-sm font-medium p-4 rounded-md border border-destructive/20">
             {error}
+          </div>
+        )}
+        {success && (
+          <div role="status" aria-live="polite" className="rounded-md border border-green-700/20 bg-green-700/10 p-4 text-sm text-foreground">
+            <p>{success}</p>
+            {whatsAppUrl && <a className="mt-2 inline-block font-semibold text-primary underline underline-offset-4" href={whatsAppUrl}>Continue to WhatsApp now</a>}
           </div>
         )}
 
@@ -151,6 +194,34 @@ export function ContactForm() {
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="serviceInterest"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>What guidance are you looking for? <span className="text-destructive">*</span></FormLabel>
+              <FormControl>
+                <select
+                  {...field}
+                  value={field.value ?? ""}
+                  onChange={(event) => field.onChange(event.target.value || undefined)}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="" disabled>Select a service</option>
+                  <option value="general_vastu">Residential or commercial Vastu</option>
+                  <option value="feng_shui">Feng Shui consultation</option>
+                  <option value="plot_selection">Plot or land selection</option>
+                  <option value="construction_renovation">New construction or renovation guidance</option>
+                  <option value="industrial_vastu">Industrial or factory Vastu</option>
+                  <option value="floor_plan_review">Online floor-plan review</option>
+                  <option value="other">Something else</option>
+                </select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
@@ -285,8 +356,11 @@ export function ContactForm() {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel className="text-sm font-normal cursor-pointer">
-                  I consent to having Homestyle Vastu store my submitted information and contact me regarding this inquiry.
+                  I consent to Homestyle Vastu storing my submitted details in the inquiry database and contacting me about this request.
                 </FormLabel>
+                <FormDescription className="text-xs">
+                  Read the <Link href="/privacy" className="font-semibold text-primary underline underline-offset-2">Privacy Policy</Link>.
+                </FormDescription>
                 <FormMessage />
               </div>
             </FormItem>
@@ -294,15 +368,15 @@ export function ContactForm() {
         />
 
         <div className="bg-muted/30 p-4 rounded-md text-sm text-muted-foreground flex flex-col space-y-2">
-          <p>
-            <strong>Next step:</strong> After you submit this form, you will be redirected to WhatsApp to send a pre-filled message to start the conversation. Your details above are saved securely and are not included in the WhatsApp link.
+            <p>
+              <strong>Next step:</strong> After the form is saved, we will open WhatsApp with a short, general message. Your name, phone, email, location, and inquiry details are not added to the WhatsApp link. You will need to press Send in WhatsApp to start the conversation.
           </p>
         </div>
 
         <Button
           type="submit"
           className="w-full h-12 text-base font-bold bg-[#087A3A] hover:bg-[#066632] text-white"
-          disabled={isSubmitting}
+          disabled={isSubmitting || Boolean(success)}
         >
           {isSubmitting ? (
             <>
@@ -310,7 +384,7 @@ export function ContactForm() {
               Submitting...
             </>
           ) : (
-            "Submit and Continue to WhatsApp"
+            success ? "Inquiry saved" : "Submit and Continue to WhatsApp"
           )}
         </Button>
 
