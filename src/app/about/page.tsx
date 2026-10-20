@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: 'About Sanjay Jain',
-  description: 'Meet Sanjay Jain, the consultant associated with Homestyle Vastu, offering Vastu Shastra and Feng Shui guidance for homes and businesses.',
+  description: 'Meet Sanjay Jain, Homestyle Vastu consultant, with 22 years of experience as of 2026. Guidance for homes, businesses, plots, construction, and industrial spaces.',
   alternates: { canonical: '/about' },
   openGraph: {
     title: 'About Sanjay Jain | Homestyle Vastu',
-    description: 'Meet Sanjay Jain, the consultant associated with Homestyle Vastu.',
+    description: 'Meet Sanjay Jain, Homestyle Vastu consultant, with 22 years of experience as of 2026.',
     url: '/about',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'About Sanjay Jain | Homestyle Vastu',
-    description: 'Meet Sanjay Jain, the consultant associated with Homestyle Vastu.',
+    description: 'Meet Sanjay Jain, Homestyle Vastu consultant, with 22 years of experience as of 2026.',
   },
 };
 
@@ -51,7 +51,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-headline font-bold mb-4">About the Practice</h2>
             <div className="space-y-4 text-lg text-foreground/80 font-body leading-relaxed">
               <p>
-                Sanjay Jain is the consultant associated with Homestyle Vastu, bringing 22 years of experience as of 2026. The practice offers Vastu Shastra and Feng Shui guidance for residential and commercial properties.
+                Sanjay Jain is the consultant at Homestyle Vastu, with 22 years of experience as of 2026. He provides Vastu Shastra and Feng Shui guidance for homes and businesses, plot and land selection, construction or renovation, industrial and factory properties, and online floor-plan review.
               </p>
               <p>
                 Visitors can contact the practice to discuss their property, the guidance they are looking for, and whether an on-site or online/remote consultation format may suit them.

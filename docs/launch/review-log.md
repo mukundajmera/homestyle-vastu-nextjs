@@ -67,9 +67,17 @@ Independent review caught and corrected the Jules patch's invented canonical hos
 
 **Dependency audit:** Jules reported 7 production-scope advisories (5 high, 2 moderate) associated with the Tailwind CSS 3 dependency tree. The exact advisory set and available safe fixes remain to be independently checked. No major dependency upgrade is accepted without compatibility evidence.
 
+## Supplemental round 5 — Jules remediation patch
+
+**Status:** Jules returned and applied a partial patch. The exact tree still needs the required remote checks and another independent review before release.
+
+**Applied changes:** Removed request-time table DDL, adjusted the database success test, added visible descriptions for the four additional approved service categories, adjusted the narrow-screen Services CTA, and began clarifying the WhatsApp privacy disclosure. Codex then corrected unsupported service outcome claims, updated the privacy text to name the service and property type included in the prefilled draft, made the About profile direct, and corrected the phone contact heading and homepage profile wording.
+
+**Still open:** Mobile Sheet close target; precise 320px viewport behavior across all routes; accurate property-type choices and phone validation in the form/API; social share metadata/image; sitemap modification dates; exact dependency audit; test/lint/typecheck/build/browser results for the combined tree; and a fresh review-log update after those checks. Database schema setup documentation now requires a one-time schema or legacy migration run before submissions. No live database was migrated.
+
 ## External gates
 
-- No Hostinger site or database has been provisioned or changed. Before provisioning a temporary Hostinger site/database, obtain confirmation naming the generated free-hostname staging setup; existing domains, sites, DNS, and mail records must remain untouched.
+- Hostinger inventory shows an existing temporary Node.js site is connected to an unrelated portfolio repository. It was not modified. A separate Homestyle Vastu staging site/database is still needed; leave all existing domains, sites, DNS, and mail records untouched.
 - MySQL persistence cannot be called live-verified until Hostinger DB configuration is supplied and an authorized test path is agreed.
 - Email notifications are deferred and are not a launch dependency for this version.
-- NotebookLM sources were unavailable in this work session; only reviewed, accessible source material should be used.
+- NotebookLM authentication still reports expired after the Codex restart; notebook-derived content has not been used. The older Drive strategy document is historical material and contains WordPress assumptions, a conflicting 25-year claim, and unverified outcome/health claims.

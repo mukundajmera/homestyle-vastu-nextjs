@@ -50,7 +50,7 @@ export default function ContactPage() {
               <div className="w-12 h-12 rounded-full bg-secondary/30 flex items-center justify-center mb-4 text-secondary-foreground">
                 <Phone className="w-6 h-6" />
               </div>
-              <h2 className="text-xl font-headline font-bold mb-2">Phone Fallback</h2>
+              <h2 className="text-xl font-headline font-bold mb-2">Prefer to call?</h2>
               <p className="text-foreground/70 text-sm mb-6">
                 Prefer to speak directly or having trouble with the form? Call to discuss your property.
               </p>

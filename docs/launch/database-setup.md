@@ -2,7 +2,7 @@
 
 ## New preview database
 
-Create a dedicated MySQL database for this Next.js preview. Add the connection values to the Node.js application's Hostinger environment settings:
+Create a dedicated MySQL database for this Next.js preview. Before the first inquiry, run `schema.sql` once against the new database using its database management interface. For a database that already contains the earlier leads schema, back it up and run `migrate-leads-v1.sql` once instead. Do not rely on the request handler to create or alter tables. Add the connection values to the Node.js application's Hostinger environment settings:
 
 - `DB_HOST`
 - `DB_PORT` (normally `3306`)
@@ -12,7 +12,7 @@ Create a dedicated MySQL database for this Next.js preview. Add the connection v
 - `NEXT_PUBLIC_SITE_URL` (the temporary preview site's origin, with no path)
 - `NEXT_PUBLIC_SITE_ENV=preview`
 
-Keep database credentials in Hostinger environment settings. Do not commit them or send them in chat. The API creates the `leads` table from the definition in `schema.sql` on its first valid submission. The database user therefore needs permission to create the table and insert/read its rows.
+Keep database credentials in Hostinger environment settings. Do not commit them or send them in chat. The request handler uses the configured database for lead inserts and idempotency checks; provision the schema before enabling the form. Restrict the runtime account to the database permissions required by those operations wherever the hosting provider permits it.
 
 `NEXT_PUBLIC_SITE_ENV=preview` keeps the preview out of search results. Set these values before building/redeploying so canonical metadata, robots, and sitemap are generated for the preview host. Do not set this preview to `production`.
 
@@ -20,7 +20,7 @@ Keep database credentials in Hostinger environment settings. Do not commit them 
 
 The earlier version of this repository created a `leads` table without consent evidence, service interest, or idempotency fields. `CREATE TABLE IF NOT EXISTS` does not add those fields to an existing table. Back up the database, then run `migrate-leads-v1.sql` once before deploying the updated app. Existing rows are marked with consent value `0` and policy version `legacy`; the migration does not claim that historic leads gave consent.
 
-For a fresh database, use `schema.sql` or allow the application to initialize the table automatically. Do not run the legacy migration against a fresh table.
+For a fresh database, run `schema.sql` once. Do not run the legacy migration against a fresh table.
 
 ## Current lead flow and limitations
 

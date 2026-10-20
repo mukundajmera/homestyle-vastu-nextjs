@@ -23,17 +23,17 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-5xl">
-      <div className="max-w-3xl mb-16">
-        <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground">Consultation Services</h1>
-        <p className="text-xl text-foreground/80 leading-relaxed font-body">
+      <div className="max-w-3xl mb-16 break-words">
+        <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground break-words">Vastu and Feng Shui Consultation Services</h1>
+        <p className="text-xl text-foreground/80 leading-relaxed font-body break-words">
           Vastu Shastra and Feng Shui guidance for residential and commercial properties. Contact Sanjay Jain to discuss the questions you have about your space.
         </p>
       </div>
 
       <div className="space-y-16">
         {/* Service Types */}
-        <section>
-          <h2 className="text-2xl font-headline font-bold mb-8 border-b border-border pb-4">Residential and Commercial Vastu</h2>
+        <section className="break-words">
+          <h2 className="text-2xl font-headline font-bold mb-8 border-b border-border pb-4 break-words">Residential and Commercial Vastu</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="bg-white border-border shadow-sm">
               <CardHeader>
@@ -45,6 +45,10 @@ export default function ServicesPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-foreground/70">
                 <p>Vastu and Feng Shui guidance for residential properties, including homes and apartments.</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li><strong>Plot / Land Selection:</strong> Discuss Vastu considerations for a plot or site you are considering for a home or business.</li>
+                  <li><strong>Construction / Renovation:</strong> Discuss Vastu guidance for a planned build or renovation, including your project stage and questions.</li>
+                </ul>
                 <p>Share the kind of guidance you are looking for and ask which consultation format may suit your property.</p>
               </CardContent>
             </Card>
@@ -59,6 +63,9 @@ export default function ServicesPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-foreground/70">
                 <p>Vastu and Feng Shui guidance for commercial properties and business spaces.</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li><strong>Industrial / Factory Vastu:</strong> Discuss the layout and Vastu considerations of an industrial or factory property.</li>
+                </ul>
                 <p>Contact the practice to discuss your property and the questions you would like to explore.</p>
               </CardContent>
             </Card>
@@ -66,8 +73,8 @@ export default function ServicesPage() {
         </section>
 
         {/* Consultation Formats */}
-        <section>
-          <h2 className="text-2xl font-headline font-bold mb-8 border-b border-border pb-4">Consultation Formats</h2>
+        <section className="break-words">
+          <h2 className="text-2xl font-headline font-bold mb-8 border-b border-border pb-4 break-words">Consultation Formats</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex gap-4 p-6 rounded-lg bg-secondary/20 border border-border">
               <div className="mt-1 text-primary">
@@ -87,6 +94,7 @@ export default function ServicesPage() {
               <div>
                 <h3 className="text-xl font-headline font-semibold mb-2">Online / Remote Consultation</h3>
                 <p className="text-foreground/70 mb-2">An online/remote consultation format is available.</p>
+                <p className="text-foreground/70 mb-2">This includes <strong>online floor-plan review</strong>. Contact the practice to discuss your layout and what information to share.</p>
                 <p className="text-foreground/70 text-sm">Ask whether this format may suit your property and consultation needs.</p>
               </div>
             </div>
@@ -94,15 +102,15 @@ export default function ServicesPage() {
         </section>
 
         {/* CTA */}
-        <section className="bg-muted p-8 md:p-12 rounded-xl text-center">
-          <h2 className="text-2xl md:text-3xl font-headline font-bold mb-4">Not sure which format suits your property?</h2>
-          <p className="text-lg text-foreground/70 mb-8 max-w-2xl mx-auto">
+        <section className="bg-muted p-8 md:p-12 rounded-xl text-center break-words">
+          <h2 className="text-2xl md:text-3xl font-headline font-bold mb-4 break-words">Not sure which format suits your property?</h2>
+          <p className="text-lg text-foreground/70 mb-8 max-w-2xl mx-auto break-words">
             Contact Sanjay Jain to discuss your property and ask which consultation format may suit your needs.
           </p>
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold flex-wrap h-auto py-3">
             <a href="https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation." target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-2 h-5 w-5" />
-              Inquire via WhatsApp
+              <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
+              <span>Inquire via WhatsApp</span>
             </a>
           </Button>
         </section>

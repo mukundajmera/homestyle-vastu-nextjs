@@ -34,7 +34,7 @@ export default function PrivacyPage() {
         <section className="space-y-4">
           <h2 className="text-2xl font-headline font-semibold text-foreground">WhatsApp</h2>
           <p>
-            After a successful form submission, the website opens WhatsApp with a short message about the service you selected. Your name, phone number, email, location, and inquiry message are not placed in that link. WhatsApp receives information only if you choose to send a message there; its own privacy terms apply to that conversation.
+            After your inquiry is saved, the website opens WhatsApp with a prefilled draft containing the service and property type you selected. The link does not include your name, phone number, email, location, or free-text inquiry. The draft is not sent until you choose to press Send in WhatsApp; its own privacy terms apply to that conversation.
           </p>
         </section>
 

@@ -157,7 +157,7 @@ export default function Home() {
                   <span className="font-headline text-2xl font-bold">SJ</span>
                 </div>
                 <h3 className="text-xl font-headline font-semibold mb-2">Sanjay Jain</h3>
-                <p className="text-foreground/70 text-sm max-w-xs">Consultant specializing in residential and commercial space planning.</p>
+                <p className="text-foreground/70 text-sm max-w-xs">Vastu Shastra and Feng Shui guidance for homes and businesses.</p>
               </div>
             </div>
 

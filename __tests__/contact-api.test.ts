@@ -144,7 +144,6 @@ describe('/api/contact', () => {
 
     expect(response.status).toBe(200);
     expect(result).toEqual({ success: true, dbSuccess: true });
-    expect(mockExecute.mock.calls[0][0]).toContain('CREATE TABLE IF NOT EXISTS leads');
     const insertCall = mockExecute.mock.calls.find(([statement]) => String(statement).includes('INSERT INTO leads'));
     expect(insertCall).toBeDefined();
     expect(insertCall?.[1]).toContain(true);
