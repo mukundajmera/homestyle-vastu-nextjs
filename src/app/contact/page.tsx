@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   const whatsappNumber = "919828088678";
   const displayPhone = "+91 98280 88678";
-  
+
   const whatsappMessage = encodeURIComponent("Hello, I would like to ask about a consultation. My property is residential/commercial and I am interested in an on-site/online consultation.");
 
   return (

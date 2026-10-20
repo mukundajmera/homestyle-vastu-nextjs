@@ -28,8 +28,8 @@ jest.mock('next/image', () => ({
   __esModule: true,
   default: function MockImage(props) {
     const { fill, priority, placeholder, blurDataURL, ...rest } = props
-    return React.createElement('img', { 
-      ...rest, 
+    return React.createElement('img', {
+      ...rest,
       'data-fill': fill?.toString(),
       'data-priority': priority?.toString(),
       'data-placeholder': placeholder,
@@ -38,7 +38,7 @@ jest.mock('next/image', () => ({
   }
 }))
 
-// Mock Next.js Link component globally  
+// Mock Next.js Link component globally
 jest.mock('next/link', () => ({
   __esModule: true,
   default: function MockLink({ children, href, ...props }) {

@@ -234,7 +234,7 @@ In Feng Shui, your front entrance is known as the "Mouth of Chi"—it's where en
 **The Importance of First Impressions:**
 Your entrance should feel:
 - Welcoming and inviting
-- Clean and well-maintained  
+- Clean and well-maintained
 - Bright and clearly visible
 - Spacious and uncluttered
 

@@ -28,7 +28,7 @@ describe('Header', () => {
     render(<Header />);
     const desktopNav = screen.getAllByRole('navigation')[0];
     expect(desktopNav).toBeInTheDocument();
-    
+
     // Check for specific new routes
     expect(screen.getByText('Home')).toHaveAttribute('href', '/');
     expect(screen.getByText('Services')).toHaveAttribute('href', '/services');

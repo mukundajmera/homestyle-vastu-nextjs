@@ -42,7 +42,7 @@ export default function AboutPage() {
             <p className="text-primary font-medium mt-1">Consultant</p>
           </div>
         </div>
-        
+
         <div className="w-full md:w-2/3 space-y-8">
           <section>
             <h2 className="text-2xl font-headline font-bold mb-4">About the Practice</h2>
