@@ -43,7 +43,9 @@ describe('ContactForm', () => {
 
     // Mock window.location.href
     delete (window as any).location;
-    window.location = { href: '' } as any;
+    const mockLocation = new URL('http://localhost');
+    delete (window as any).location;
+    window.location = mockLocation as any;
 
     render(<ContactForm />);
 

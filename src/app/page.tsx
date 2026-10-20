@@ -156,21 +156,8 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="w-full md:w-1/2">
-              {/* Abstract structural representation instead of random stock image */}
-              <div className="aspect-square w-full max-w-md mx-auto bg-muted rounded-2xl p-8 relative overflow-hidden flex items-center justify-center border border-border">
-                 <div className="absolute inset-0 opacity-10">
-                   {/* Compass/Geometry motif */}
-                   <svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                     <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="1" />
-                     <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="1" transform="rotate(45 50 50)" />
-                     <line x1="50" y1="0" x2="50" y2="100" stroke="currentColor" strokeWidth="0.5" />
-                     <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="0.5" />
-                   </svg>
-                 </div>
-                 <div className="text-center z-10">
-                    <h3 className="font-headline text-3xl font-bold text-foreground">Sanjay Jain</h3>
-                    <p className="text-foreground/70 mt-2">Vastu & Feng Shui Consultant</p>
-                 </div>
+              <div className="w-full max-w-md mx-auto">
+                <SpacePlanIllustration />
               </div>
             </div>
 

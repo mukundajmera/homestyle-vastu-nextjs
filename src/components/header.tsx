@@ -82,7 +82,7 @@ export function Header() {
                       <Link
                         href={item.href}
                         className={cn(
-                          'block rounded-sm px-2 py-2 text-base font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                          'block rounded-sm px-3 py-3 text-lg font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                           pathname === item.href
                             ? 'text-primary font-semibold'
                             : 'text-foreground/80'

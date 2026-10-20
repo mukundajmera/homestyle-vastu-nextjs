@@ -46,6 +46,8 @@ jest.mock('lucide-react', () => ({
   Building2: (props) => React.createElement('span', { ...props, 'data-testid': 'building-icon' }, '🏢'),
   Globe: (props) => React.createElement('span', { ...props, 'data-testid': 'globe-icon' }, '🌐'),
   Loader2: (props) => React.createElement('span', { ...props, 'data-testid': 'loader-icon' }, '↻'),
+  Check: (props) => React.createElement('span', { ...props, 'data-testid': 'check-icon' }, '✓'),
+  Circle: (props) => React.createElement('span', { ...props, 'data-testid': 'circle-icon' }, '○'),
 }))
 
 jest.mock('next/image', () => ({
