@@ -47,11 +47,25 @@ Independent review caught and corrected the Jules patch's invented canonical hos
 
 `npm audit fix` refreshed compatible transitive versions before the current checks. The full audit still has findings outside the production-scope report; record the fresh totals in Round 4 and distinguish build-time dependencies from runtime packages. Do not claim the project is vulnerability-free.
 
-## Round 4 of 4 — Release readiness
+## Round 4 of 4 — Jules release review
 
-**Status:** Pending Jules review and current-tree verification.
+**Status:** Jules completed its review and returned a patch. Its release-ready claims are not accepted as final verification; independent source review found unresolved issues in the exact applied tree.
 
-Required checks include the approved service copy and owner facts, responsive and accessibility browser review at 320x740, 360x800, 390x844, 768x1024, 1024x768, and 1440x900; metadata/JSON-LD consistency; DB-success and failure paths with safe mocks; and review of current dependency audit findings. No real leads or email are to be sent.
+**Patch applied:**
+- Replaced a repeated floor-plan illustration on the homepage with a consultant profile card.
+- Improved homepage CTA and footer text contrast.
+- Increased the Dialog close target and announced form messages with `aria-live="polite"`.
+
+**Independent follow-up findings:**
+- The reviewed viewport matrix was reported by Jules, but an earlier independent production-browser run found horizontal overflow on `/services` at 320px. Re-run against the exact combined patch before release.
+- The mobile navigation Sheet uses a separate 16px close control; its hit area still needs review.
+- The four owner-approved service categories (plot/land selection, construction/renovation guidance, industrial/factory Vastu, and online plan review) need visible descriptions on `/services`.
+- Privacy copy must accurately explain that the form opens WhatsApp with a prefilled, non-PII message after the lead is saved.
+- Move lead-table DDL out of the request handler so the runtime database account can use least privilege.
+- Review About-page profile clarity, social share images, and sitemap dates.
+- Independently validate all test/build/browser results in a remote Jules environment; do not send real leads or email.
+
+**Dependency audit:** Jules reported 7 production-scope advisories (5 high, 2 moderate) associated with the Tailwind CSS 3 dependency tree. The exact advisory set and available safe fixes remain to be independently checked. No major dependency upgrade is accepted without compatibility evidence.
 
 ## External gates
 

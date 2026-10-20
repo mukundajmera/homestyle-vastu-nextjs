@@ -152,8 +152,12 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="w-full md:w-1/2">
-              <div className="w-full max-w-md mx-auto">
-                <SpacePlanIllustration variant="alt" />
+              <div className="w-full max-w-md mx-auto relative h-64 md:h-80 bg-secondary/10 rounded-2xl flex flex-col items-center justify-center p-8 text-center border border-border">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 text-primary">
+                  <span className="font-headline text-2xl font-bold">SJ</span>
+                </div>
+                <h3 className="text-xl font-headline font-semibold mb-2">Sanjay Jain</h3>
+                <p className="text-foreground/70 text-sm max-w-xs">Consultant specializing in residential and commercial space planning.</p>
               </div>
             </div>
 
@@ -212,7 +216,7 @@ export default function Home() {
             On-site and online/remote consultation formats are available. Ask which may suit your property.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-bold h-12 px-8">
+            <Button asChild size="lg" className="bg-white text-[#2a382d] hover:bg-white/90 font-bold h-12 px-8">
               <a href="https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation." target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" />
                 WhatsApp Us
