@@ -4,6 +4,9 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
 
+const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === 'production';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:9002';
+
 export const metadata: Metadata = {
   title: {
     default: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
@@ -19,7 +22,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://www.fengshuihomestylevastu.com'),
+  metadataBase: new URL(baseUrl),
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -33,25 +36,30 @@ export const metadata: Metadata = {
     title: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
     description: 'Vastu Shastra and Feng Shui consultations for homes and businesses with Sanjay Jain.',
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: isProduction
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      }
+    : {
+        index: false,
+        follow: false,
+      },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Homestyle Vastu",
-  "@id": "https://www.fengshuihomestylevastu.com",
-  "url": "https://www.fengshuihomestylevastu.com",
+  "@id": baseUrl,
+  "url": baseUrl,
   "telephone": "+919828088678",
   "address": {
     "@type": "PostalAddress",

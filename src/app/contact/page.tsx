@@ -2,7 +2,8 @@ import { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, Phone, MapPin } from 'lucide-react';
-import Link from 'next/link';
+import Link from "next/link";
+import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -36,42 +37,35 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-        <Card className="bg-white border-border shadow-sm hover:shadow-md transition-shadow">
-          <CardContent className="p-8 flex flex-col items-center text-center h-full">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6 text-primary">
-              <MessageCircle className="w-8 h-8" />
-            </div>
-            <h2 className="text-2xl font-headline font-bold mb-3">WhatsApp</h2>
-            <p className="text-foreground/70 mb-8 flex-grow">
-              Send a message to ask about residential or commercial Vastu and Feng Shui guidance and available consultation formats.
-            </p>
-            <Button asChild size="lg" className="w-full bg-[#087A3A] hover:bg-[#066632] text-white font-bold">
-              <Link href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Message on WhatsApp
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div className="lg:col-span-2">
+          <Card className="bg-white border-border shadow-sm">
+            <CardContent className="p-6 md:p-8">
+              <h2 className="text-2xl font-headline font-bold mb-6">Consultation Inquiry</h2>
+              <ContactForm />
+            </CardContent>
+          </Card>
+        </div>
 
-        <Card className="bg-white border-border shadow-sm hover:shadow-md transition-shadow">
-          <CardContent className="p-8 flex flex-col items-center text-center h-full">
-            <div className="w-16 h-16 rounded-full bg-secondary/30 flex items-center justify-center mb-6 text-secondary-foreground">
-              <Phone className="w-8 h-8" />
-            </div>
-            <h2 className="text-2xl font-headline font-bold mb-3">Phone</h2>
-            <p className="text-foreground/70 mb-8 flex-grow">
-              Prefer to speak directly? Call to discuss your property and consultation inquiry.
-            </p>
-            <Button asChild size="lg" variant="outline" className="w-full font-bold border-2">
-              <a href={`tel:+${whatsappNumber}`}>
-                <Phone className="mr-2 h-5 w-5" />
-                {displayPhone}
-              </a>
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="space-y-8">
+          <Card className="bg-white border-border shadow-sm">
+            <CardContent className="p-6 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-secondary/30 flex items-center justify-center mb-4 text-secondary-foreground">
+                <Phone className="w-6 h-6" />
+              </div>
+              <h2 className="text-xl font-headline font-bold mb-2">Phone Fallback</h2>
+              <p className="text-foreground/70 text-sm mb-6">
+                Prefer to speak directly or having trouble with the form? Call to discuss your property.
+              </p>
+              <Button asChild variant="outline" className="w-full font-bold border-2">
+                <a href={`tel:+${whatsappNumber}`}>
+                  <Phone className="mr-2 h-4 w-4" />
+                  {displayPhone}
+                </a>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       <div className="bg-muted rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">

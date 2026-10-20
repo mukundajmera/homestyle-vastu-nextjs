@@ -35,8 +35,9 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/15">
-        <div className="container mx-auto px-4 py-4 text-xs text-white/65 md:px-8">
-          &copy; {new Date().getFullYear()} Homestyle Vastu. All rights reserved.
+        <div className="container mx-auto px-4 py-4 text-xs text-white/65 flex flex-col sm:flex-row justify-between items-center md:px-8">
+          <div>&copy; {new Date().getFullYear()} Homestyle Vastu. All rights reserved.</div>
+          <Link href="/privacy" className="mt-2 sm:mt-0 hover:text-white transition-colors">Privacy Policy</Link>
         </div>
       </div>
     </footer>

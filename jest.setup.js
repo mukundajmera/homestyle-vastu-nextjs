@@ -1,12 +1,36 @@
-// Optional: configure or set up a testing framework before each test.
-// If you delete this file, remove `setupFilesAfterEnv` from `jest.config.js`
-
-// Used for __tests__/testing-library.js
-// Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
 import * as React from 'react'
+import { TextEncoder, TextDecoder } from 'util';
 
-// Mock lucide-react icons
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+global.ResizeObserver = ResizeObserver;
+window.ResizeObserver = ResizeObserver;
+
+// Mock Request to fix API tests in jsdom environment
+if (typeof global.Request === 'undefined') {
+  global.Request = class Request {
+    constructor(input, init) {
+      this.url = input;
+      this.method = init?.method || 'GET';
+      this.body = init?.body;
+    }
+    async json() {
+      if (!this.body) return null;
+      return JSON.parse(this.body);
+    }
+  };
+}
+if (typeof global.Response === 'undefined') {
+  global.Response = class Response {};
+}
+
 jest.mock('lucide-react', () => ({
   ArrowRight: (props) => React.createElement('span', { ...props, 'data-testid': 'arrow-right-icon' }, '→'),
   Sparkles: (props) => React.createElement('span', { ...props, 'data-testid': 'sparkles-icon' }, '✨'),
@@ -21,9 +45,9 @@ jest.mock('lucide-react', () => ({
   Home: (props) => React.createElement('span', { ...props, 'data-testid': 'home-icon' }, '🏠'),
   Building2: (props) => React.createElement('span', { ...props, 'data-testid': 'building-icon' }, '🏢'),
   Globe: (props) => React.createElement('span', { ...props, 'data-testid': 'globe-icon' }, '🌐'),
+  Loader2: (props) => React.createElement('span', { ...props, 'data-testid': 'loader-icon' }, '↻'),
 }))
 
-// Mock Next.js Image component globally
 jest.mock('next/image', () => ({
   __esModule: true,
   default: function MockImage(props) {
@@ -38,7 +62,6 @@ jest.mock('next/image', () => ({
   }
 }))
 
-// Mock Next.js Link component globally
 jest.mock('next/link', () => ({
   __esModule: true,
   default: function MockLink({ children, href, ...props }) {

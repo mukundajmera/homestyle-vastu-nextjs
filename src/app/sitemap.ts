@@ -1,12 +1,14 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.fengshuihomestylevastu.com'; // Using verified domain from README
-  const lastModified = new Date();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.homestylevastu.com';
+  const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === 'production';
 
-  const routes = ['', '/services', '/about', '/contact'].map((route) => ({
+  if (!isProduction) return [];
+
+  const routes = ['', '/services', '/about', '/contact', '/privacy'].map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified,
+    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: route === '' ? 1 : 0.8,
   }));
