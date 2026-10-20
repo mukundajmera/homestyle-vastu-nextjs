@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 45 60% 97%; /* Warm ivory */
+    --foreground: 220 20% 18%; /* Deep navy/ink */
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 18%;
+
+    --primary: 15 75% 33%; /* High-contrast terracotta */
+    --primary-foreground: 45 60% 97%;
+
+    --secondary: 100 20% 65%; /* Sage green */
+    --secondary-foreground: 220 20% 18%;
+
+    --muted: 45 40% 90%;
+    --muted-foreground: 220 15% 45%;
+
+    --accent: 35 75% 65%; /* Soft Saffron */
+    --accent-foreground: 220 20% 18%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 45 60% 97%;
+
+    --border: 45 30% 85%;
+    --input: 45 30% 85%;
+    --ring: 15 75% 33%;
+
+    --radius: 0.5rem;
+
+    /* Optional charting colors */
+    --chart-1: 15 80% 55%;
+    --chart-2: 100 20% 65%;
+    --chart-3: 220 20% 18%;
+    --chart-4: 35 75% 65%;
+    --chart-5: 45 60% 97%;
+  }
+
+  /* Force light theme colors as per design direction */
+  .dark {
+    --background: 45 60% 97%;
+    --foreground: 220 20% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 18%;
+    --primary: 15 75% 33%;
+    --primary-foreground: 45 60% 97%;
+    --secondary: 100 20% 65%;
+    --secondary-foreground: 220 20% 18%;
+    --muted: 45 40% 90%;
+    --muted-foreground: 220 15% 45%;
+    --accent: 35 75% 65%;
+    --accent-foreground: 220 20% 18%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 45 60% 97%;
+    --border: 45 30% 85%;
+    --input: 45 30% 85%;
+    --ring: 15 75% 33%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline text-foreground tracking-tight;
+  }
+}
+
+/* Utilities for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

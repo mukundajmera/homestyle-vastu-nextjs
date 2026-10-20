@@ -1,0 +1,100 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A serene and bright living room with minimalist decor and plants, embodying Feng Shui principles.",
+      "imageUrl": "https://images.unsplash.com/photo-1712850297722-df52c3453c61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzZXJlbmUlMjBsaXZpbmdyb29tfGVufDB8fHx8MTc1OTA5MDY1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "serene livingroom"
+    },
+    {
+      "id": "article-1",
+      "description": "A close-up of a compass on a wooden table, symbolizing direction and Vastu.",
+      "imageUrl": "https://images.unsplash.com/photo-1567091201390-9519fa56ba34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb21wYXNzJTIwd29vZHxlbnwwfHx8fDE3NTkwOTA2NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "compass wood"
+    },
+    {
+      "id": "article-2",
+      "description": "A well-lit entryway with a clear path, representing the flow of Qi.",
+      "imageUrl": "https://images.unsplash.com/photo-1672188416029-3345266cd2c7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxicmlnaHQlMjBlbnRyeXdheXxlbnwwfHx8fDE3NTkwOTA2NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bright entryway"
+    },
+    {
+      "id": "article-3",
+      "description": "A bedroom decorated in calming earth tones with natural light.",
+      "imageUrl": "https://images.unsplash.com/photo-1602810372187-76337cedc513?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjYWxtJTIwYmVkcm9vbXxlbnwwfHx8fDE3NTkwMzk4NDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "calm bedroom"
+    },
+    {
+      "id": "article-4",
+      "description": "Five smooth stones stacked on each other representing the five elements.",
+      "imageUrl": "https://images.unsplash.com/photo-1596616891838-3021e30182df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c3RhY2tlZCUyMHN0b25lc3xlbnwwfHx8fDE3NTkwNDg5NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stacked stones"
+    },
+    {
+      "id": "article-5",
+      "description": "A home office with an organized desk and a view of nature.",
+      "imageUrl": "https://images.unsplash.com/photo-1600658747056-eb00845297a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxvcmdhbml6ZWQlMjBvZmZpY2V8ZW58MHx8fHwxNzU5MDkwNjU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "organized office"
+    },
+    {
+      "id": "article-6",
+      "description": "A kitchen with clean countertops and good lighting.",
+      "imageUrl": "https://images.unsplash.com/photo-1556911220-bff31c812dba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjbGVhbiUyMGtpdGNoZW58ZW58MHx8fHwxNzU5MDg5Njk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "clean kitchen"
+    },
+    {
+      "id": "product-1",
+      "description": "A crystal singing bowl used for sound healing.",
+      "imageUrl": "https://images.unsplash.com/photo-1641297073994-32a8033c84cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjcnlzdGFsJTIwYm93bHxlbnwwfHx8fDE3NTkwOTA2NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "crystal bowl"
+    },
+    {
+      "id": "product-2",
+      "description": "A small, elegant bamboo water fountain.",
+      "imageUrl": "https://images.unsplash.com/photo-1741851374721-a546dc41561a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxiYW1ib28lMjBmb3VudGFpbnxlbnwwfHx8fDE3NTkwOTA2NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bamboo fountain"
+    },
+    {
+      "id": "product-3",
+      "description": "A set of seven chakra healing crystals.",
+      "imageUrl": "https://images.unsplash.com/photo-1637051212669-8ad07a9b83d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxoZWFsaW5nJTIwY3J5c3RhbHN8ZW58MHx8fHwxNzU5MDkwNjU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "healing crystals"
+    },
+    {
+      "id": "product-4",
+      "description": "A brass Bagua mirror.",
+      "imageUrl": "https://images.unsplash.com/photo-1730499770569-6fe34320fbfe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYWd1YSUyMG1pcnJvcnxlbnwwfHx8fDE3NTkwOTA2NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bagua mirror"
+    },
+    {
+      "id": "course-1",
+      "description": "A person meditating in a peaceful room.",
+      "imageUrl": "https://images.unsplash.com/photo-1574783797574-e7fc2348caf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBtZWRpdGF0aW5nfGVufDB8fHx8MTc1OTA4Mzg3Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person meditating"
+    },
+    {
+      "id": "course-2",
+      "description": "A notebook and pen on a desk with Feng Shui diagrams.",
+      "imageUrl": "https://images.unsplash.com/photo-1706535849689-59e888460d10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmZW5nc2h1aSUyMGRpYWdyYW1zfGVufDB8fHx8MTc1OTA5MDY1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fengshui diagrams"
+    },
+    {
+      "id": "consultation-hero",
+      "description": "Two people having a discussion in a bright, calm office setting.",
+      "imageUrl": "https://images.unsplash.com/photo-1744339700094-aa908bdca61b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjYWxtJTIwbWVldGluZ3xlbnwwfHx8fDE3NTkwOTA2NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "calm meeting"
+    },
+    {
+      "id": "article-7",
+      "description": "A welcoming front door with plants and good lighting.",
+      "imageUrl": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3ZWxjb21pbmclMjBmcm9udCUyMGRvb3J8ZW58MHx8fHwxNzU5MDkwNjU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "welcoming front door"
+    },
+    {
+      "id": "article-8", 
+      "description": "A harmonious living room with comfortable seating and natural elements.",
+      "imageUrl": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoYXJtb25pb3VzJTIwbGl2aW5ncm9vbXxlbnwwfHx8fDE3NTkwOTA2NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "harmonious livingroom"
+    }
+  ]
+}
