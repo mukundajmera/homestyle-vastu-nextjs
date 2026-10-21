@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight, Building2, ChevronDown, Compass, Factory, Home as HomeIcon, MapPin, MessageCircle, PencilRuler, Ruler } from 'lucide-react';
 import Link from 'next/link';
-import { SpacePlanIllustration } from '@/components/space-plan-illustration';
+import { VastuDial } from '@/components/vastu-dial';
 
 export const metadata: Metadata = {
   title: 'Vastu & Feng Shui for Homes and Businesses',
@@ -22,207 +21,222 @@ export const metadata: Metadata = {
   },
 };
 
+const WHATSAPP_URL = 'https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation.';
+
+const services = [
+  {
+    title: 'Residential Vastu & Feng Shui',
+    tag: 'Homes',
+    icon: HomeIcon,
+    text: 'Questions about your home, apartment or residential plot, with on-site or online/remote formats to choose from.',
+  },
+  {
+    title: 'Commercial Vastu & Feng Shui',
+    tag: 'Business',
+    icon: Building2,
+    text: 'Offices, retail, hotels, hospitals and restaurants. Feng Shui can also be discussed for commercial spaces.',
+  },
+  {
+    title: 'Plot & Land Selection',
+    tag: 'Before you buy',
+    icon: MapPin,
+    text: 'Talk through the Vastu considerations of a plot or site you are thinking about for a home or business.',
+  },
+  {
+    title: 'Construction & Renovation',
+    tag: 'Planned builds',
+    icon: PencilRuler,
+    text: 'Discuss a new build or renovation and the questions you have at your current project stage.',
+  },
+  {
+    title: 'Industrial & Factory Vastu',
+    tag: 'Industrial',
+    icon: Factory,
+    text: 'Layout and Vastu considerations for an industrial or factory property.',
+  },
+  {
+    title: 'Online Floor-Plan Review',
+    tag: 'Remote',
+    icon: Ruler,
+    text: 'Share your layout remotely and discuss what information is useful to send.',
+  },
+];
+
+const journey = [
+  { step: '01', title: 'Start a conversation', text: 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.' },
+  { step: '02', title: 'Share the details', text: 'Tell us the property type and project stage, and what guidance you are looking for.' },
+  { step: '03', title: 'Choose a format', text: 'Ask whether an on-site or an online/remote consultation may suit your property.' },
+  { step: '04', title: 'Agree next steps', text: 'Discuss your questions with Sanjay Jain and decide how you would like to continue.' },
+];
+
+const faqs = [
+  {
+    q: 'What kinds of properties can I ask about?',
+    a: 'You can ask about homes and businesses, plot or land selection, construction or renovation, industrial and factory properties, and online floor-plan review.',
+  },
+  {
+    q: 'Are on-site and online consultations available?',
+    a: 'Both on-site and online/remote formats are available. Ask which may suit your property.',
+  },
+  {
+    q: 'Is a particular outcome guaranteed?',
+    a: 'No specific result is promised. You can contact the practice to discuss your inquiry before deciding on next steps.',
+  },
+];
+
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative isolate overflow-hidden border-b border-border bg-background">
-        <div className="container mx-auto grid items-center gap-12 px-4 py-14 md:gap-16 md:py-20 lg:grid-cols-[0.92fr_1.08fr] lg:px-8 lg:py-24">
+    <div className="flex min-h-screen flex-col">
+      {/* Hero */}
+      <section className="relative isolate overflow-hidden border-b border-border">
+        <div className="grid-lines absolute inset-0 -z-10 opacity-60" aria-hidden="true" />
+        <div className="absolute -right-24 -top-24 -z-10 h-80 w-80 rounded-full bg-[#D97706]/10 blur-3xl" aria-hidden="true" />
+        <div className="container mx-auto grid items-center gap-12 px-4 py-14 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d8c7ad] bg-white/70 px-4 py-2 text-sm font-medium text-[#61594d] shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-[#71836f]" aria-hidden="true" />
-              Vastu and Feng Shui consultations
-            </p>
-            <h1 className="font-headline text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl md:text-6xl">
-              Guidance for the spaces where you <span className="text-primary italic">live and work.</span>
+            <p className="eyebrow mb-5">Vastu Shastra &middot; Feng Shui &middot; Jaipur</p>
+            <h1 className="font-headline text-[2.4rem] font-semibold leading-[1.1] sm:text-5xl md:text-6xl">
+              Guidance for the spaces where you <span className="italic text-primary">live and work.</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-foreground/75 md:text-xl lg:mx-0">
-              Talk with Sanjay Jain about a home, workplace, plot, planned build, renovation, industrial property or floor plan. Ask which Vastu or Feng Shui guidance and consultation format may suit your project.
+            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-foreground/75 lg:mx-0">
+              Talk with Sanjay Jain about a home, workplace, plot, planned build, renovation, industrial property or floor plan, and ask which consultation format may suit your project.
             </p>
-            <div className="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row lg:justify-start">
-              <Button asChild size="lg" className="h-12 rounded-md bg-primary px-6 text-base font-semibold text-primary-foreground shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md">
-                <a href="https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation." target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="mr-2 h-5 w-5" />
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+              <Button asChild size="lg" className="h-12 px-6 text-base font-semibold shadow-[0_8px_20px_-8px_rgba(176,90,7,0.55)] transition-transform hover:-translate-y-0.5">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
                   Message on WhatsApp
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-12 rounded-md border-[#bcae9a] bg-white/70 px-6 text-base font-semibold hover:bg-secondary/20">
+              <Button asChild size="lg" variant="outline" className="h-12 border-accent px-6 text-base font-semibold text-terracotta-ink hover:bg-accent/10 hover:text-terracotta-ink">
                 <Link href="/services">Explore services</Link>
               </Button>
             </div>
-            <p className="mt-5 text-sm text-foreground/60 font-medium">22 years of experience as of 2026. For homes and businesses. On-site and online/remote formats.</p>
+            <ul className="mt-10 grid grid-cols-1 gap-3 text-left text-sm sm:grid-cols-3">
+              {[
+                ['22 years', 'of experience as of 2026'],
+                ['On-site & online', 'consultation formats'],
+                ['Homes & business', 'residential and commercial'],
+              ].map(([big, small]) => (
+                <li key={big} className="border-l-2 border-accent/60 pl-3">
+                  <span className="block font-headline text-lg font-semibold">{big}</span>
+                  <span className="text-muted-foreground">{small}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="mx-auto w-full max-w-xl lg:max-w-none">
-            <SpacePlanIllustration />
-          </div>
+          <VastuDial />
         </div>
       </section>
 
-      {/* How a Consultation Starts */}
-      <section className="py-16 md:py-24 bg-white">
+      {/* Services */}
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6 text-foreground">
-              A clear first step
-            </h2>
-            <p className="text-lg text-foreground/70 leading-relaxed font-body">
-              Tell us what you are planning or reviewing: a home, business, plot, construction or renovation project, industrial space, or floor plan. You can ask whether an on-site or online/remote consultation may suit your property.
-            </p>
+          <div className="mb-12 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-3">Consultation services</p>
+              <h2 className="font-headline text-3xl font-semibold md:text-4xl">Guidance for every kind of space</h2>
+              <p className="mt-4 text-lg text-foreground/70">From a family home to a factory floor, start with the property you are asking about.</p>
+            </div>
+            <Link href="/services" className="inline-flex items-center rounded-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              View all services <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                step: "01",
-                title: "Start a conversation",
-                description: "Share whether you are asking about a home, business, plot, planned build, renovation, industrial property or floor plan."
-              },
-              {
-                step: "02",
-                title: "Discuss the format",
-                description: "Ask about on-site or online/remote consultation formats and which may suit your property."
-              },
-              {
-                step: "03",
-                title: "Agree next steps",
-                description: "Discuss your questions with Sanjay Jain and decide how you would like to continue."
-              }
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center text-center p-6 rounded-lg bg-background/50 border border-border/50">
-                <span className="text-primary font-headline text-3xl font-bold mb-4">{item.step}</span>
-                <h3 className="text-xl font-headline font-semibold mb-3">{item.title}</h3>
-                <p className="text-foreground/70 leading-relaxed">{item.description}</p>
-              </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map(({ title, tag, icon: Icon, text }) => (
+              <article key={title} className="paper-card group flex flex-col p-6 transition-transform hover:-translate-y-1">
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="grid h-11 w-11 place-items-center rounded-full bg-secondary text-primary">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <span className="rounded bg-sage/10 px-2 py-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-sage">{tag}</span>
+                </div>
+                <h3 className="font-headline text-xl font-semibold">{title}</h3>
+                <p className="mt-3 flex-1 leading-7 text-foreground/70">{text}</p>
+                <Link href="/services" className="mt-5 inline-flex w-fit items-center rounded-sm text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  Learn more <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </Link>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Services Preview */}
-      <section className="py-16 md:py-24 bg-secondary/20 border-y border-border/50">
+      {/* Journey */}
+      <section className="border-y border-border bg-secondary py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Consultation Services</h2>
-              <p className="text-lg text-foreground/70">Guidance for homes, workplaces, plots, planned builds and industrial properties.</p>
-            </div>
-            <Link href="/services" className="hidden md:flex items-center text-primary font-semibold hover:underline mt-4 md:mt-0">
-              View all services <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <div className="mx-auto mb-14 max-w-3xl text-center">
+            <p className="eyebrow mb-3">How it works</p>
+            <h2 className="font-headline text-3xl font-semibold md:text-4xl">A clear first step</h2>
           </div>
+          <ol className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {journey.map((item) => (
+              <li key={item.step} className="relative border-t-2 border-accent/50 pt-6">
+                <span className="font-headline text-4xl font-semibold text-primary/80">{item.step}</span>
+                <h3 className="mt-3 font-headline text-xl font-semibold">{item.title}</h3>
+                <p className="mt-2 leading-7 text-foreground/70">{item.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="bg-white border-border/50 hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-headline text-2xl">Residential Vastu & Feng Shui</CardTitle>
-                <CardDescription className="text-base mt-2">For homes, apartments, and residential plots.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/70 mb-6">Discuss Vastu and Feng Shui questions about your home, apartment or residential plot, and ask whether an on-site or online consultation may suit your project.</p>
-                <Link href="/services" className="text-primary font-medium flex items-center hover:underline w-fit">
-                  Learn more <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white border-border/50 hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-headline text-2xl">Commercial Vastu & Feng Shui</CardTitle>
-                <CardDescription className="text-base mt-2">Commercial Vastu consultations for offices, retail, hotels, hospitals, restaurants, factories, and other business sites.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/70 mb-6">Ask about a commercial Vastu consultation for an office, retail space, hotel, hospital, restaurant, industrial or factory property. You can also discuss planned construction, renovation or an online floor-plan review.</p>
-                <Link href="/services" className="text-primary font-medium flex items-center hover:underline w-fit">
-                  Learn more <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </CardContent>
-            </Card>
+      {/* Consultant */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto grid items-center gap-12 px-4 md:grid-cols-[0.8fr_1.2fr]">
+          <div className="paper-card mx-auto flex w-full max-w-sm flex-col items-center p-10 text-center">
+            <div className="grid h-24 w-24 place-items-center rounded-full border-2 border-accent/50 bg-secondary font-headline text-3xl font-semibold text-primary">SJ</div>
+            <h3 className="mt-5 font-headline text-2xl font-semibold">Sanjay Jain</h3>
+            <p className="mt-1 text-sm font-semibold text-terracotta-ink">Vastu &amp; Feng Shui Consultant</p>
+            <p className="mt-4 text-sm leading-6 text-muted-foreground">22 years of experience as of 2026</p>
           </div>
-
-          <div className="mt-8 text-center md:hidden">
-            <Button asChild variant="outline" className="w-full sm:w-auto">
-              <Link href="/services">View all services</Link>
+          <div className="space-y-5">
+            <p className="eyebrow">The consultant</p>
+            <h2 className="font-headline text-3xl font-semibold md:text-4xl">Rooted in tradition, applied for modern living</h2>
+            <p className="text-lg leading-8 text-foreground/70">
+              Sanjay Jain is the Vastu and Feng Shui consultant at Homestyle Vastu. The practice offers guidance for homes, businesses, plots and land, construction or renovation, industrial properties and online floor-plan review.
+            </p>
+            <Button asChild variant="outline" className="border-accent text-terracotta-ink hover:bg-accent/10 hover:text-terracotta-ink">
+              <Link href="/about">Read full profile</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* About Preview */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-12 items-center">
-            <div className="w-full md:w-1/2">
-              <div className="w-full max-w-md mx-auto relative h-64 md:h-80 bg-secondary/10 rounded-2xl flex flex-col items-center justify-center p-8 text-center border border-border">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                  <span className="font-headline text-2xl font-bold">SJ</span>
-                </div>
-                <h3 className="text-xl font-headline font-semibold mb-2">Sanjay Jain</h3>
-                <p className="text-foreground/70 text-sm max-w-xs">Vastu and Feng Shui consultant with 22 years of experience as of 2026.</p>
-              </div>
-            </div>
-
-            <div className="w-full md:w-1/2 space-y-6">
-              <h2 className="text-3xl md:text-4xl font-headline font-bold">Rooted in tradition, applied for modern living</h2>
-              <p className="text-lg text-foreground/70 leading-relaxed">
-                Sanjay Jain is the Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026.
-              </p>
-              <p className="text-lg text-foreground/70 leading-relaxed">
-                The practice offers guidance for homes, businesses, plots and land, construction or renovation, industrial properties and online floor-plan review. On-site and online/remote consultation formats are available.
-              </p>
-              <div className="pt-4">
-                <Button asChild variant="outline" className="text-base">
-                  <Link href="/about">Read full profile</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Frequently asked questions */}
-      <section className="py-20 md:py-28 bg-background">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-8">Common questions</h2>
+      {/* FAQ */}
+      <section className="border-t border-border py-16 md:py-24">
+        <div className="container mx-auto max-w-3xl px-4">
+          <p className="eyebrow mb-3">Questions</p>
+          <h2 className="mb-8 font-headline text-3xl font-semibold md:text-4xl">Common questions</h2>
           <div className="divide-y divide-border border-y border-border">
-            <details className="py-5">
-              <summary className="cursor-pointer font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
-                What kinds of properties can I ask about?
-              </summary>
-              <p className="mt-3 text-foreground/75">You can ask about homes and businesses, plot or land selection, construction or renovation, industrial and factory properties, and online floor-plan review.</p>
-            </details>
-            <details className="py-5">
-              <summary className="cursor-pointer font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
-                Are on-site and online consultations available?
-              </summary>
-              <p className="mt-3 text-foreground/75">Both on-site and online/remote formats are available. Ask which may suit your property.</p>
-            </details>
-            <details className="py-5">
-              <summary className="cursor-pointer font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
-                Is a particular outcome guaranteed?
-              </summary>
-              <p className="mt-3 text-foreground/75">No specific result is promised. You can contact the practice to discuss your inquiry before deciding on next steps.</p>
-            </details>
+            {faqs.map((item) => (
+              <details key={item.q} className="group py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                  {item.q}
+                  <ChevronDown className="h-5 w-5 shrink-0 text-primary transition-transform group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <p className="mt-3 leading-7 text-foreground/75">{item.a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 md:py-24 bg-primary text-primary-foreground text-center">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6 text-white">
-            Discuss your property
-          </h2>
-          <p className="text-lg text-white/90 mb-10">
+      {/* CTA */}
+      <section className="relative isolate overflow-hidden bg-primary py-20 text-center text-primary-foreground md:py-24">
+        <Compass className="absolute -bottom-16 -right-10 -z-10 h-72 w-72 text-white/10" strokeWidth={0.6} aria-hidden="true" />
+        <div className="container mx-auto max-w-3xl px-4">
+          <h2 className="mb-6 font-headline text-3xl font-semibold text-white md:text-4xl">Discuss your property</h2>
+          <p className="mb-10 text-lg text-white/90">
             On-site and online/remote consultation formats are available. Ask which may suit your property.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button asChild size="lg" className="bg-white text-[#2a382d] hover:bg-white/90 font-bold h-12 px-8">
-              <a href="https://wa.me/919828088678?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation." target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="mr-2 h-5 w-5" />
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
+            <Button asChild size="lg" className="h-12 bg-white px-8 font-bold text-primary hover:bg-white/90">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
                 WhatsApp Us
               </a>
             </Button>
-            <a href="tel:+919828088678" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-bold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-white text-white bg-transparent hover:bg-white/10 h-12 px-8">
+            <a href="tel:+919828088678" className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-md border border-white bg-transparent px-8 text-sm font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary">
               Call +91 98280 88678
             </a>
           </div>

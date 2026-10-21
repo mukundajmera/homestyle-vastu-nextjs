@@ -4,65 +4,44 @@
 
 @layer base {
   :root {
-    --background: 45 60% 97%; /* Warm ivory */
-    --foreground: 220 20% 18%; /* Deep navy/ink */
+    --background: 36 33% 96%; /* Warm ivory paper #FAF8F5 */
+    --foreground: 20 12% 16%; /* Deep umber #2B2623 */
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 18%;
+    --card-foreground: 20 12% 16%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 18%;
+    --popover-foreground: 20 12% 16%;
 
-    --primary: 15 75% 33%; /* High-contrast terracotta */
-    --primary-foreground: 45 60% 97%;
+    --primary: 27 92% 36%; /* Deep saffron, AA contrast with white */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 100 20% 65%; /* Sage green */
-    --secondary-foreground: 220 20% 18%;
+    --secondary: 36 30% 92%; /* Sandstone wash */
+    --secondary-foreground: 20 12% 16%;
 
-    --muted: 45 40% 90%;
-    --muted-foreground: 220 15% 45%;
+    --muted: 34 32% 92%;
+    --muted-foreground: 25 8% 36%;
 
-    --accent: 35 75% 65%; /* Soft Saffron */
-    --accent-foreground: 220 20% 18%;
+    --accent: 14 54% 52%; /* Terracotta #C86142 */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 45 60% 97%;
+    --destructive: 0 70% 40%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 45 30% 85%;
-    --input: 45 30% 85%;
-    --ring: 15 75% 33%;
+    --border: 30 22% 85%;
+    --input: 30 22% 85%;
+    --ring: 27 92% 36%;
+
+    --sage: 135 12% 33%; /* #4A5D4E */
+    --terracotta-ink: 14 62% 36%; /* text-safe terracotta */
 
     --radius: 0.5rem;
 
-    /* Optional charting colors */
-    --chart-1: 15 80% 55%;
-    --chart-2: 100 20% 65%;
-    --chart-3: 220 20% 18%;
-    --chart-4: 35 75% 65%;
-    --chart-5: 45 60% 97%;
-  }
-
-  /* Force light theme colors as per design direction */
-  .dark {
-    --background: 45 60% 97%;
-    --foreground: 220 20% 18%;
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 18%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 18%;
-    --primary: 15 75% 33%;
-    --primary-foreground: 45 60% 97%;
-    --secondary: 100 20% 65%;
-    --secondary-foreground: 220 20% 18%;
-    --muted: 45 40% 90%;
-    --muted-foreground: 220 15% 45%;
-    --accent: 35 75% 65%;
-    --accent-foreground: 220 20% 18%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 45 60% 97%;
-    --border: 45 30% 85%;
-    --input: 45 30% 85%;
-    --ring: 15 75% 33%;
+    --chart-1: 27 92% 36%;
+    --chart-2: 14 54% 52%;
+    --chart-3: 135 12% 33%;
+    --chart-4: 36 30% 92%;
+    --chart-5: 20 12% 16%;
   }
 }
 
@@ -77,6 +56,32 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline text-foreground tracking-tight;
   }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-terracotta-ink;
+  }
+  .paper-card {
+    @apply rounded-lg border bg-white;
+    border-color: rgba(200, 97, 66, 0.16);
+    box-shadow: 0 12px 32px -4px rgba(74, 53, 37, 0.06), 0 4px 12px -2px rgba(74, 53, 37, 0.03);
+  }
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, rgba(200, 97, 66, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(200, 97, 66, 0.07) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
+
+@keyframes dial-turn {
+  from { transform: rotate(-8deg); }
+  to { transform: rotate(8deg); }
+}
+.dial-needle {
+  transform-origin: 160px 160px;
+  animation: dial-turn 6s ease-in-out infinite alternate;
 }
 
 /* Utilities for accessibility */

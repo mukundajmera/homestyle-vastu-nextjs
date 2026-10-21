@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Phone, MapPin } from 'lucide-react';
+import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
@@ -28,7 +28,8 @@ export default function ContactPage() {
   return (
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-4xl">
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground">Contact Us</h1>
+        <p className="eyebrow mb-4">Get in touch</p>
+        <h1 className="text-4xl md:text-5xl font-headline font-semibold mb-6 text-foreground">Contact Us</h1>
         <p className="text-xl text-foreground/80 leading-relaxed font-body max-w-2xl mx-auto">
           Contact Sanjay Jain about Vastu and Feng Shui for homes, businesses, plot selection, construction or renovation, industrial properties, or online floor-plan review.
         </p>
@@ -58,6 +59,12 @@ export default function ContactPage() {
                 <a href={`tel:+${whatsappNumber}`}>
                   <Phone className="mr-2 h-4 w-4" />
                   {displayPhone}
+                </a>
+              </Button>
+              <Button asChild className="mt-3 w-full font-bold">
+                <a href={`https://wa.me/${whatsappNumber}?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation.`} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Message on WhatsApp
                 </a>
               </Button>
             </CardContent>

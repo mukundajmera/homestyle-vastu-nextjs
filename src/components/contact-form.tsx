@@ -389,7 +389,7 @@ export function ContactForm() {
 
         <Button
           type="submit"
-          className="w-full min-h-[3rem] h-auto py-3 text-base font-bold bg-[#087A3A] hover:bg-[#066632] text-white whitespace-normal text-center leading-snug"
+          className="w-full min-h-[3rem] h-auto py-3 text-base font-bold bg-primary hover:bg-primary/90 text-primary-foreground whitespace-normal text-center leading-snug"
           disabled={isSubmitting || Boolean(success)}
         >
           {isSubmitting ? (

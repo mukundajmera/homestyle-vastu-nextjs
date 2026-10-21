@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Literata } from 'next/font/google';
+import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -8,8 +8,8 @@ import { getSiteOrigin, isPublicProduction } from '@/lib/site';
 
 const isProduction = isPublicProduction();
 const baseUrl = getSiteOrigin();
-const bodyFont = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
-const headlineFont = Literata({ subsets: ['latin'], display: 'swap', variable: '--font-literata' });
+const bodyFont = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'swap', variable: '--font-body' });
+const headlineFont = Playfair_Display({ subsets: ['latin'], display: 'swap', variable: '--font-headline' });
 
 export const metadata: Metadata = {
   title: {
