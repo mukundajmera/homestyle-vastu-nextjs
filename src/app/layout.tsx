@@ -16,8 +16,8 @@ export const metadata: Metadata = {
     default: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
     template: '%s | Homestyle Vastu'
   },
-  description: 'Vastu Shastra and Feng Shui guidance for homes and businesses, including plot selection, construction, factory Vastu, and online plan review.',
-  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'space planning', 'residential vastu', 'commercial vastu', 'plot selection', 'industrial vastu', 'Sanjay Jain'],
+  description: 'Vastu Shastra and Feng Shui guidance with Sanjay Jain for homes, businesses, plots, construction, industrial spaces and online floor-plan review.',
+  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'residential Vastu', 'commercial Vastu', 'plot selection', 'construction Vastu', 'industrial Vastu', 'online floor-plan review', 'Sanjay Jain'],
   authors: [{ name: 'Sanjay Jain' }],
   creator: 'Homestyle Vastu',
   publisher: 'Homestyle Vastu',
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: '/',
     title: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
-    description: 'Vastu Shastra and Feng Shui consultations for homes and businesses with Sanjay Jain.',
+    description: 'Vastu and Feng Shui guidance for homes, businesses, plots, construction, industrial spaces and online floor-plan review.',
     siteName: 'Homestyle Vastu',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
-    description: 'Vastu Shastra and Feng Shui consultations for homes and businesses with Sanjay Jain.',
+    description: 'Vastu and Feng Shui guidance for homes, businesses, plots, construction, industrial spaces and online floor-plan review.',
   },
   robots: isProduction
     ? {

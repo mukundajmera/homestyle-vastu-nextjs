@@ -1,5 +1,6 @@
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { Header } from '@/components/header';
 
 // Mock matchMedia for Radix UI Sheet component
@@ -45,5 +46,56 @@ describe('Header', () => {
     render(<Header />);
 
     expect(screen.getAllByRole('link', { name: 'Home' })[0]).toHaveAttribute('aria-current', 'page');
+  });
+  it('can open and close the mobile menu via keyboard', async () => {
+    // Resize window to trigger mobile view
+    global.innerWidth = 500;
+    global.dispatchEvent(new Event('resize'));
+
+    render(<Header />);
+    const user = userEvent.setup();
+
+    // Toggle button should be available in mobile view
+    const toggleButton = screen.getByRole('button', { name: /Toggle Menu/i });
+    expect(toggleButton).toBeInTheDocument();
+
+    // Tab to button and hit Enter
+    toggleButton.focus();
+    expect(toggleButton).toHaveFocus();
+    await user.keyboard('{Enter}');
+
+    // The dialog/sheet should open
+    const dialog = await screen.findByRole('dialog', { name: /Navigation Menu/i });
+    expect(dialog).toBeInTheDocument();
+
+    // The close button should be focusable
+    const closeButton = screen.getByRole('button', { name: /Close/i });
+    expect(closeButton).toBeInTheDocument();
+
+    // Press Escape to close the menu
+    await user.keyboard('{Escape}');
+
+    // Dialog should be gone (or hidden by radix, which removes it from DOM)
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: /Navigation Menu/i })).not.toBeInTheDocument();
+      expect(toggleButton).toHaveFocus();
+    });
+  });
+
+  it('closes the mobile menu after a navigation link is selected', async () => {
+    global.innerWidth = 500;
+    global.dispatchEvent(new Event('resize'));
+
+    render(<Header />);
+    const user = userEvent.setup();
+    const toggleButton = screen.getByRole('button', { name: /Toggle Menu/i });
+    await user.click(toggleButton);
+
+    const dialog = await screen.findByRole('dialog', { name: /Navigation Menu/i });
+    const servicesLink = within(dialog).getByRole('link', { name: 'Services' });
+    expect(servicesLink).toHaveAttribute('href', '/services');
+    await user.click(servicesLink);
+
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: /Navigation Menu/i })).not.toBeInTheDocument());
   });
 });

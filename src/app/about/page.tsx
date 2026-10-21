@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: 'About Sanjay Jain',
-  description: 'Meet Sanjay Jain, Homestyle Vastu consultant, with 22 years of experience as of 2026. Guidance for homes, businesses, plots, construction, and industrial spaces.',
+  description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026. Guidance for homes, businesses, plots, builds, renovations, factories, and online floor-plan review.',
   alternates: { canonical: '/about' },
   openGraph: {
     title: 'About Sanjay Jain | Homestyle Vastu',
-    description: 'Meet Sanjay Jain, Homestyle Vastu consultant, with 22 years of experience as of 2026.',
+    description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026.',
     url: '/about',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'About Sanjay Jain | Homestyle Vastu',
-    description: 'Meet Sanjay Jain, Homestyle Vastu consultant, with 22 years of experience as of 2026.',
+    description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026.',
   },
 };
 
@@ -42,7 +42,7 @@ export default function AboutPage() {
           </div>
           <div className="mt-6 text-center md:text-left">
             <h1 className="text-3xl font-headline font-bold text-foreground">Sanjay Jain</h1>
-            <p className="text-primary font-medium mt-1">Consultant</p>
+            <p className="text-primary font-medium mt-1">Vastu &amp; Feng Shui Consultant</p>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-headline font-bold mb-4">Our Approach</h2>
             <div className="space-y-4 text-lg text-foreground/80 font-body leading-relaxed">
               <p>
-                Homestyle Vastu lists residential and commercial Vastu, Feng Shui guidance, and on-site and online/remote consultation formats.
+                Guidance covers homes and businesses, plot or land selection, new construction or renovation, industrial and factory properties, and online floor-plan review. On-site and online/remote formats are available.
               </p>
               <p>
                 No outcome or result is promised. Contact Sanjay Jain to discuss what guidance may be relevant to your property.
@@ -77,7 +77,7 @@ export default function AboutPage() {
           <section className="pt-6 border-t border-border">
             <h3 className="text-xl font-headline font-bold mb-4">Start a Conversation</h3>
             <p className="text-foreground/70 mb-6">
-              If you are considering a consultation for your home or business, please reach out to discuss how we can assist with your specific property.
+              Share your property type, project stage and questions to discuss which guidance or consultation format may be relevant.
             </p>
             <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
               <Link href="/contact">

@@ -83,7 +83,7 @@ export function SpacePlanIllustration({ variant = 'default' }: { variant?: 'defa
 
         </svg>
         <span className="absolute left-5 top-5 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-[#51493f] shadow-sm backdrop-blur-sm sm:left-7 sm:top-7">
-          Illustrative space plan
+          Illustrative floor-plan diagram
         </span>
         <span className={`absolute bottom-5 grid h-11 w-11 place-items-center rounded-full bg-[#4f654f] text-sm font-semibold text-white shadow-md sm:bottom-7 ${isAlt ? 'left-5 sm:left-7' : 'right-5 sm:right-7'}`}>
           N

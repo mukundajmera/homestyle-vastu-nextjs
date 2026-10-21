@@ -39,12 +39,33 @@ describe('ContactForm', () => {
     await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
 
     expect(await screen.findByText('Name must be at least 2 characters')).toBeInTheDocument();
-    expect(screen.getByText('Phone number must be at least 10 characters')).toBeInTheDocument();
+    expect(screen.getByText('Invalid phone number format')).toBeInTheDocument();
     expect(screen.getByText('City/Location is required')).toBeInTheDocument();
-    expect(screen.getByText('Please select a service type')).toBeInTheDocument();
+    expect(screen.getByText('Please select a property category')).toBeInTheDocument();
     expect(screen.getByText('Please select a service')).toBeInTheDocument();
     expect(screen.getByText('Please select a consultation format')).toBeInTheDocument();
     expect(screen.getByText('Please consent to being contacted about this inquiry')).toBeInTheDocument();
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { phone: '123456789', message: 'Invalid phone number format' },
+    { phone: '1234567890123456', message: 'Phone number must not exceed 15 digits' },
+    { phone: '+91 98280 8867a', message: 'Invalid phone number format' },
+  ])('rejects malformed phone input ($phone) before submitting', async ({ phone, message }) => {
+    const user = userEvent.setup();
+    render(<ContactForm />);
+
+    await user.type(screen.getByLabelText(/Name/i), 'Jane Doe');
+    await user.type(screen.getByLabelText(/Phone Number/i), phone);
+    await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
+    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'general_vastu');
+    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
+    await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
+
+    expect(await screen.findByText(message)).toBeInTheDocument();
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
@@ -61,7 +82,7 @@ describe('ContactForm', () => {
     await user.type(screen.getByLabelText(/Phone Number/i), '+91 98280 88678');
     await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
     await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'floor_plan_review');
-    await user.click(screen.getByRole('radio', { name: 'Residential' }));
+    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
     await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
     await user.click(screen.getByRole('checkbox'));
     await user.type(screen.getByPlaceholderText(/review the floor plan for a new office space/i), 'Review my new floor plan');
@@ -72,9 +93,9 @@ describe('ContactForm', () => {
     expect(request).toMatchObject({
       submissionId: 'c9a64604-e2ca-4b4b-8f1b-e2d7d6eb27a4',
       name: 'John Doe',
-      phone: '+91 98280 88678',
+      phone: '919828088678',
       location: 'Jaipur',
-      type: 'residential',
+      type: 'home',
       serviceInterest: 'floor_plan_review',
       format: 'online',
       consent: true,
@@ -87,6 +108,7 @@ describe('ContactForm', () => {
     expect(whatsappLink).toHaveAttribute('href', expect.stringContaining('wa.me/919828088678'));
     const whatsappMessage = decodeURIComponent((whatsappLink.getAttribute('href') ?? '').split('?text=')[1] ?? '');
     expect(whatsappMessage).toContain('online floor-plan review');
+    expect(whatsappMessage).not.toContain('home');
     expect(whatsappMessage).not.toContain('John Doe');
     expect(whatsappMessage).not.toContain('98280');
     expect(whatsappMessage).not.toContain('Jaipur');
@@ -107,7 +129,7 @@ describe('ContactForm', () => {
     await user.type(screen.getByLabelText(/Phone Number/i), '9876543210');
     await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
     await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'general_vastu');
-    await user.click(screen.getByRole('radio', { name: 'Residential' }));
+    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
     await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
     await user.click(screen.getByRole('checkbox'));
     await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));

@@ -20,7 +20,7 @@ const basePayload = () => ({
   phone: `+91 98280 88${String(++requestNumber).padStart(3, '0')}`,
   email: 'test@example.com',
   location: 'Jaipur',
-  type: 'residential',
+  type: 'home',
   serviceInterest: 'floor_plan_review',
   format: 'online',
   inquiry: 'Please review a floor plan.',
@@ -66,7 +66,7 @@ describe('/api/contact', () => {
     (mysql.createConnection as jest.Mock).mockResolvedValue(mockConnection);
     mockEnd.mockResolvedValue(undefined);
     mockExecute.mockImplementation(async (statement: string, values: unknown[] = []) => {
-      if (statement.includes('CREATE TABLE')) return [[], []];
+      if (statement.includes('CREATE ') || statement.includes('ALTER ')) throw new Error('Route code must not issue DDL at runtime');
       if (statement.includes('INSERT INTO leads')) {
         const [submissionId, payloadHash] = values as [string, string];
         if (!storedLeads.has(submissionId)) storedLeads.set(submissionId, payloadHash);
@@ -195,5 +195,46 @@ describe('/api/contact', () => {
     expect(response.status).toBe(500);
     expect(result.success).not.toBe(true);
     expect(JSON.stringify(result)).not.toContain('John Doe');
+  });
+
+  it.each(['home', 'business', 'plot_land', 'construction_renovation', 'industrial_factory', 'other'])(
+    'persists the %s property category',
+    async (type) => {
+      const response = await POST(createMockRequest({ ...basePayload(), type }));
+      const insertCall = mockExecute.mock.calls.find(([statement]) => String(statement).includes('INSERT INTO leads'));
+
+      expect(response.status).toBe(200);
+      expect((insertCall?.[1] as unknown[])[6]).toBe(type);
+    },
+  );
+
+  it.each(['residential', 'commercial', 'unknown', ''])(
+    'rejects unsupported property category %s before opening the database',
+    async (type) => {
+      const response = await POST(createMockRequest({ ...basePayload(), type }));
+
+      expect(response.status).toBe(400);
+      expect(mysql.createConnection).not.toHaveBeenCalled();
+    },
+  );
+
+  it('rejects short phone numbers', async () => {
+    const payload = { ...basePayload(), phone: '+911234567' };
+    const response = await POST(createMockRequest(payload));
+    expect(response.status).toBe(400);
+    const result = await response.json();
+    expect(result.error).toContain('correct the highlighted fields');
+  });
+
+  it('rejects long phone numbers', async () => {
+    const payload = { ...basePayload(), phone: '+9112345678901234567' };
+    const response = await POST(createMockRequest(payload));
+    expect(response.status).toBe(400);
+  });
+
+  it('rejects invalid phone numbers with letters', async () => {
+    const payload = { ...basePayload(), phone: '+91 98280 8867a' };
+    const response = await POST(createMockRequest(payload));
+    expect(response.status).toBe(400);
   });
 });

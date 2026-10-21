@@ -15,11 +15,11 @@ const PRIVACY_POLICY_VERSION = 'v1.0';
 const contactSchema = z.object({
   submissionId: z.string().uuid(),
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
-  phone: z.string().trim().min(10, 'Phone number must be at least 10 characters').max(20),
+  phone: z.string().trim().regex(/^\+?[0-9\s\-\(\)]{10,20}$/, 'Invalid phone number format').transform(v => v.replace(/\D/g, '')).pipe(z.string().min(10, 'Phone number must have at least 10 digits').max(15, 'Phone number must not exceed 15 digits')),
   email: z.string().trim().email('Enter a valid email address').max(255).optional().or(z.literal('')),
   location: z.string().trim().min(2, 'City/Location is required').max(100),
-  type: z.enum(['residential', 'commercial'], {
-    required_error: 'Please select whether your inquiry is about a home or business',
+  type: z.enum(['home', 'business', 'plot_land', 'construction_renovation', 'industrial_factory', 'other'], {
+    required_error: 'Please select a property category',
   }),
   serviceInterest: z.enum(
     ['general_vastu', 'feng_shui', 'plot_selection', 'construction_renovation', 'industrial_vastu', 'floor_plan_review', 'other'],

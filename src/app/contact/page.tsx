@@ -6,18 +6,18 @@ import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
   title: 'Contact Us',
-  description: 'Contact Homestyle Vastu for Vastu Shastra and Feng Shui consultations. Reach out via WhatsApp or phone to discuss your property.',
+  description: 'Contact Homestyle Vastu about Vastu and Feng Shui for homes, businesses, plots, construction or renovation, industrial properties, or online floor-plan review.',
   alternates: { canonical: '/contact' },
   openGraph: {
     title: 'Contact Homestyle Vastu',
-    description: 'Contact Homestyle Vastu by WhatsApp or phone to discuss your property.',
+    description: 'Contact Sanjay Jain by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.',
     url: '/contact',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Contact Homestyle Vastu',
-    description: 'Contact Homestyle Vastu by WhatsApp or phone to discuss your property.',
+    description: 'Contact Sanjay Jain by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.',
   },
 };
 
@@ -30,7 +30,7 @@ export default function ContactPage() {
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground">Contact Us</h1>
         <p className="text-xl text-foreground/80 leading-relaxed font-body max-w-2xl mx-auto">
-          Contact Sanjay Jain to discuss residential or commercial Vastu and Feng Shui guidance.
+          Contact Sanjay Jain about Vastu and Feng Shui for homes, businesses, plot selection, construction or renovation, industrial properties, or online floor-plan review.
         </p>
       </div>
 

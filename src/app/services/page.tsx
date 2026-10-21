@@ -5,18 +5,18 @@ import { MessageCircle, Home, Building2, MapPin, Globe } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Consultation Services',
-  description: 'Vastu Shastra and Feng Shui consultation categories for residential and commercial properties, with on-site and online/remote formats.',
+  description: 'Explore Vastu Shastra and Feng Shui consultations for homes and businesses, plot or land selection, construction or renovation, industrial and factory properties, and online floor-plan reviews.',
   alternates: { canonical: '/services' },
   openGraph: {
     title: 'Consultation Services | Homestyle Vastu',
-    description: 'Explore residential and commercial Vastu and Feng Shui consultation categories.',
+    description: 'Explore Vastu and Feng Shui guidance for homes and businesses, plot selection, construction or renovation, industrial and factory properties, and online floor-plan review.',
     url: '/services',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Consultation Services | Homestyle Vastu',
-    description: 'Explore residential and commercial Vastu and Feng Shui consultation categories.',
+    description: 'Explore Vastu and Feng Shui guidance for homes and businesses, plot selection, construction or renovation, industrial and factory properties, and online floor-plan review.',
   },
 };
 
@@ -26,14 +26,14 @@ export default function ServicesPage() {
       <div className="max-w-3xl mb-16 break-words">
         <h1 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground break-words">Vastu and Feng Shui Consultation Services</h1>
         <p className="text-xl text-foreground/80 leading-relaxed font-body break-words">
-          Vastu Shastra and Feng Shui guidance for residential and commercial properties. Contact Sanjay Jain to discuss the questions you have about your space.
+          Vastu Shastra and Feng Shui guidance for homes and businesses, plus plot selection, construction or renovation guidance, industrial and factory Vastu, and online floor-plan review.
         </p>
       </div>
 
       <div className="space-y-16">
         {/* Service Types */}
         <section className="break-words">
-          <h2 className="text-2xl font-headline font-bold mb-8 border-b border-border pb-4 break-words">Residential and Commercial Vastu</h2>
+          <h2 className="text-2xl font-headline font-bold mb-8 border-b border-border pb-4 break-words">Guidance by property and project</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="bg-white border-border shadow-sm">
               <CardHeader>

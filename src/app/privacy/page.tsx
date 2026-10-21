@@ -24,17 +24,17 @@ export default function PrivacyPage() {
         <section className="space-y-4">
           <h2 className="text-2xl font-headline font-semibold text-foreground">How the information is used and stored</h2>
           <p>
-            The information is stored in the website&apos;s inquiry database and used to respond to your request and discuss possible next steps. The website and database are hosted by Hostinger.
+            The information is stored in the website&apos;s inquiry database so the practice can review your request and discuss possible next steps. The website and database are hosted by Hostinger.
           </p>
           <p>
-            The consultation form does not currently send email notifications. If you provide an email address, it is stored with your inquiry so it can be used to respond to your request.
+            The consultation form does not send an automatic email confirmation or notification. If you provide an email address, it is stored with your inquiry; adding an address does not trigger an email.
           </p>
         </section>
 
         <section className="space-y-4">
           <h2 className="text-2xl font-headline font-semibold text-foreground">WhatsApp</h2>
           <p>
-            After your inquiry is saved, the website opens WhatsApp with a prefilled draft containing the service and property type you selected. The link does not include your name, phone number, email, location, or free-text inquiry. The draft is not sent until you choose to press Send in WhatsApp; its own privacy terms apply to that conversation.
+            After your inquiry is saved, the website opens WhatsApp with a prefilled draft that names the service category you selected. The link does not include your property category, name, phone number, email, location, or free-text inquiry. The draft is not sent until you choose to press Send in WhatsApp; its own privacy terms apply to that conversation.
           </p>
         </section>
 

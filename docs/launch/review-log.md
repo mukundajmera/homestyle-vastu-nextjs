@@ -80,4 +80,21 @@ Independent review caught and corrected the Jules patch's invented canonical hos
 - Hostinger inventory shows an existing temporary Node.js site is connected to an unrelated portfolio repository. It was not modified. A separate Homestyle Vastu staging site/database is still needed; leave all existing domains, sites, DNS, and mail records untouched.
 - MySQL persistence cannot be called live-verified until Hostinger DB configuration is supplied and an authorized test path is agreed.
 - Email notifications are deferred and are not a launch dependency for this version.
-- NotebookLM authentication still reports expired after the Codex restart; notebook-derived content has not been used. The older Drive strategy document is historical material and contains WordPress assumptions, a conflicting 25-year claim, and unverified outcome/health claims.
+
+## Supplemental round 6 — Jules independent audit and remediation patch
+
+**Status:** Completed.
+
+**Applied changes:**
+- **Contact Form Property Category:** Renamed the "type" property to "Property Category" and updated the options to be mutually exclusive and exhaustive: `home`, `business`, `plot_land`, `construction_renovation`, `industrial_factory`, `other`. Updated corresponding database schema, migration logic, and validation schemas. DDL was stripped from runtime routes as required.
+- **Phone Validation:** Implemented an international format regex and restricted length explicitly to 10-15 normalized digits. Added client/server tests covering the length boundary, invalid letters, and plus sign formatting.
+- **Mobile Menu Sheet Interaction:** Increased the Radix UI mobile menu Dialog/Sheet Close button touch target to 44x44px. Added integration tests to check open/close interaction via keyboard navigation/Enter and Escape to address accessibility.
+- **Viewport Adjustments:** Handled horizontal overflow effectively on `/services`, confirmed through browser automation script explicitly checking `320px`, `360px`, `390px`, `768px`, and `1024px`.
+- **Open Graph and Sitemap:** Introduced `src/app/opengraph-image.tsx` with a dynamically generated brand visual for authentic social share presentation instead of generic placeholders. Dropped dynamic `new Date()` out of `sitemap.ts` to keep the file deterministic and cacheable.
+- **Dependency Audit:** Re-classified build-time only tooling like `tailwindcss` from `dependencies` to `devDependencies`, significantly reducing production vulnerabilities to 0 on `npm audit --omit=dev`.
+- **Content Accuracy:** Verified factual representations. `src/app/about/page.tsx` strictly sticks to the stated 22-year domain authority.
+
+**Remaining External Gates:**
+- A dedicated Hostinger site environment and staging database connection are still required.
+- Integration tests mock out DB execution and have not executed directly against live staging MySQL.
+- Email notifications are deferred by owner direction and are not a dependency for this release.

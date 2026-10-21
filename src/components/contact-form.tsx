@@ -23,10 +23,10 @@ import Link from "next/link";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
-  phone: z.string().min(10, "Phone number must be at least 10 characters").max(20),
+  phone: z.string().trim().regex(/^\+?[0-9\s\-\(\)]{10,20}$/, 'Invalid phone number format').transform(v => v.replace(/\D/g, '')).pipe(z.string().min(10, 'Phone number must have at least 10 digits').max(15, 'Phone number must not exceed 15 digits')),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
   location: z.string().min(2, "City/Location is required").max(100),
-  type: z.enum(["", "residential", "commercial"]).refine((value): boolean => value !== "", "Please select a service type"),
+  type: z.enum(["", "home", "business", "plot_land", "construction_renovation", "industrial_factory", "other"]).refine((value): boolean => value !== "", "Please select a property category"),
   serviceInterest: z.enum([
     "",
     "general_vastu",
@@ -117,7 +117,7 @@ export function ContactForm() {
 
       const whatsappNumber = "919828088678";
       const whatsappMessage = encodeURIComponent(
-        `Hello, I have submitted an inquiry about ${serviceLabels[data.serviceInterest]} for a ${data.type} property and would like to continue the conversation.`
+        `Hello, I have submitted an inquiry about ${serviceLabels[data.serviceInterest]} and would like to continue the conversation.`
       );
       const nextWhatsAppUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
@@ -233,6 +233,7 @@ export function ContactForm() {
                 <FormControl>
                   <Input type="email" placeholder="your@email.com" {...field} />
                 </FormControl>
+                <p className="text-sm text-muted-foreground">No automatic email is sent after you submit this form.</p>
                 <FormMessage />
               </FormItem>
             )}
@@ -258,31 +259,23 @@ export function ContactForm() {
             control={form.control}
             name="type"
             render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Service Interest <span className="text-destructive">*</span></FormLabel>
+              <FormItem>
+                <FormLabel>Property Category <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col sm:flex-row gap-4"
+                  <select
+                    {...field}
+                    value={field.value ?? ""}
+                    onChange={(event) => field.onChange(event.target.value || undefined)}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
-                    <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
-                      <FormControl>
-                        <RadioGroupItem value="residential" />
-                      </FormControl>
-                      <FormLabel className="font-normal w-full cursor-pointer">
-                        Residential
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
-                      <FormControl>
-                        <RadioGroupItem value="commercial" />
-                      </FormControl>
-                      <FormLabel className="font-normal w-full cursor-pointer">
-                        Commercial
-                      </FormLabel>
-                    </FormItem>
-                  </RadioGroup>
+                    <option value="" disabled>Select a property category</option>
+                    <option value="home">Home</option>
+                    <option value="business">Business</option>
+                    <option value="plot_land">Plot / Land</option>
+                    <option value="construction_renovation">Construction / Renovation</option>
+                    <option value="industrial_factory">Industrial / Factory</option>
+                    <option value="other">Other</option>
+                  </select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

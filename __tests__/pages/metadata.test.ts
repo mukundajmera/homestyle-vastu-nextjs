@@ -40,7 +40,7 @@ describe('metadata', () => {
   });
 
   describe('robots', () => {
-    it('disallows all when not in production', () => {
+    it('disallows all in local development', () => {
       process.env.NEXT_PUBLIC_SITE_ENV = 'development';
       const result: MetadataRoute.Robots = robots();
       expect(result.rules).toEqual({ userAgent: '*', disallow: '/' });

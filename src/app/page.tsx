@@ -7,18 +7,18 @@ import { SpacePlanIllustration } from '@/components/space-plan-illustration';
 
 export const metadata: Metadata = {
   title: 'Vastu & Feng Shui for Homes and Businesses',
-  description: 'Vastu Shastra and Feng Shui consultations for homes and businesses with Sanjay Jain. Ask about residential or commercial guidance and available formats.',
+  description: 'Vastu and Feng Shui guidance with Sanjay Jain for homes, businesses, plots, construction, industrial spaces and online floor-plan reviews.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Vastu & Feng Shui for Homes and Businesses | Homestyle Vastu',
-    description: 'Explore residential and commercial Vastu and Feng Shui guidance with Homestyle Vastu.',
+    description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction, industrial properties and online floor-plan reviews.',
     url: '/',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Vastu & Feng Shui for Homes and Businesses | Homestyle Vastu',
-    description: 'Explore residential and commercial Vastu and Feng Shui guidance with Homestyle Vastu.',
+    description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction, industrial properties and online floor-plan reviews.',
   },
 };
 
@@ -37,7 +37,7 @@ export default function Home() {
               Guidance for the spaces where you <span className="text-primary italic">live and work.</span>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-foreground/75 md:text-xl lg:mx-0">
-              Talk with Sanjay Jain about residential or commercial Vastu and Feng Shui guidance, and ask which consultation format may suit your property.
+              Talk with Sanjay Jain about a home, workplace, plot, planned build, renovation, industrial property or floor plan. Ask which Vastu or Feng Shui guidance and consultation format may suit your project.
             </p>
             <div className="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row lg:justify-start">
               <Button asChild size="lg" className="h-12 rounded-md bg-primary px-6 text-base font-semibold text-primary-foreground shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-md">
@@ -66,7 +66,7 @@ export default function Home() {
               A clear first step
             </h2>
             <p className="text-lg text-foreground/70 leading-relaxed font-body">
-              Tell us whether you are asking about a home or business and what Vastu or Feng Shui guidance you are looking for. You can ask whether an on-site or online/remote consultation may suit your property.
+              Tell us what you are planning or reviewing: a home, business, plot, construction or renovation project, industrial space, or floor plan. You can ask whether an on-site or online/remote consultation may suit your property.
             </p>
           </div>
 
@@ -75,7 +75,7 @@ export default function Home() {
               {
                 step: "01",
                 title: "Start a conversation",
-                description: "Tell us whether your inquiry is about a home or business and what guidance you are looking for."
+                description: "Share whether you are asking about a home, business, plot, planned build, renovation, industrial property or floor plan."
               },
               {
                 step: "02",
@@ -104,7 +104,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div className="max-w-2xl">
               <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Consultation Services</h2>
-              <p className="text-lg text-foreground/70">Space planning for homes and businesses.</p>
+              <p className="text-lg text-foreground/70">Guidance for homes, workplaces, plots, planned builds and industrial properties.</p>
             </div>
             <Link href="/services" className="hidden md:flex items-center text-primary font-semibold hover:underline mt-4 md:mt-0">
               View all services <ArrowRight className="ml-2 h-4 w-4" />
@@ -118,7 +118,7 @@ export default function Home() {
                 <CardDescription className="text-base mt-2">For homes, apartments, and residential plots.</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-foreground/70 mb-6">Vastu and Feng Shui guidance for residential properties. Contact Sanjay Jain to discuss your home and the questions you would like to explore.</p>
+                <p className="text-foreground/70 mb-6">Discuss Vastu and Feng Shui questions about your home, apartment or residential plot, and ask whether an on-site or online consultation may suit your project.</p>
                 <Link href="/services" className="text-primary font-medium flex items-center hover:underline w-fit">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -131,7 +131,7 @@ export default function Home() {
                 <CardDescription className="text-base mt-2">For offices, retail spaces, and commercial sites.</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-foreground/70 mb-6">Vastu and Feng Shui guidance for commercial properties. Contact Sanjay Jain to discuss your business space and the questions you would like to explore.</p>
+                <p className="text-foreground/70 mb-6">Discuss a business, office, retail, industrial or factory property, including questions about construction, renovation and online floor-plan review.</p>
                 <Link href="/services" className="text-primary font-medium flex items-center hover:underline w-fit">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -157,17 +157,17 @@ export default function Home() {
                   <span className="font-headline text-2xl font-bold">SJ</span>
                 </div>
                 <h3 className="text-xl font-headline font-semibold mb-2">Sanjay Jain</h3>
-                <p className="text-foreground/70 text-sm max-w-xs">Vastu Shastra and Feng Shui guidance for homes and businesses.</p>
+                <p className="text-foreground/70 text-sm max-w-xs">Vastu and Feng Shui consultant with 22 years of experience as of 2026.</p>
               </div>
             </div>
 
             <div className="w-full md:w-1/2 space-y-6">
               <h2 className="text-3xl md:text-4xl font-headline font-bold">Rooted in tradition, applied for modern living</h2>
               <p className="text-lg text-foreground/70 leading-relaxed">
-                Sanjay Jain is the consultant associated with Homestyle Vastu, which offers Vastu Shastra and Feng Shui guidance for homes and businesses.
+                Sanjay Jain is the Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026.
               </p>
               <p className="text-lg text-foreground/70 leading-relaxed">
-                The site describes residential and commercial consultation categories, with on-site and online/remote formats. Contact the practice to discuss your property and ask which format may suit your needs.
+                The practice offers guidance for homes, businesses, plots and land, construction or renovation, industrial properties and online floor-plan review. On-site and online/remote consultation formats are available.
               </p>
               <div className="pt-4">
                 <Button asChild variant="outline" className="text-base">
@@ -188,7 +188,7 @@ export default function Home() {
               <summary className="cursor-pointer font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
                 What kinds of properties can I ask about?
               </summary>
-              <p className="mt-3 text-foreground/75">The listed consultation categories include residential and commercial Vastu. Contact us to discuss your property.</p>
+              <p className="mt-3 text-foreground/75">You can ask about homes and businesses, plot or land selection, construction or renovation, industrial and factory properties, and online floor-plan review.</p>
             </details>
             <details className="py-5">
               <summary className="cursor-pointer font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
