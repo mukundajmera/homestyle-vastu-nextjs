@@ -3,7 +3,7 @@ import { MapPin, MessageCircle, Phone } from 'lucide-react';
 import { BrandMark } from '@/components/vastu-dial';
 
 const linkClass =
-  'rounded-sm transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+  'rounded-sm py-1.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 export function Footer() {
   return (
@@ -26,15 +26,15 @@ export function Footer() {
         </div>
         <nav aria-label="Footer navigation">
           <h2 className="eyebrow font-body">Explore</h2>
-          <ul className="mt-4 space-y-3 text-sm text-foreground/80">
-            <li><Link href="/services" className={linkClass}>Services</Link></li>
-            <li><Link href="/about" className={linkClass}>About</Link></li>
-            <li><Link href="/contact" className={linkClass}>Contact</Link></li>
+          <ul className="mt-3 space-y-1 text-sm text-foreground/80">
+            <li><Link href="/services" className={`inline-block ${linkClass}`}>Services</Link></li>
+            <li><Link href="/about" className={`inline-block ${linkClass}`}>About</Link></li>
+            <li><Link href="/contact" className={`inline-block ${linkClass}`}>Contact</Link></li>
           </ul>
         </nav>
         <div>
           <h2 className="eyebrow font-body">Get in touch</h2>
-          <div className="mt-4 flex flex-col items-start gap-3 text-sm text-foreground/80">
+          <div className="mt-3 flex flex-col items-start gap-1 text-sm text-foreground/80">
             <a href="tel:+919828088678" className={`inline-flex items-center gap-2 ${linkClass}`}>
               <Phone className="h-4 w-4" aria-hidden="true" /> +91 98280 88678
             </a>
@@ -47,7 +47,7 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="container mx-auto flex flex-col items-center justify-between px-4 py-4 text-xs text-muted-foreground sm:flex-row md:px-8">
           <div>&copy; {new Date().getFullYear()} Homestyle Vastu. All rights reserved.</div>
-          <Link href="/privacy" className="mt-2 hover:text-primary sm:mt-0">Privacy Policy</Link>
+          <Link href="/privacy" className="mt-2 inline-block py-1.5 hover:text-primary sm:mt-0">Privacy Policy</Link>
         </div>
       </div>
     </footer>
