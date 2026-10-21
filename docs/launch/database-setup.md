@@ -6,7 +6,8 @@ Create a dedicated MySQL database for this Next.js preview. Before the first inq
 
 - If the database has the original leads table and has **not** run the earlier `migrate-leads-v1.sql`, run v1 and then v2.
 - If the database already completed the earlier v1 migration, run v2 only.
-- If the database already uses the current six property categories, no category migration is needed.
+- If the database already uses the current five property categories (`home`, `business`, `plot`, `industrial`, `other`), no category migration is needed.
+- For existing v2 leads using the six-category enum, run a safe one-time migration to map legacy values to the new five categories (`plot_land` -> `plot`, `construction_renovation` -> `other`, `industrial_factory` -> `industrial`). Do not rerun prior migrations on the fresh staging DB.
 
 Do not rerun v1 on a database that already completed it; v1 adds columns and an index that would conflict on a second run. Do not rely on the request handler to create or alter tables. Add the connection values to the Node.js application's Hostinger environment settings:
 
@@ -24,7 +25,9 @@ Keep database credentials in Hostinger environment settings. Do not commit them 
 
 ## Migration history
 
-The original leads table lacked consent evidence, service interest, and idempotency fields. `CREATE TABLE IF NOT EXISTS` does not add those fields to an existing table. After taking a backup, run `migrate-leads-v1.sql` once to add them. Existing rows are marked with consent value `0` and policy version `legacy`; the migration does not claim that historic leads gave consent. Then run `migrate-leads-v2.sql` to widen the property-category enum, map legacy `residential` / `commercial` values to `home` / `business`, and narrow the enum to the current six categories.
+The original leads table lacked consent evidence, service interest, and idempotency fields. `CREATE TABLE IF NOT EXISTS` does not add those fields to an existing table. After taking a backup, run `migrate-leads-v1.sql` once to add them. Existing rows are marked with consent value `0` and policy version `legacy`; the migration does not claim that historic leads gave consent. Then run `migrate-leads-v2.sql` to widen the property-category enum, map legacy `residential` / `commercial` values to `home` / `business`, and narrow the enum to the six categories.
+
+A subsequent v3 migration (if applicable to the environment) maps the six categories down to the current five: `plot_land` -> `plot`, `industrial_factory` -> `industrial`, and maps the deprecated `construction_renovation` property type to `other` (since construction/renovation is preserved in `service_interest`).
 
 For a fresh database, run `schema.sql` once. Do not run the legacy migration against a fresh table.
 

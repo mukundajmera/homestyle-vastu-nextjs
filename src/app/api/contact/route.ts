@@ -18,7 +18,7 @@ const contactSchema = z.object({
   phone: z.string().trim().regex(/^\+?[0-9\s\-\(\)]{10,20}$/, 'Invalid phone number format').transform(v => v.replace(/\D/g, '')).pipe(z.string().min(10, 'Phone number must have at least 10 digits').max(15, 'Phone number must not exceed 15 digits')),
   email: z.string().trim().email('Enter a valid email address').max(255).optional().or(z.literal('')),
   location: z.string().trim().min(2, 'City/Location is required').max(100),
-  type: z.enum(['home', 'business', 'plot_land', 'construction_renovation', 'industrial_factory', 'other'], {
+  type: z.enum(['home', 'business', 'plot', 'industrial', 'other'], {
     required_error: 'Please select a property category',
   }),
   serviceInterest: z.enum(

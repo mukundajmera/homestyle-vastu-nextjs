@@ -95,6 +95,6 @@ Independent review caught and corrected the Jules patch's invented canonical hos
 - **Content Accuracy:** Verified factual representations. `src/app/about/page.tsx` strictly sticks to the stated 22-year domain authority.
 
 **Remaining External Gates:**
-- A dedicated Hostinger site environment and staging database connection are still required.
+- A dedicated Hostinger site environment and staging database connection are still required. The source checks for the latest UI responsive updates, native select padding, and React 19 bumps are pending local confirmation. Hostinger DB and deployment have not been tested and no claims of live operation are made.
 - Integration tests mock out DB execution and have not executed directly against live staging MySQL.
 - Email notifications are deferred by owner direction and are not a dependency for this release.

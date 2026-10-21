@@ -197,7 +197,7 @@ describe('/api/contact', () => {
     expect(JSON.stringify(result)).not.toContain('John Doe');
   });
 
-  it.each(['home', 'business', 'plot_land', 'construction_renovation', 'industrial_factory', 'other'])(
+  it.each(['home', 'business', 'plot', 'industrial', 'other'])(
     'persists the %s property category',
     async (type) => {
       const response = await POST(createMockRequest({ ...basePayload(), type }));

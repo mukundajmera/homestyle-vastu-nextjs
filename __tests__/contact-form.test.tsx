@@ -36,7 +36,7 @@ describe('ContactForm', () => {
     const user = userEvent.setup();
     render(<ContactForm />);
 
-    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
+    await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
 
     expect(await screen.findByText('Name must be at least 2 characters')).toBeInTheDocument();
     expect(screen.getByText('Invalid phone number format')).toBeInTheDocument();
@@ -63,7 +63,7 @@ describe('ContactForm', () => {
     await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
     await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
     await user.click(screen.getByRole('checkbox'));
-    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
+    await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
 
     expect(await screen.findByText(message)).toBeInTheDocument();
     expect(mockFetch).not.toHaveBeenCalled();
@@ -86,7 +86,7 @@ describe('ContactForm', () => {
     await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
     await user.click(screen.getByRole('checkbox'));
     await user.type(screen.getByPlaceholderText(/review the floor plan for a new office space/i), 'Review my new floor plan');
-    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
+    await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
     const request = JSON.parse(mockFetch.mock.calls[0][1].body as string);
@@ -132,7 +132,7 @@ describe('ContactForm', () => {
     await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
     await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
     await user.click(screen.getByRole('checkbox'));
-    await user.click(screen.getByRole('button', { name: /Submit and Continue to WhatsApp/i }));
+    await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
 
     expect(await screen.findByRole('alert')).toHaveTextContent('We could not save your inquiry');
     expect(screen.queryByRole('status')).not.toBeInTheDocument();

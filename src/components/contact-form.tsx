@@ -22,11 +22,11 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(100),
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
   phone: z.string().trim().regex(/^\+?[0-9\s\-\(\)]{10,20}$/, 'Invalid phone number format').transform(v => v.replace(/\D/g, '')).pipe(z.string().min(10, 'Phone number must have at least 10 digits').max(15, 'Phone number must not exceed 15 digits')),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
-  location: z.string().min(2, "City/Location is required").max(100),
-  type: z.enum(["", "home", "business", "plot_land", "construction_renovation", "industrial_factory", "other"]).refine((value): boolean => value !== "", "Please select a property category"),
+  email: z.string().trim().email("Invalid email").max(255).optional().or(z.literal("")),
+  location: z.string().trim().min(2, "City/Location is required").max(100),
+  type: z.enum(["", "home", "business", "plot", "industrial", "other"]).refine((value): boolean => value !== "", "Please select a property category"),
   serviceInterest: z.enum([
     "",
     "general_vastu",
@@ -38,7 +38,7 @@ const formSchema = z.object({
     "other",
   ]).refine((value): boolean => value !== "", "Please select a service"),
   format: z.enum(["", "onsite", "online"]).refine((value): boolean => value !== "", "Please select a consultation format"),
-  inquiry: z.string().max(1000).optional().or(z.literal("")),
+  inquiry: z.string().trim().max(1000).optional().or(z.literal("")),
   consent: z.boolean().refine((value) => value, "Please consent to being contacted about this inquiry"),
   honeypot: z.string().max(0).optional(),
 });
@@ -159,7 +159,7 @@ export function ContactForm() {
           render={({ field }) => (
             <FormItem className="hidden" aria-hidden="true">
               <FormControl>
-                <Input {...field} tabIndex={-1} autoComplete="off" />
+                <Input {...field} tabIndex={-1} autoComplete="off" disabled={isSubmitting || Boolean(success)} />
               </FormControl>
             </FormItem>
           )}
@@ -173,7 +173,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>Name <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
-                  <Input placeholder="Your full name" {...field} />
+                  <Input placeholder="Your full name" {...field} disabled={isSubmitting || Boolean(success)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -187,7 +187,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
-                  <Input type="tel" placeholder="e.g. +91 98765 43210" {...field} />
+                  <Input type="tel" placeholder="e.g. +91 98765 43210" {...field} disabled={isSubmitting || Boolean(success)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -200,13 +200,14 @@ export function ContactForm() {
           name="serviceInterest"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>What guidance are you looking for? <span className="text-destructive">*</span></FormLabel>
+              <FormLabel>Service Interest (What guidance are you looking for?) <span className="text-destructive">*</span></FormLabel>
               <FormControl>
                 <select
                   {...field}
                   value={field.value ?? ""}
                   onChange={(event) => field.onChange(event.target.value || undefined)}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="flex h-10 w-full rounded-md border border-input bg-background pl-3 pr-10 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={isSubmitting || Boolean(success)}
                 >
                   <option value="" disabled>Select a service</option>
                   <option value="general_vastu">Residential or commercial Vastu</option>
@@ -231,7 +232,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>Email (Optional)</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="your@email.com" {...field} />
+                  <Input type="email" placeholder="your@email.com" {...field} disabled={isSubmitting || Boolean(success)} />
                 </FormControl>
                 <p className="text-sm text-muted-foreground">No automatic email is sent after you submit this form.</p>
                 <FormMessage />
@@ -246,7 +247,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>City/Location <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. Jaipur, Rajasthan" {...field} />
+                  <Input placeholder="e.g. Jaipur, Rajasthan" {...field} disabled={isSubmitting || Boolean(success)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -260,20 +261,20 @@ export function ContactForm() {
             name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Property Category <span className="text-destructive">*</span></FormLabel>
+                <FormLabel>Property Category (What type of space is this?) <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
                   <select
                     {...field}
                     value={field.value ?? ""}
                     onChange={(event) => field.onChange(event.target.value || undefined)}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    className="flex h-10 w-full rounded-md border border-input bg-background pl-3 pr-10 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={isSubmitting || Boolean(success)}
                   >
                     <option value="" disabled>Select a property category</option>
                     <option value="home">Home</option>
                     <option value="business">Business</option>
-                    <option value="plot_land">Plot / Land</option>
-                    <option value="construction_renovation">Construction / Renovation</option>
-                    <option value="industrial_factory">Industrial / Factory</option>
+                    <option value="plot">Plot</option>
+                    <option value="industrial">Industrial</option>
                     <option value="other">Other</option>
                   </select>
                 </FormControl>
@@ -293,10 +294,11 @@ export function ContactForm() {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     className="flex flex-col sm:flex-row gap-4"
+                    disabled={isSubmitting || Boolean(success)}
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
                       <FormControl>
-                        <RadioGroupItem value="onsite" />
+                        <RadioGroupItem value="onsite" disabled={isSubmitting || Boolean(success)} />
                       </FormControl>
                       <FormLabel className="font-normal w-full cursor-pointer">
                         On-site (In person)
@@ -304,7 +306,7 @@ export function ContactForm() {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
                       <FormControl>
-                        <RadioGroupItem value="online" />
+                        <RadioGroupItem value="online" disabled={isSubmitting || Boolean(success)} />
                       </FormControl>
                       <FormLabel className="font-normal w-full cursor-pointer">
                         Online / Remote
@@ -329,6 +331,7 @@ export function ContactForm() {
                   placeholder="e.g., I would like to review the floor plan for a new office space before finalizing the layout."
                   className="resize-y min-h-[100px]"
                   {...field}
+                  disabled={isSubmitting || Boolean(success)}
                 />
               </FormControl>
               <FormMessage />
@@ -345,6 +348,7 @@ export function ContactForm() {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  disabled={isSubmitting || Boolean(success)}
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
@@ -362,22 +366,22 @@ export function ContactForm() {
 
         <div className="bg-muted/30 p-4 rounded-md text-sm text-muted-foreground flex flex-col space-y-2">
             <p>
-              <strong>Next step:</strong> After the form is saved, we will open WhatsApp with a short, general message. Your name, phone, email, location, and inquiry details are not added to the WhatsApp link. You will need to press Send in WhatsApp to start the conversation.
+              <strong>Next step:</strong> After the form is saved, we will open WhatsApp with a short draft message. The draft includes only your selected service interest; your name, phone, email, location, property category, and inquiry details are not added to the WhatsApp link. You will need to press Send in WhatsApp to start the conversation.
           </p>
         </div>
 
         <Button
           type="submit"
-          className="w-full h-12 text-base font-bold bg-[#087A3A] hover:bg-[#066632] text-white"
+          className="w-full min-h-[3rem] h-auto py-3 text-base font-bold bg-[#087A3A] hover:bg-[#066632] text-white whitespace-normal text-center leading-snug"
           disabled={isSubmitting || Boolean(success)}
         >
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Submitting...
+              Preparing to discuss your property...
             </>
           ) : (
-            success ? "Inquiry saved" : "Submit and Continue to WhatsApp"
+            success ? "Inquiry saved" : "Submit & Discuss Your Property / Floor Plan on WhatsApp"
           )}
         </Button>
 

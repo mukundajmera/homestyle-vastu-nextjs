@@ -7,18 +7,18 @@ import { SpacePlanIllustration } from '@/components/space-plan-illustration';
 
 export const metadata: Metadata = {
   title: 'Vastu & Feng Shui for Homes and Businesses',
-  description: 'Vastu and Feng Shui guidance with Sanjay Jain for homes, businesses, plots, construction, industrial spaces and online floor-plan reviews.',
+  description: 'Vastu and Feng Shui guidance with Sanjay Jain for homes, businesses, plots, construction and renovation, industrial spaces and online floor-plan reviews.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Vastu & Feng Shui for Homes and Businesses | Homestyle Vastu',
-    description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction, industrial properties and online floor-plan reviews.',
+    description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial properties and online floor-plan reviews.',
     url: '/',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Vastu & Feng Shui for Homes and Businesses | Homestyle Vastu',
-    description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction, industrial properties and online floor-plan reviews.',
+    description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial properties and online floor-plan reviews.',
   },
 };
 

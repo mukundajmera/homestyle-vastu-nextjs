@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS leads (
   phone VARCHAR(20) NOT NULL,
   email VARCHAR(255) NULL,
   location VARCHAR(100) NOT NULL,
-  type ENUM('home', 'business', 'plot_land', 'construction_renovation', 'industrial_factory', 'other') NOT NULL,
+  type ENUM('home', 'business', 'plot', 'industrial', 'other') NOT NULL,
   service_interest VARCHAR(80) NOT NULL,
   format ENUM('onsite', 'online') NOT NULL,
   inquiry TEXT NULL,

@@ -24,6 +24,9 @@ export default function PrivacyPage() {
         <section className="space-y-4">
           <h2 className="text-2xl font-headline font-semibold text-foreground">How the information is used and stored</h2>
           <p>
+            This is a temporary preview site. Because a final data retention policy is still pending, please do not submit real inquiries or real personal data through the consultation form.
+          </p>
+          <p>
             The information is stored in the website&apos;s inquiry database so the practice can review your request and discuss possible next steps. The website and database are hosted by Hostinger.
           </p>
           <p>
