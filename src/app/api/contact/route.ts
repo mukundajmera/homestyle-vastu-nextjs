@@ -122,6 +122,10 @@ function getDatabaseConfig() {
 }
 
 export async function POST(request: Request) {
+  if (process.env.NODE_ENV === 'production' && process.env.LEAD_INTAKE_ENABLED !== 'true') {
+    return NextResponse.json({ error: 'Lead intake is currently disabled.' }, { status: 403 });
+  }
+
   const contentType = request.headers.get('content-type')?.split(';')[0].trim().toLowerCase();
   if (contentType !== 'application/json') {
     return NextResponse.json({ error: 'Send this form using the supported application/json format.' }, { status: 415 });

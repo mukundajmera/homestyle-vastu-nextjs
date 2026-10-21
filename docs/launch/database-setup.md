@@ -4,10 +4,10 @@
 
 Create a dedicated MySQL database for this Next.js preview. Before the first inquiry, run `schema.sql` once against the new database using its database management interface. Do not run a migration against a fresh database. For an existing database, identify its schema version and take a backup first:
 
-- If the database has the original leads table and has **not** run the earlier `migrate-leads-v1.sql`, run v1 and then v2.
-- If the database already completed the earlier v1 migration, run v2 only.
+- If the database has the original leads table and has **not** run the earlier `migrate-leads-v1.sql`, run v1, v2, and v3.
+- If the database already completed the earlier v1 migration, run v2 and then v3 when it still has the six-category enum.
 - If the database already uses the current five property categories (`home`, `business`, `plot`, `industrial`, `other`), no category migration is needed.
-- For existing v2 leads using the six-category enum, run a safe one-time migration to map legacy values to the new five categories (`plot_land` -> `plot`, `construction_renovation` -> `other`, `industrial_factory` -> `industrial`). Do not rerun prior migrations on the fresh staging DB.
+- For existing v2 leads using the six-category enum, run `migrate-leads-v3.sql` once to map legacy values to the new five categories (`plot_land` -> `plot`, `construction_renovation` -> `other`, `industrial_factory` -> `industrial`). Do not rerun prior migrations on the fresh staging DB.
 
 Do not rerun v1 on a database that already completed it; v1 adds columns and an index that would conflict on a second run. Do not rely on the request handler to create or alter tables. Add the connection values to the Node.js application's Hostinger environment settings:
 
@@ -18,10 +18,15 @@ Do not rerun v1 on a database that already completed it; v1 adds columns and an 
 - `DB_NAME`
 - `NEXT_PUBLIC_SITE_URL` (the temporary preview site's origin, with no path)
 - `NEXT_PUBLIC_SITE_ENV=preview`
+- `LEAD_INTAKE_ENABLED=false` (keep false on public preview)
+- `NEXT_PUBLIC_LEAD_INTAKE_ENABLED=false` (keep false on public preview)
 
 Keep database credentials in Hostinger environment settings. Do not commit them or send them in chat. The request handler uses the configured database for lead inserts and idempotency checks; provision the schema before enabling the form. Restrict the runtime account to the database permissions required by those operations wherever the hosting provider permits it. The runtime query uses `INSERT ... ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)`, so it needs `INSERT`, `SELECT`, and `UPDATE` access on `leads` (or equivalent column-level rights, where supported). The runtime user does not need schema-management privileges.
 
 `NEXT_PUBLIC_SITE_ENV=preview` keeps the preview out of search results. Set these values before building/redeploying so canonical metadata, robots, and sitemap are generated for the preview host. Do not set this preview to `production`.
+
+> **Important Setup Note:** Keep both lead intake gates (`LEAD_INTAKE_ENABLED` and `NEXT_PUBLIC_LEAD_INTAKE_ENABLED`) false on public preview initially. You can temporarily set **only the server gate** (`LEAD_INTAKE_ENABLED=true`) true solely for an already-authorized synthetic DB verification, then reset it to false immediately after. Before production collection, the owner must choose and publish a retention/deletion policy and replace the preview-only privacy notice with an accurate production policy. Only then may both flags be set to `true` and the application rebuilt.
+
 
 ## Migration history
 
@@ -29,7 +34,10 @@ The original leads table lacked consent evidence, service interest, and idempote
 
 A subsequent v3 migration (if applicable to the environment) maps the six categories down to the current five: `plot_land` -> `plot`, `industrial_factory` -> `industrial`, and maps the deprecated `construction_renovation` property type to `other` (since construction/renovation is preserved in `service_interest`).
 
-For a fresh database, run `schema.sql` once. Do not run the legacy migration against a fresh table.
+> **Migration Path:**
+> - For existing legacy databases (not v1 yet): run `v1`, then `v2`, then `v3`.
+> - For existing v2 databases: run `v3`.
+> - For a fresh database: run **none** of them. Just run `schema.sql` once. Do not run any legacy migrations against a fresh database.
 
 ## Current lead flow and limitations
 

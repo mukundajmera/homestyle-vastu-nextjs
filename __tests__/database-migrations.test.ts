@@ -16,4 +16,24 @@ describe('lead property-category migration', () => {
     expect(migration.slice(narrowPosition)).not.toContain('residential');
     expect(migration.slice(narrowPosition)).not.toContain('commercial');
   });
+  it('maps the six-category enum down to five in v3', () => {
+    const migration = readFileSync(join(process.cwd(), 'docs/launch/migrate-leads-v3.sql'), 'utf8');
+
+    // It should map plot_land to plot
+    expect(migration).toContain("WHEN type = 'plot_land' THEN 'plot'");
+
+    // It should map industrial_factory to industrial
+    expect(migration).toContain("WHEN type = 'industrial_factory' THEN 'industrial'");
+
+    // It should map construction_renovation to other
+    expect(migration).toContain("WHEN type = 'construction_renovation' THEN 'other'");
+
+    // The final enum should not contain the old values
+    const narrowPosition = migration.lastIndexOf("MODIFY COLUMN type ENUM(");
+    expect(narrowPosition).toBeGreaterThanOrEqual(0);
+    const finalEnum = migration.slice(narrowPosition);
+    expect(finalEnum).not.toContain('plot_land');
+    expect(finalEnum).not.toContain('industrial_factory');
+    expect(finalEnum).not.toContain('construction_renovation');
+  });
 });

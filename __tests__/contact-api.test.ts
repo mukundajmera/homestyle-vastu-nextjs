@@ -237,4 +237,39 @@ describe('/api/contact', () => {
     const response = await POST(createMockRequest(payload));
     expect(response.status).toBe(400);
   });
+
+  describe('lead intake gate', () => {
+    let originalEnv: NodeJS.ProcessEnv;
+
+    beforeEach(() => {
+      originalEnv = process.env;
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it('rejects submissions with 403 in production when gate is disabled', async () => {
+      process.env = { ...originalEnv, NODE_ENV: 'production', LEAD_INTAKE_ENABLED: 'false' };
+      const req = createMockRequest(basePayload());
+      const res = await POST(req);
+      expect(res.status).toBe(403);
+      const data = await res.json();
+      expect(data.error).toBe('Lead intake is currently disabled.');
+    });
+
+    it('accepts submissions in production when gate is enabled', async () => {
+      process.env = { ...originalEnv, NODE_ENV: 'production', LEAD_INTAKE_ENABLED: 'true' };
+      const req = createMockRequest(basePayload());
+      const res = await POST(req);
+      expect(res.status).not.toBe(403);
+    });
+
+    it('accepts submissions in development by default', async () => {
+      process.env = { ...originalEnv, NODE_ENV: 'development' };
+      const req = createMockRequest(basePayload());
+      const res = await POST(req);
+      expect(res.status).not.toBe(403);
+    });
+  });
 });

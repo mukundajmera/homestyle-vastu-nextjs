@@ -80,6 +80,22 @@ export function ContactForm() {
     },
   });
 
+  const isProduction = process.env.NODE_ENV === "production";
+  const isGateOpen = process.env.NEXT_PUBLIC_LEAD_INTAKE_ENABLED === "true";
+  const isFormDisabled = isProduction && !isGateOpen;
+
+  if (isFormDisabled) {
+    return (
+      <div className="bg-muted/50 p-6 rounded-lg border border-border text-center space-y-4">
+        <h3 className="text-xl font-headline font-bold text-foreground">Inquiries Temporarily Paused</h3>
+        <p className="text-foreground/80">
+          We are currently updating our systems and are not accepting new inquiries through the website at this time.
+          Please check back later or contact us directly on WhatsApp.
+        </p>
+      </div>
+    );
+  }
+
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     setError(null);

@@ -138,4 +138,37 @@ describe('ContactForm', () => {
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Continue to WhatsApp now' })).not.toBeInTheDocument();
   });
+
+  describe('lead intake gate', () => {
+    let originalEnv: NodeJS.ProcessEnv;
+
+    beforeEach(() => {
+      originalEnv = process.env;
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it('disables the form and shows a notice in production when the gate is closed', () => {
+      process.env = { ...originalEnv, NODE_ENV: 'production', NEXT_PUBLIC_LEAD_INTAKE_ENABLED: 'false' };
+      render(<ContactForm />);
+      expect(screen.getByText('Inquiries Temporarily Paused')).toBeInTheDocument();
+      expect(screen.queryByLabelText(/Name/i)).not.toBeInTheDocument();
+    });
+
+    it('renders the form normally in production when the gate is open', () => {
+      process.env = { ...originalEnv, NODE_ENV: 'production', NEXT_PUBLIC_LEAD_INTAKE_ENABLED: 'true' };
+      render(<ContactForm />);
+      expect(screen.queryByText('Inquiries Temporarily Paused')).not.toBeInTheDocument();
+      expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
+    });
+
+    it('renders the form normally in development even if gate is not explicitly true', () => {
+      process.env = { ...originalEnv, NODE_ENV: 'development', NEXT_PUBLIC_LEAD_INTAKE_ENABLED: 'false' };
+      render(<ContactForm />);
+      expect(screen.queryByText('Inquiries Temporarily Paused')).not.toBeInTheDocument();
+      expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
+    });
+  });
 });
