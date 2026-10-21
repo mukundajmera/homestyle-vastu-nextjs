@@ -4,6 +4,17 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'How Homestyle Vastu handles information submitted through its consultation form.',
   alternates: { canonical: '/privacy' },
+  openGraph: {
+    title: 'Privacy Policy | Homestyle Vastu',
+    description: 'How Homestyle Vastu handles information submitted through its consultation form.',
+    url: '/privacy',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy | Homestyle Vastu',
+    description: 'How Homestyle Vastu handles information submitted through its consultation form.',
+  },
 };
 
 export default function PrivacyPage() {
