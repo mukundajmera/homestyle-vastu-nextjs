@@ -15,49 +15,49 @@ export default async function Image() {
     (
       <div
         style={{
-          background: '#f3ede3',
+          background: '#FAF8F5',
           width: '100%',
           height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: 'sans-serif',
-          color: '#334436',
           position: 'relative',
+          fontFamily: 'sans-serif',
+          color: '#2B2623',
         }}
       >
-        <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '400px', height: '400px', background: 'rgba(233, 189, 101, 0.3)', borderRadius: '50%', filter: 'blur(100px)' }}></div>
-        <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '400px', height: '400px', background: 'rgba(153, 169, 141, 0.3)', borderRadius: '50%', filter: 'blur(100px)' }}></div>
+        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 16, background: '#B05A07', display: 'flex' }} />
         <div
           style={{
-            fontSize: 72,
-            fontWeight: 'bold',
-            marginBottom: 20,
-            textAlign: 'center',
-            letterSpacing: '-0.02em',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: '0 80px 0 96px',
+            flex: 1,
           }}
         >
-          Homestyle Vastu
+          <div style={{ display: 'flex', fontSize: 22, letterSpacing: 5, color: '#9E4225', fontWeight: 700 }}>
+            VASTU SHASTRA · FENG SHUI · JAIPUR
+          </div>
+          <div style={{ display: 'flex', fontSize: 88, fontWeight: 700, marginTop: 24, letterSpacing: -2, lineHeight: 1.05 }}>
+            Homestyle Vastu
+          </div>
+          <div style={{ display: 'flex', fontSize: 36, marginTop: 24, color: '#554336', maxWidth: 640 }}>
+            Guidance for the spaces where you live and work
+          </div>
+          <div style={{ display: 'flex', marginTop: 44, fontSize: 26, fontWeight: 700, color: '#B05A07' }}>
+            Consultant: Sanjay Jain
+          </div>
         </div>
-        <div
-          style={{
-            fontSize: 36,
-            color: '#897966',
-            textAlign: 'center',
-          }}
-        >
-          Vastu & Feng Shui for Homes, Businesses and More
-        </div>
-        <div
-          style={{
-            marginTop: 40,
-            fontSize: 24,
-            fontWeight: 'bold',
-            color: '#087A3A',
-          }}
-        >
-          Consultant: Sanjay Jain
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 400 }}>
+          <svg width="320" height="320" viewBox="0 0 320 320" fill="none">
+            <circle cx="160" cy="160" r="150" stroke="#C86142" strokeOpacity="0.45" strokeWidth="2" />
+            <circle cx="160" cy="160" r="128" stroke="#C86142" strokeWidth="2" />
+            <rect x="100" y="100" width="120" height="120" fill="#FFFFFF" stroke="#C86142" strokeOpacity="0.6" strokeWidth="2" />
+            <path d="M140 100V220M180 100V220M100 140H220M100 180H220" stroke="#C86142" strokeOpacity="0.5" strokeWidth="2" />
+            <rect x="140" y="140" width="40" height="40" fill="#D97706" fillOpacity="0.3" stroke="#D97706" strokeWidth="3" />
+            <path d="M160 40L170 160L160 148L150 160L160 40Z" fill="#B05A07" />
+            <path d="M160 280L150 160L160 172L170 160L160 280Z" fill="#4A5D4E" />
+            <circle cx="160" cy="160" r="6" fill="#2B2623" />
+          </svg>
         </div>
       </div>
     ),
