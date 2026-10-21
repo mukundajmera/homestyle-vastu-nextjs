@@ -98,3 +98,40 @@ Independent review caught and corrected the Jules patch's invented canonical hos
 - A dedicated Hostinger site environment and staging database connection are still required. The source checks for the latest UI responsive updates, native select padding, and React 19 bumps are pending local confirmation. Hostinger DB and deployment have not been tested and no claims of live operation are made.
 - Integration tests mock out DB execution and have not executed directly against live staging MySQL.
 - Email notifications are deferred by owner direction and are not a dependency for this release.
+
+## Review pass — 2026-10-21 (two rounds, local checks only)
+
+**Scope:** Claude Code reran the local checks on the working tree, at the time of the pass. Contact form and database-setup changes that were uncommitted at the start were committed separately before this entry; the remaining working-tree changes (the `DB_HOST` `localhost` to `127.0.0.1` normalization in the contact route with its tests, the README runtime notes, and the project model settings) are included in the commit that adds this entry and were rechecked below. These are local repository checks only; they are not evidence of a live Hostinger deployment, database connection, or real customer submission.
+
+**Round 1 — static checks and tests**
+- `npm run typecheck`: passed.
+- `npm run lint`: passed with no findings.
+- `npm test`: 8 suites, 64 tests passed on the final tree (59 before the `localhost` normalization tests were added; supersedes the earlier 5 suites / 31 tests). Typecheck and lint were rerun on the final tree and passed; the production build and audits below were run just before those last edits and were not repeated.
+
+**Round 2 — build, dependencies, completeness**
+- `npm run build`: passed on Next.js 16. Routes generated: `/`, `/about`, `/services`, `/contact`, `/privacy`, `/opengraph-image`, `/robots.txt`, `/sitemap.xml`, `/_not-found` (static) and `/api/contact` (dynamic), plus the `proxy` middleware.
+- `npm audit --omit=dev`: 0 vulnerabilities (supersedes the earlier 7 production-scope advisories).
+- `npm audit` (full tree): 28 advisories (21 moderate, 7 high), all in development and build tooling. The project is not vulnerability-free; `npm audit fix --force` would make breaking changes and was not run.
+- Every environment variable read in `src/` (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SITE_ENV`, `LEAD_INTAKE_ENABLED`, `NEXT_PUBLIC_LEAD_INTAKE_ENABLED`) is documented in `docs/launch/database-setup.md`.
+
+**Not verified in this pass**
+- The content of the six uncommitted changes was not read line by line; only the passing checks above cover them.
+- Behavior at 320px width across all routes, the live MySQL path, and the Hostinger deployment remain untested. See External gates.
+- Items listed as still open under Supplemental round 5 that round 6 did not explicitly close (for example the fresh browser pass on the combined tree) should be rechecked before release.
+
+## Hostinger preview checkpoint — 2026-10-21
+
+This checkpoint supersedes the earlier statements above that the staging site and database do not exist. Those statements remain as historical notes from reviews completed before provisioning.
+
+- Hostinger serves the Next.js app as a Node.js Web App at `https://lightpink-viper-610615.hostingersite.com/`, on Node.js 22 with Git auto-deployment from `main`. The existing WordPress site and production domain were not changed.
+- Build `01a15da8-c829-7248-b466-2b2d9786f477` completed for commit `31a5f81cfa5be2507a8e11f0bfa0930954865740`. Hostinger's publish log detected standalone output, published the version, synchronized `public_html`, and restarted the app. The mechanism that makes standalone output available is not visible in the log; the repository's `next.config.mjs` remains empty.
+- HTTP smoke checks returned `200` for `/`, `/services`, `/about`, `/contact`, `/privacy`, `/robots.txt`, and `/sitemap.xml`. A malformed `POST {}` to `/api/contact` returned `403`, confirming the production intake gate is closed.
+- A dedicated Hostinger MySQL database is assigned to the Web App, and the `leads` table was created from `schema.sql`. No real or synthetic lead is stored. Application-level MySQL persistence has not been verified because the public intake gate remains closed.
+- Hostinger's API lists ten configured environment-variable keys but masks their values. The hPanel environment page showed zero rows and disabled controls. The API's environment update is a full replacement, so do not use it while database secrets cannot be read safely. The approved synthetic database test is pending a safe single-variable update path.
+- The Hostinger dependency scan reports one moderate `postcss-selector-parser` finding. `npm explain` places it under development-only Tailwind/PostCSS dependencies. The fresh local production audit reports zero vulnerabilities; the full dependency audit reports 28 (7 high, 21 moderate), all in development tooling. Do not apply a major transitive upgrade without compatibility review.
+- Hostinger's dashboard reports desktop PageSpeed 96; mobile has not been scanned. Runtime logs contain two `Server is not running` messages during restarts, while the app reports Running and the HTTP smoke checks pass.
+- The live `/robots.txt` response includes `Googlebot: Disallow: /` and `User-agent: *: Allow: /`, which differs from `src/app/robots.ts` preview behavior. Confirm the live canonical/noindex metadata and Hostinger override before publishing on the production domain.
+- The Jules live-site task verified HTML links, the paused-inquiries notice, and a generic WhatsApp draft URL with no personal details. Jules did not have a rendered browser in that task, so viewport-specific layout, keyboard interaction, visible focus, and console checks remain unverified. Local Playwright was not used at the owner's request.
+- The owner-provided NotebookLM notebook is accessible and contains 166 sources. Direct business materials support the owner-approved 22-year self-reported experience and consultation scope. The notebook also contains conflicting printed contact details and unsupported financial, health, marriage, and exam guarantees; those details and claims are excluded from website copy.
+- Local candidate patch normalizes `DB_HOST=localhost` to `127.0.0.1` and preserves explicit hosts. Fresh verification: typecheck and lint passed; 8 test suites and 62 tests passed; Webpack production build passed; `npm audit --omit=dev` found zero vulnerabilities; `git diff --check` passed. The candidate patch was not part of build `01a15da8-c829-7248-b466-2b2d9786f477` and must be verified in the next Hostinger build before relying on the normalization.
+- Email notifications remain deferred. Before production collection, the owner must choose and publish the data-retention/deletion policy, confirm the production domain and recipient if email notifications are later requested, and restrict the database runtime user's privileges.

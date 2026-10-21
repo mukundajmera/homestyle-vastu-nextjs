@@ -164,6 +164,43 @@ describe('/api/contact', () => {
     expect(storedLeads.size).toBe(1);
   });
 
+  it('treats an omitted optional field and an empty string as functionally identical for retries', async () => {
+    const payload = basePayload();
+    // Remove the optional fields to represent an omitted state
+    delete (payload as Record<string, unknown>).email;
+    delete (payload as Record<string, unknown>).inquiry;
+    
+    const first = await POST(createMockRequest(payload));
+    
+    // Retry with explicit empty strings
+    const second = await POST(createMockRequest({
+      ...payload,
+      email: '',
+      inquiry: '',
+    }));
+
+    expect(first.status).toBe(200);
+    expect(second.status).toBe(200);
+    expect(storedLeads.size).toBe(1);
+  });
+
+  it('confirms a materially changed inquiry still returns 409', async () => {
+    const payload = basePayload();
+    // Start with empty inquiry
+    const firstPayload = { ...payload, inquiry: '' };
+    const first = await POST(createMockRequest(firstPayload));
+    
+    // Retry with different inquiry
+    const changed = await POST(createMockRequest({
+      ...payload,
+      inquiry: 'A materially different inquiry',
+    }));
+
+    expect(first.status).toBe(200);
+    expect(changed.status).toBe(409);
+    expect(storedLeads.size).toBe(1);
+  });
+
   it('rejects reuse of an idempotency key with different form data', async () => {
     const payload = basePayload();
     await POST(createMockRequest(payload));
@@ -236,6 +273,42 @@ describe('/api/contact', () => {
     const payload = { ...basePayload(), phone: '+91 98280 8867a' };
     const response = await POST(createMockRequest(payload));
     expect(response.status).toBe(400);
+  });
+
+  describe('database connection config', () => {
+    let originalEnv: NodeJS.ProcessEnv;
+
+    beforeEach(() => {
+      originalEnv = process.env;
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it('normalizes localhost to 127.0.0.1 for Hostinger IPv6 mitigation', async () => {
+      process.env.DB_HOST = 'localhost';
+      await POST(createMockRequest(basePayload()));
+      expect(mysql.createConnection).toHaveBeenCalledWith(
+        expect.objectContaining({ host: '127.0.0.1' }),
+      );
+    });
+
+    it('preserves an explicit IPv4 address host', async () => {
+      process.env.DB_HOST = '192.168.1.100';
+      await POST(createMockRequest(basePayload()));
+      expect(mysql.createConnection).toHaveBeenCalledWith(
+        expect.objectContaining({ host: '192.168.1.100' }),
+      );
+    });
+
+    it('preserves a non-localhost domain name host', async () => {
+      process.env.DB_HOST = 'db.example.test';
+      await POST(createMockRequest(basePayload()));
+      expect(mysql.createConnection).toHaveBeenCalledWith(
+        expect.objectContaining({ host: 'db.example.test' }),
+      );
+    });
   });
 
   describe('lead intake gate', () => {

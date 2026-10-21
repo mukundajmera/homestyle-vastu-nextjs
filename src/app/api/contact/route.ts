@@ -118,7 +118,8 @@ function getDatabaseConfig() {
 
   const parsedPort = Number(process.env.DB_PORT ?? 3306);
   const port = Number.isInteger(parsedPort) && parsedPort > 0 && parsedPort <= 65535 ? parsedPort : 3306;
-  return { host: DB_HOST, port, user: DB_USER, password: DB_PASSWORD, database: DB_NAME };
+  const host = DB_HOST === 'localhost' ? '127.0.0.1' : DB_HOST;
+  return { host, port, user: DB_USER, password: DB_PASSWORD, database: DB_NAME };
 }
 
 export async function POST(request: Request) {
@@ -153,6 +154,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Please correct the highlighted fields and try again.' }, { status: 400 });
   }
   const lead = parsed.data;
+
+  // Normalize optional blank fields to undefined for canonical idempotency payload hash
+  if (lead.email === '') lead.email = undefined;
+  if (lead.inquiry === '') lead.inquiry = undefined;
 
   if (isRateLimited(getRateLimitKey(lead.phone))) {
     return NextResponse.json(

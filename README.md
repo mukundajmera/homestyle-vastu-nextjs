@@ -36,7 +36,11 @@ npm run build
 
 ## Production runtime
 
-This is a Next.js App Router application and needs a Node.js runtime. Hostinger plan capability has been confirmed, but no website or deployment connection has been created. The production subdomain and deployment settings still need to be selected. The existing WordPress website is unchanged.
+This is a Next.js App Router application that runs on a Node.js runtime. A temporary Hostinger Web App is available at [lightpink-viper-610615.hostingersite.com](https://lightpink-viper-610615.hostingersite.com/). Hostinger connects it to this repository's `main` branch and has Git auto-deployment enabled. The app uses Node.js 22 and Next.js 16.4.2. The existing WordPress website and production domain are unchanged.
+
+The preview keeps lead intake disabled. The server returns `403` for contact submissions while the gate is closed. The consultation table is provisioned, but application-level database persistence has not yet been verified with a synthetic lead. Do not submit real inquiries to the preview.
+
+Email notifications are deferred. Before production lead collection, publish a retention and deletion policy, confirm the production domain and SEO settings, and reduce the Hostinger database user to the permissions documented below.
 
 ## Database Runtime Permissions
 
