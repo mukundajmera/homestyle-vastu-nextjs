@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { navigate } from "@/lib/navigate";
 
 const formSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -141,7 +142,7 @@ export function ContactForm() {
       setSuccess("Your inquiry has been saved. WhatsApp will open with a short message; review it and press Send to start the conversation.");
       submissionId.current = null;
       form.reset();
-      window.setTimeout(() => window.location.assign(nextWhatsAppUrl), 1200);
+      window.setTimeout(() => navigate(nextWhatsAppUrl), 1200);
 
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred. Please try calling us instead.");
@@ -288,7 +289,7 @@ export function ContactForm() {
                   >
                     <option value="" disabled>Select a property category</option>
                     <option value="home">Home</option>
-                    <option value="business">Business</option>
+                    <option value="business">Business, Hotel, Hospital, or Restaurant</option>
                     <option value="plot">Plot</option>
                     <option value="industrial">Industrial</option>
                     <option value="other">Other</option>

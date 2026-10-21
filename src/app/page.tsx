@@ -128,10 +128,10 @@ export default function Home() {
             <Card className="bg-white border-border/50 hover:shadow-md transition-shadow">
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">Commercial Vastu & Feng Shui</CardTitle>
-                <CardDescription className="text-base mt-2">For offices, retail spaces, and commercial sites.</CardDescription>
+                <CardDescription className="text-base mt-2">Commercial Vastu consultations for offices, retail, hotels, hospitals, restaurants, factories, and other business sites.</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-foreground/70 mb-6">Discuss a business, office, retail, industrial or factory property, including questions about construction, renovation and online floor-plan review.</p>
+                <p className="text-foreground/70 mb-6">Ask about a commercial Vastu consultation for an office, retail space, hotel, hospital, restaurant, industrial or factory property. You can also discuss planned construction, renovation or an online floor-plan review.</p>
                 <Link href="/services" className="text-primary font-medium flex items-center hover:underline w-fit">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>

@@ -2,6 +2,11 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ContactForm } from '@/components/contact-form';
+import { navigate } from '@/lib/navigate';
+
+jest.mock('@/lib/navigate', () => ({
+  navigate: jest.fn(),
+}));
 
 const mockFetch = jest.fn();
 
@@ -114,6 +119,48 @@ describe('ContactForm', () => {
     expect(whatsappMessage).not.toContain('Jaipur');
     expect(whatsappMessage).not.toContain('Review my new floor plan');
     expect(jest.getTimerCount()).toBe(1);
+  });
+
+  it('navigates to exactly the same WhatsApp URL automatically after a delay upon success', async () => {
+    jest.useFakeTimers();
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, dbSuccess: true }),
+    });
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(<ContactForm />);
+
+    await user.type(screen.getByLabelText(/Name/i), 'Jane Test');
+    await user.type(screen.getByLabelText(/Phone Number/i), '+91 98280 88679');
+    await user.type(screen.getByLabelText(/Email/i), 'jane.test@example.com');
+    await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
+    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'feng_shui');
+    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'business');
+    await user.click(screen.getByRole('radio', { name: /On-site/i }));
+    await user.type(screen.getByPlaceholderText(/review the floor plan for a new office space/i), 'Please review my new office layout before I sign the lease.');
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+    expect(await screen.findByRole('status')).toHaveTextContent('Your inquiry has been saved');
+
+    const whatsappLink = screen.getByRole('link', { name: 'Continue to WhatsApp now' }) as HTMLAnchorElement;
+    const expectedUrl = whatsappLink.href;
+
+    expect(navigate).not.toHaveBeenCalled();
+
+    jest.advanceTimersByTime(1200);
+
+    expect(navigate).toHaveBeenCalledTimes(1);
+    expect(navigate).toHaveBeenCalledWith(expectedUrl);
+
+    const whatsappMessage = new URL(expectedUrl).searchParams.get('text');
+    expect(whatsappMessage).toBe('Hello, I have submitted an inquiry about Feng Shui consultation and would like to continue the conversation.');
+    expect(whatsappMessage).not.toContain('Jane Test');
+    expect(whatsappMessage).not.toContain('98280');
+    expect(whatsappMessage).not.toContain('jane.test@example.com');
+    expect(whatsappMessage).not.toContain('Jaipur');
+    expect(whatsappMessage).not.toContain('Please review my new office layout before I sign the lease.');
   });
 
   it('shows a screen-reader alert and does not offer WhatsApp if persistence fails', async () => {

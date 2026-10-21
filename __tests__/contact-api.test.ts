@@ -169,9 +169,9 @@ describe('/api/contact', () => {
     // Remove the optional fields to represent an omitted state
     delete (payload as Record<string, unknown>).email;
     delete (payload as Record<string, unknown>).inquiry;
-    
+
     const first = await POST(createMockRequest(payload));
-    
+
     // Retry with explicit empty strings
     const second = await POST(createMockRequest({
       ...payload,
@@ -189,7 +189,7 @@ describe('/api/contact', () => {
     // Start with empty inquiry
     const firstPayload = { ...payload, inquiry: '' };
     const first = await POST(createMockRequest(firstPayload));
-    
+
     // Retry with different inquiry
     const changed = await POST(createMockRequest({
       ...payload,

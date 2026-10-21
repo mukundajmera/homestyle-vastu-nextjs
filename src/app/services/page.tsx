@@ -59,10 +59,10 @@ export default function ServicesPage() {
                   <Building2 className="w-6 h-6" />
                 </div>
                 <CardTitle className="font-headline text-2xl">Commercial Vastu & Feng Shui</CardTitle>
-                <CardDescription className="text-base mt-2">Guidance for offices, retail, and commercial sites.</CardDescription>
+                <CardDescription className="text-base mt-2">Commercial Vastu guidance for offices, retail, hotels, hospitals, restaurants, and business sites.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 text-foreground/70">
-                <p>Vastu and Feng Shui guidance for commercial properties and business spaces.</p>
+                <p>Commercial Vastu consultations can cover offices, retail spaces, hotels, hospitals, restaurants, industrial and factory properties. Feng Shui guidance can also be discussed for commercial spaces.</p>
                 <ul className="list-disc pl-5 space-y-1">
                   <li><strong>Industrial / Factory Vastu:</strong> Discuss the layout and Vastu considerations of an industrial or factory property.</li>
                 </ul>
