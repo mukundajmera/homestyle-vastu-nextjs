@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { ADDRESS, BRAND_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, SITE_ORIGIN, WHATSAPP_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -18,55 +18,105 @@ export const metadata: Metadata = {
   },
 };
 
+const sectionHeadingClass = 'text-2xl font-headline font-semibold text-foreground';
+
 export default function PrivacyPage() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-16 md:py-24">
-      <h1 className="mb-8 text-4xl font-headline font-bold">Privacy Policy</h1>
+      <h1 className="mb-8 text-4xl font-headline font-bold">Privacy Policy — {BRAND_NAME}</h1>
 
       <div className="prose prose-stone max-w-none space-y-6 font-body text-foreground/80">
-        <p>Last updated: October 2026</p>
+        <p>Version v2.0</p>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-headline font-semibold text-foreground">Information you submit</h2>
+          <h2 className={sectionHeadingClass}>1. Who we are</h2>
           <p>
-            If you use the consultation form, {BRAND_NAME} collects the details you choose to provide: your name, phone number, optional email address, city or location, property category, service interest, preferred consultation format, and inquiry message.
+            I&apos;m {PERSON_NAME}, and I run {BRAND_NAME}, a Vastu and Feng Shui consultation practice in Jaipur, Rajasthan. This policy explains how I handle information you provide through{' '}
+            <a href={SITE_ORIGIN}>fengshuihomestylevastu.com</a>.
           </p>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-headline font-semibold text-foreground">How the information is used and stored</h2>
+          <h2 className={sectionHeadingClass}>2. Information we collect</h2>
           <p>
-            This is a temporary preview site. Because a final data retention policy is still pending, please do not submit real inquiries or real personal data through the consultation form.
+            When you submit the contact form, I collect your full name, phone number, city or location, property type, service interest, and preferred consultation format (on-site or online/remote). You may also provide an email address and inquiry text of up to 1,000 characters.
           </p>
           <p>
-            The information is stored in the website&apos;s inquiry database so the practice can review your request and discuss possible next steps. The website and database are hosted by Hostinger.
+            The form records your consent tick and its timestamp, and the privacy policy version you accepted. It also creates an anonymous submission ID and a hashed payload fingerprint, used only to prevent duplicate submissions.
           </p>
           <p>
-            The consultation form does not send an automatic email confirmation or notification. If you provide an email address, it is stored with your inquiry; adding an address does not trigger an email.
-          </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-headline font-semibold text-foreground">WhatsApp</h2>
-          <p>
-            After your inquiry is saved, the website opens WhatsApp with a prefilled draft that names the service category you selected. The link does not include your property category, name, phone number, email, location, or free-text inquiry. The draft is not sent until you choose to press Send in WhatsApp; its own privacy terms apply to that conversation.
+            To limit spam, the form uses a hidden honeypot field and a one-way hash of your phone number for a 15-minute rate limit.
           </p>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-headline font-semibold text-foreground">Your information</h2>
+          <h2 className={sectionHeadingClass}>3. How we use it</h2>
+          <p>I use your information to reply to your enquiry and arrange the consultation you ask for. I do not send email or SMS notifications.</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>4. Legal basis and consent</h2>
           <p>
-            To ask about your submitted information or request a correction or deletion, contact {BRAND_NAME} by phone or WhatsApp. Please include enough context to identify the inquiry without sending sensitive documents.
+            I rely on your consent under India&apos;s Digital Personal Data Protection Act, 2023. You give consent by ticking the consent box on the form. The form records the policy version you accepted.
+          </p>
+          <p>You can withdraw your consent using the contact details in section 8. This stops further contact about your enquiry.</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>5. Storage and security</h2>
+          <p>I store enquiries in a MySQL database hosted by Hostinger, in a table named <code>leads</code>. Access is limited to me.</p>
+          <p>The website uses HTTPS and server-side validation. The website does not take payment data.</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>6. Retention</h2>
+          <p>
+            I keep each enquiry for as long as needed to respond to it and keep a record of the consultation, then delete it. I delete it sooner if you request deletion or when the purpose ends.
           </p>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-headline font-semibold text-foreground">Contact</h2>
+          <h2 className={sectionHeadingClass}>7. Sharing</h2>
+          <p>
+            I do not share your information with third parties, except Hostinger as the website hosting and database provider, and only as needed to run the site. I do not sell your information.
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>8. Your rights and how to use them</h2>
+          <p>
+            Under the Digital Personal Data Protection Act, 2023, you can request access to, correction of, or erasure of your information. You can also withdraw consent, which stops further contact, and raise a grievance with me first.
+          </p>
+          <p>To make a request or raise a grievance, call <a href={`tel:${PHONE_E164}`}>{PHONE_E164}</a> or <a href={WHATSAPP_URL}>message me on WhatsApp</a>, or write to:</p>
           <address className="not-italic">
-            {BRAND_NAME}<br />
-            {ADDRESS.neighborhood}, {ADDRESS.locality}<br />
-            {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}<br />
-            Phone: {PHONE_E164}; WhatsApp: {WHATSAPP_URL}
+            <strong>{BRAND_NAME}</strong><br />
+            {ADDRESS.neighborhood}, {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
+          </address>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>9. Children</h2>
+          <p>The service is for adults aged 18 or over. I do not knowingly collect personal data from children.</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>10. Cookies and tracking</h2>
+          <p>
+            I do not use analytics or advertising cookies. Phone and WhatsApp links open third-party apps only if you click them. I do not embed maps or external sites.
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>11. Changes to this policy</h2>
+          <p>When I change this policy, I change its version. The version shown when you submit the form is the one you accept.</p>
+          <p>Effective from 25 October 2026.</p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className={sectionHeadingClass}>12. Contact</h2>
+          <p>For privacy questions, requests, or grievances, call <a href={`tel:${PHONE_E164}`}>{PHONE_E164}</a> or <a href={WHATSAPP_URL}>message me on WhatsApp</a>, or write to:</p>
+          <address className="not-italic">
+            {ADDRESS.neighborhood}, {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
           </address>
         </section>
       </div>

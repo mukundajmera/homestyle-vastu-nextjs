@@ -13,6 +13,7 @@ describe('metadata', () => {
         `${SITE_ORIGIN}/about`,
         `${SITE_ORIGIN}/contact`,
         `${SITE_ORIGIN}/privacy`,
+        `${SITE_ORIGIN}/terms`,
     ]);
     expect(sitemap().some(({ url }) => url.endsWith('/llms.txt'))).toBe(false);
     });

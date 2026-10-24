@@ -48,7 +48,10 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="container mx-auto flex flex-col items-center justify-between px-4 py-4 text-xs text-muted-foreground sm:flex-row md:px-8">
           <div>&copy; {new Date().getFullYear()} {BRAND_NAME}. All rights reserved.</div>
-          <Link href="/privacy" className="mt-2 inline-flex min-h-11 items-center py-1.5 hover:text-primary sm:mt-0">Privacy Policy</Link>
+          <nav aria-label="Legal" className="mt-2 flex items-center gap-4 sm:mt-0">
+            <Link href="/privacy" className="inline-flex min-h-11 items-center py-1.5 hover:text-primary">Privacy Policy</Link>
+            <Link href="/terms" className="inline-flex min-h-11 items-center py-1.5 hover:text-primary">Terms of Use</Link>
+          </nav>
         </div>
       </div>
     </footer>
