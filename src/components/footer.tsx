@@ -21,7 +21,8 @@ export function Footer() {
           <address className="mt-5 flex max-w-sm items-start gap-2 text-sm not-italic leading-6 text-foreground/85">
             <MapPin className="mt-1 h-4 w-4 shrink-0 text-terracotta-ink" aria-hidden="true" />
             <span>
-              {ADDRESS.neighborhood}, {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
+              {ADDRESS.street}<br />
+              {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
             </span>
           </address>
         </div>

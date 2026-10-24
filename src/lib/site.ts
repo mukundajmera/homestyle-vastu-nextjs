@@ -4,6 +4,7 @@ export const BRAND_TITLE = BRAND_NAME;
 export const PERSON_NAME = 'Sanjay Jain';
 export const PERSON_TITLE = 'Feng Shui and Vastu Consultant';
 export const ADDRESS = {
+  street: 'Shivam Apartment, Acharya Kriplani Marg, Anand Puri, Bees Dukan, Adarsh Nagar',
   locality: 'Jaipur',
   neighborhood: 'Anand Puri',
   region: 'Rajasthan',

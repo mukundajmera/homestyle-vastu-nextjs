@@ -79,7 +79,8 @@ export default function ContactPage() {
         <div className="text-center md:text-left">
           <h2 className="text-2xl font-headline font-bold mb-2">Location</h2>
           <address className="not-italic text-lg text-foreground/80 leading-relaxed font-body">
-            {ADDRESS.neighborhood}, {ADDRESS.locality}<br />
+            {ADDRESS.street}<br />
+            {ADDRESS.locality}<br />
             {ADDRESS.region} {ADDRESS.postalCode}<br />
             {ADDRESS.country}
           </address>

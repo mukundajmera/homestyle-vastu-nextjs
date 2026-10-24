@@ -2,7 +2,7 @@ import { consultationFormats, propertyServices } from '@/lib/services-data';
 import { ADDRESS, BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, SITE_ORIGIN, WHATSAPP_URL } from '@/lib/site';
 
 export function GET() {
-  const address = `${ADDRESS.neighborhood}, ${ADDRESS.locality}, ${ADDRESS.region} ${ADDRESS.postalCode}, ${ADDRESS.country}`;
+  const address = `${ADDRESS.street}, ${ADDRESS.locality}, ${ADDRESS.region} ${ADDRESS.postalCode}, ${ADDRESS.country}`;
   const content = [
     BRAND_NAME,
     '',
