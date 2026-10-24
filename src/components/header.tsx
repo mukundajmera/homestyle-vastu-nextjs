@@ -7,7 +7,7 @@ import { Menu } from 'lucide-react';
 import type { NavItem } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { BrandMark } from '@/components/vastu-dial';
+import { BrandMark } from '@/components/brand-mark';
 import { Sheet, SheetClose, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 
 const navItems: NavItem[] = [

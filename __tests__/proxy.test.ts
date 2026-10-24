@@ -1,4 +1,4 @@
-import { proxy } from '../src/proxy';
+import { config as proxyConfig, proxy } from '../src/proxy';
 import type { NextRequest } from 'next/server';
 
 jest.mock('next/server', () => {
@@ -29,5 +29,18 @@ describe('proxy()', () => {
     // Assert Content-Security-Policy contains frame-ancestors 'none'
     const csp = response.headers.get('Content-Security-Policy');
     expect(csp).toContain("frame-ancestors 'none'");
+  });
+});
+
+describe('proxy matcher', () => {
+  const matcher = new RegExp(`^${proxyConfig.matcher[0]}$`);
+
+  it('runs for API routes so JSON responses also get security headers', () => {
+    expect(matcher.test('/api/contact')).toBe(true);
+  });
+
+  it('skips static asset paths', () => {
+    expect(matcher.test('/_next/static/chunk.js')).toBe(false);
+    expect(matcher.test('/favicon.ico')).toBe(false);
   });
 });

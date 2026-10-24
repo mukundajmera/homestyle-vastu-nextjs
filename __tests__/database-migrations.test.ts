@@ -1,9 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+// Git on Windows (core.autocrlf=true) checks SQL files out with CRLF endings.
+// Normalize to LF so the string matches below hold on every platform.
+const readMigration = (name: string) =>
+  readFileSync(join(process.cwd(), 'docs/launch', name), 'utf8').replace(/\r\n/g, '\n');
+
 describe('lead property-category migration', () => {
   it('maps the legacy enum values before narrowing to the current values', () => {
-    const migration = readFileSync(join(process.cwd(), 'docs/launch/migrate-leads-v2.sql'), 'utf8');
+    const migration = readMigration('migrate-leads-v2.sql');
     const widenPosition = migration.indexOf("'residential',\n    'commercial',\n    'home'");
     const homeMappingPosition = migration.indexOf("UPDATE leads SET type = 'home' WHERE type = 'residential'");
     const businessMappingPosition = migration.indexOf("UPDATE leads SET type = 'business' WHERE type = 'commercial'");
@@ -17,7 +22,7 @@ describe('lead property-category migration', () => {
     expect(migration.slice(narrowPosition)).not.toContain('commercial');
   });
   it('maps the six-category enum down to five in v3', () => {
-    const migration = readFileSync(join(process.cwd(), 'docs/launch/migrate-leads-v3.sql'), 'utf8');
+    const migration = readMigration('migrate-leads-v3.sql');
 
     // It should map plot_land to plot
     expect(migration).toContain("WHEN type = 'plot_land' THEN 'plot'");

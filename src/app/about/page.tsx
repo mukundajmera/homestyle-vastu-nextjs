@@ -71,7 +71,7 @@ export default function AboutPage() {
 
           <section className="border-t border-border pt-8">
             <h3 className="mb-3 font-headline text-xl font-semibold">Start a Conversation</h3>
-            <p className="mb-6 text-foreground/70">
+            <p className="mb-6 text-foreground/85">
               Share your property type, project stage and questions to discuss which guidance or consultation format may be relevant.
             </p>
             <Button asChild className="font-semibold">
