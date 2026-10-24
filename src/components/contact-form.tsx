@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { BRAND_NAME } from "@/lib/site";
+import { BRAND_NAME, WHATSAPP_URL } from "@/lib/site";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -133,11 +133,10 @@ export function ContactForm() {
         throw new Error(result.error || "Failed to submit");
       }
 
-      const whatsappNumber = "919828088678";
       const whatsappMessage = encodeURIComponent(
         `Hello, I have submitted an inquiry about ${serviceLabels[data.serviceInterest]} and would like to continue the conversation.`
       );
-      const nextWhatsAppUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+      const nextWhatsAppUrl = `${WHATSAPP_URL}?text=${whatsappMessage}`;
 
       setWhatsAppUrl(nextWhatsAppUrl);
       setSuccess("Your inquiry has been saved. WhatsApp will open with a short message; review it and press Send to start the conversation.");

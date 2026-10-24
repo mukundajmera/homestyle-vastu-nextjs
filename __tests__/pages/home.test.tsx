@@ -6,12 +6,13 @@ import Home from '@/app/page';
 import { Footer } from '@/components/footer';
 import { JourneyStepper } from '@/components/journey-stepper';
 import { PropertyExplorer } from '@/components/property-explorer';
+import { PERSON_NAME } from '@/lib/site';
 
 const journeySteps = [
   { step: '01', title: 'Start a conversation', text: 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.' },
   { step: '02', title: 'Share the details', text: 'Tell us the property type and project stage, and what guidance you are looking for.' },
   { step: '03', title: 'Choose a format', text: 'Ask whether an on-site or an online/remote consultation may suit your property.' },
-  { step: '04', title: 'Agree next steps', text: 'Discuss your questions with Sanjay Jain and decide how you would like to continue.' },
+  { step: '04', title: 'Agree next steps', text: `Discuss your questions with ${PERSON_NAME} and decide how you would like to continue.` },
 ];
 
 describe('Home Page', () => {
@@ -21,7 +22,7 @@ describe('Home Page', () => {
       level: 1,
       name: /Guidance for the spaces where you live and work/i,
     })).toBeInTheDocument();
-    expect(screen.getByText(/Talk with Sanjay Jain about a home, workplace, plot, planned build/)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`Talk with ${PERSON_NAME} about a home, workplace, plot, planned build`))).toBeInTheDocument();
   });
 
   it('renders the WhatsApp link', () => {
@@ -108,7 +109,7 @@ describe('Home Page', () => {
       ['Start a conversation', 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.'],
       ['Share the details', 'Tell us the property type and project stage, and what guidance you are looking for.'],
       ['Choose a format', 'Ask whether an on-site or an online/remote consultation may suit your property.'],
-      ['Agree next steps', 'Discuss your questions with Sanjay Jain and decide how you would like to continue.'],
+      ['Agree next steps', `Discuss your questions with ${PERSON_NAME} and decide how you would like to continue.`],
     ]) {
       expect(screen.getAllByText(title).length).toBeGreaterThan(0);
       expect(screen.getAllByText(text)).toHaveLength(1);

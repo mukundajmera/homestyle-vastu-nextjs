@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronDown, Compass, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { HomeJourneyStepper, HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
-import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, WHATSAPP_URL } from '@/lib/site';
+import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Vastu & Feng Shui Jaipur',
@@ -26,7 +26,7 @@ const journey = [
   { step: '01', title: 'Start a conversation', text: 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.' },
   { step: '02', title: 'Share the details', text: 'Tell us the property type and project stage, and what guidance you are looking for.' },
   { step: '03', title: 'Choose a format', text: 'Ask whether an on-site or an online/remote consultation may suit your property.' },
-  { step: '04', title: 'Agree next steps', text: 'Discuss your questions with Sanjay Jain and decide how you would like to continue.' },
+  { step: '04', title: 'Agree next steps', text: `Discuss your questions with ${PERSON_NAME} and decide how you would like to continue.` },
 ];
 
 const faqs = [
@@ -64,7 +64,7 @@ export default function Home() {
               Guidance for the spaces where you <span className="italic text-primary">live and work.</span>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-xl leading-9 text-foreground/85 lg:mx-0">
-              Talk with Sanjay Jain about a home, workplace, plot, planned build, renovation, industrial property or floor plan, and ask which consultation format may suit your project.
+              Talk with {PERSON_NAME} about a home, workplace, plot, planned build, renovation, industrial property or floor plan, and ask which consultation format may suit your project.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
               <Button asChild size="lg" className="h-14 px-7 text-lg font-semibold shadow-[0_8px_20px_-8px_rgba(176,90,7,0.55)] transition-transform hover:-translate-y-0.5">
@@ -126,7 +126,7 @@ export default function Home() {
         <div className="container mx-auto grid items-center gap-12 px-4 md:grid-cols-[0.8fr_1.2fr]">
           <div className="paper-card mx-auto flex w-full max-w-sm flex-col items-center p-10 text-center">
             <div className="grid h-24 w-24 place-items-center rounded border-2 border-accent/50 bg-secondary font-headline text-3xl font-semibold text-primary">SJ</div>
-            <h3 className="mt-5 font-headline text-2xl font-semibold">Sanjay Jain</h3>
+            <h3 className="mt-5 font-headline text-2xl font-semibold">{PERSON_NAME}</h3>
             <p className="mt-1 text-[17px] font-semibold leading-[29px] text-terracotta-ink">{PERSON_TITLE}</p>
             <p className="mt-4 text-[17px] leading-[29px] text-muted-foreground">22 years of experience as of 2026</p>
           </div>
@@ -177,8 +177,8 @@ export default function Home() {
                 WhatsApp Us
               </a>
             </Button>
-            <a href="tel:+919828088678" className="inline-flex h-14 items-center justify-center whitespace-nowrap rounded-md border border-white bg-transparent px-8 text-lg font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary">
-              Call +91 98280 88678
+            <a href={`tel:${PHONE_E164}`} className="inline-flex h-14 items-center justify-center whitespace-nowrap rounded-md border border-white bg-transparent px-8 text-lg font-bold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary">
+              Call {PHONE_E164.replace('+91', '+91 ').replace(/(\d{5})(\d{5})/, '$1 $2')}
             </a>
           </div>
         </div>

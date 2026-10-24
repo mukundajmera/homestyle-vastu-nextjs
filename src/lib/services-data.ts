@@ -1,9 +1,8 @@
 import { Building2, Factory, Home, MapPin, PencilRuler, Ruler, type LucideIcon } from 'lucide-react';
-
-export const WHATSAPP_NUMBER = '919828088678';
+import { WHATSAPP_URL } from '@/lib/site';
 
 export function whatsappLink(message = 'Hello, I would like to ask about a consultation.') {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  return `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
 }
 
 export type PropertyService = {

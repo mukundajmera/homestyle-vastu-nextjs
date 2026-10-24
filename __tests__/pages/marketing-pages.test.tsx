@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import AboutPage, { metadata as aboutMetadata } from '@/app/about/page';
 import ServicesPage, { metadata as servicesMetadata } from '@/app/services/page';
 import ContactPage, { metadata as contactMetadata } from '@/app/contact/page';
+import { PERSON_NAME } from '@/lib/site';
 
 function expectValidMetadata(metadata: Metadata) {
   expect(typeof metadata.title).toBe('string');
@@ -20,7 +21,7 @@ describe('About page', () => {
   it('renders one main heading, contact CTA, and valid metadata', () => {
     render(<AboutPage />);
     expectSingleH1();
-    expect(screen.getByRole('heading', { level: 1, name: 'Sanjay Jain' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: PERSON_NAME })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Get in Touch' })).toHaveAttribute('href', '/contact');
     expectValidMetadata(aboutMetadata);
   });

@@ -4,7 +4,7 @@ import { ArrowRight, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FormatToggle } from '@/components/format-toggle';
 import { consultationFormats, propertyServices, whatsappLink } from '@/lib/services-data';
-import { BRAND_NAME } from '@/lib/site';
+import { BRAND_NAME, PERSON_NAME } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Consultation Services',
@@ -78,7 +78,7 @@ export default function ServicesPage() {
         <section className="break-words rounded border border-border bg-primary p-8 text-center text-primary-foreground md:p-12">
           <h2 className="mb-4 font-headline text-2xl font-semibold text-white md:text-3xl">Not sure which format suits your property?</h2>
           <p className="mx-auto mb-8 max-w-2xl text-xl leading-8 text-white/95">
-            Contact Sanjay Jain to discuss your property and ask which consultation format may suit your needs.
+            Contact {PERSON_NAME} to discuss your property and ask which consultation format may suit your needs.
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Button asChild size="lg" className="h-14 bg-white px-7 text-lg font-semibold text-primary hover:bg-white/90">

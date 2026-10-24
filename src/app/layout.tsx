@@ -11,11 +11,11 @@ const headlineFont = Playfair_Display({ subsets: ['latin'], display: 'swap', var
 
 export const metadata: Metadata = {
   title: {
-    default: `${BRAND_TITLE} | Vastu & Feng Shui`,
-    template: `%s | ${BRAND_NAME}`
+    default: BRAND_TITLE,
+    template: `%s | ${BRAND_TITLE}`,
   },
-  description: 'Vastu Shastra and Feng Shui guidance with Sanjay Jain for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.',
-  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'residential Vastu', 'commercial Vastu', 'plot selection', 'construction Vastu', 'industrial Vastu', 'online floor-plan review', 'Sanjay Jain', 'Vastu consultant Jaipur', 'Feng Shui Jaipur'],
+  description: `Vastu Shastra and Feng Shui guidance with ${PERSON_NAME} for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.`,
+  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'residential Vastu', 'commercial Vastu', 'plot selection', 'construction Vastu', 'industrial Vastu', 'online floor-plan review', PERSON_NAME, 'Vastu consultant Jaipur', 'Feng Shui Jaipur'],
   authors: [{ name: PERSON_NAME }],
   creator: BRAND_NAME,
   publisher: BRAND_NAME,
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: SITE_ORIGIN,
-    title: `${BRAND_TITLE} | Vastu & Feng Shui`,
+    title: BRAND_TITLE,
     description: 'Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.',
     siteName: BRAND_NAME,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${BRAND_TITLE} | Vastu & Feng Shui`,
+    title: BRAND_TITLE,
     description: 'Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.',
   },
   robots: {

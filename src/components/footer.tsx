@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { MapPin, MessageCircle, Phone } from 'lucide-react';
 import { BrandMark } from '@/components/brand-mark';
-import { ADDRESS, BRAND_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 
 const linkClass =
   'inline-flex min-h-11 items-center rounded-sm py-1.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
@@ -16,7 +16,7 @@ export function Footer() {
             {BRAND_NAME}
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-foreground/85">
-            Vastu Shastra and Feng Shui consultation with Sanjay Jain for homes, businesses, plots, builds and factories.
+            Vastu Shastra and Feng Shui consultation with {PERSON_NAME} for homes, businesses, plots, builds and factories.
           </p>
           <address className="mt-5 flex max-w-sm items-start gap-2 text-sm not-italic leading-6 text-foreground/85">
             <MapPin className="mt-1 h-4 w-4 shrink-0 text-terracotta-ink" aria-hidden="true" />

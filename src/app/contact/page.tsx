@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { ContactForm } from "@/components/contact-form";
-import { ADDRESS, BRAND_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact in Jaipur',
@@ -11,14 +11,14 @@ export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
   openGraph: {
     title: `Contact | ${BRAND_NAME}`,
-    description: 'Contact Sanjay Jain by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.',
+    description: `Contact ${PERSON_NAME} by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.`,
     url: '/contact',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: `Contact | ${BRAND_NAME}`,
-    description: 'Contact Sanjay Jain by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.',
+    description: `Contact ${PERSON_NAME} by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.`,
   },
 };
 
@@ -31,7 +31,7 @@ export default function ContactPage() {
         <p className="eyebrow mb-4">Get in touch</p>
         <h1 className="text-4xl md:text-5xl font-headline font-semibold mb-6 text-foreground">Contact Us</h1>
         <p className="text-xl text-foreground/80 leading-relaxed font-body max-w-2xl mx-auto">
-          Contact Sanjay Jain about Vastu and Feng Shui for homes, businesses, plot selection, construction or renovation, industrial properties, or online floor-plan review.
+          Contact {PERSON_NAME} about Vastu and Feng Shui for homes, businesses, plot selection, construction or renovation, industrial properties, or online floor-plan review.
         </p>
       </div>
 

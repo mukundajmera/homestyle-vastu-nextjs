@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { whatsappLink } from '@/lib/services-data';
+import { PERSON_NAME } from '@/lib/site';
 
 const DIRECTIONS = [
   { label: 'N', name: 'North', angle: 0 },
@@ -111,7 +112,7 @@ export function VastuDial() {
         <div className="relative mt-4 rounded-lg bg-secondary/70 p-4" aria-live="polite">
           <p className="text-sm font-bold uppercase tracking-[0.08em] text-terracotta-ink">{direction.name} side</p>
           <p className="mt-1 leading-7 text-foreground">
-            Select a direction to see the question it prompts. Ask about this side of your property in a conversation with Sanjay Jain.
+            Select a direction to see the question it prompts. Ask about this side of your property in a conversation with {PERSON_NAME}.
           </p>
           <a
             href={whatsappLink(`Hello, I would like to ask about the ${direction.name} side of my property.`)}

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { BRAND_NAME, PERSON_NAME, PERSON_TITLE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'About Sanjay Jain',
+  title: `About ${PERSON_NAME}`,
   description: `Meet ${PERSON_NAME}, ${PERSON_TITLE} in Jaipur, with 22 years of experience as of 2026.`,
   alternates: { canonical: '/about' },
   openGraph: {
@@ -62,7 +62,7 @@ export default function AboutPage() {
                 Guidance covers homes and businesses, plot or land selection, new construction or renovation, industrial and factory properties, and online floor-plan review. On-site and online/remote formats are available.
               </p>
               <p className="border-l-2 border-accent pl-4">
-                No outcome or result is promised. Contact Sanjay Jain to discuss what guidance may be relevant to your property.
+                No outcome or result is promised. Contact {PERSON_NAME} to discuss what guidance may be relevant to your property.
               </p>
               <p>
                 For details about the service categories and consultation formats, explore the <Link href="/services" className="font-semibold text-primary underline underline-offset-4">Services page</Link> or contact the practice directly.
