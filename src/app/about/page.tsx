@@ -1,21 +1,22 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { BRAND_NAME, PERSON_NAME, PERSON_TITLE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'About Sanjay Jain, Vastu Consultant in Jaipur',
-  description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant in Jaipur, with 22 years of experience as of 2026.',
+  title: 'About Sanjay Jain',
+  description: `Meet ${PERSON_NAME}, ${PERSON_TITLE} in Jaipur, with 22 years of experience as of 2026.`,
   alternates: { canonical: '/about' },
   openGraph: {
-    title: 'About Sanjay Jain | Homestyle Vastu',
-    description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026.',
+    title: `About ${PERSON_NAME} | ${BRAND_NAME}`,
+    description: `Meet ${PERSON_NAME}, ${PERSON_TITLE} at ${BRAND_NAME}, with 22 years of experience as of 2026.`,
     url: '/about',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Sanjay Jain | Homestyle Vastu',
-    description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026.',
+    title: `About ${PERSON_NAME} | ${BRAND_NAME}`,
+    description: `Meet ${PERSON_NAME}, ${PERSON_TITLE} at ${BRAND_NAME}, with 22 years of experience as of 2026.`,
   },
 };
 
@@ -34,8 +35,8 @@ export default function AboutPage() {
             <span className="relative font-headline text-6xl font-semibold text-primary">SJ</span>
           </div>
           <div className="mt-6 text-center md:text-left">
-            <h1 className="font-headline text-3xl font-semibold">Sanjay Jain</h1>
-            <p className="mt-1 font-semibold text-terracotta-ink">Vastu &amp; Feng Shui Consultant</p>
+            <h1 className="font-headline text-3xl font-semibold">{PERSON_NAME}</h1>
+            <p className="mt-1 font-semibold text-terracotta-ink">{PERSON_TITLE}</p>
             <p className="mt-3 inline-block rounded bg-sage/10 px-2 py-1 text-xs font-bold uppercase tracking-[0.1em] text-sage">22 years of experience as of 2026</p>
           </div>
         </aside>
@@ -46,7 +47,7 @@ export default function AboutPage() {
             <h2 className="mb-4 font-headline text-3xl font-semibold">About the Practice</h2>
             <div className="space-y-4 text-lg leading-relaxed text-foreground/80">
               <p>
-                Sanjay Jain is the consultant at Homestyle Vastu, with 22 years of experience as of 2026. He provides Vastu Shastra and Feng Shui guidance for homes and businesses, plot and land selection, construction or renovation, industrial and factory properties, and online floor-plan review.
+                {PERSON_NAME} is the consultant at {BRAND_NAME}, with 22 years of experience as of 2026. He provides Vastu Shastra and Feng Shui guidance for homes and businesses, plot and land selection, construction or renovation, industrial and factory properties, and online floor-plan review.
               </p>
               <p>
                 Visitors can contact the practice to discuss their property, the guidance they are looking for, and whether an on-site or online/remote consultation format may suit them.

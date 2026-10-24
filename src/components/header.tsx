@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Menu } from 'lucide-react';
 
 import type { NavItem } from '@/lib/types';
+import { BRAND_NAME } from '@/lib/site';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { BrandMark } from '@/components/brand-mark';
@@ -26,7 +27,7 @@ export function Header() {
         <Link href="/" className="mr-6 flex items-center gap-2.5 rounded-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
           <BrandMark className="h-8 w-8" />
           <span className="font-headline text-lg font-semibold leading-none tracking-tight sm:text-xl">
-            Homestyle Vastu
+            {BRAND_NAME}
           </span>
         </Link>
         <nav className="ml-auto hidden items-center gap-1 text-sm font-medium md:flex">
@@ -58,12 +59,12 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] bg-background sm:w-[400px]">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-              <SheetDescription className="sr-only">Main navigation for Homestyle Vastu</SheetDescription>
+              <SheetDescription className="sr-only">Main navigation for {BRAND_NAME}</SheetDescription>
               <div className="mt-6 flex flex-col space-y-6">
                 <SheetClose asChild>
                   <Link href="/" className="mb-4 flex items-center gap-2.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                     <BrandMark className="h-8 w-8" />
-                    <span className="font-headline text-lg font-semibold">Homestyle Vastu</span>
+                    <span className="font-headline text-lg font-semibold">{BRAND_NAME}</span>
                   </Link>
                 </SheetClose>
                 <nav className="flex flex-col space-y-1">

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { MapPin, MessageCircle, Phone } from 'lucide-react';
 import { BrandMark } from '@/components/brand-mark';
+import { ADDRESS, BRAND_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 
 const linkClass =
   'inline-flex min-h-11 items-center rounded-sm py-1.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
@@ -12,7 +13,7 @@ export function Footer() {
         <div>
           <Link href="/" className="inline-flex min-h-11 items-center gap-2.5 rounded-sm font-headline text-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <BrandMark className="h-8 w-8" />
-            Homestyle Vastu
+            {BRAND_NAME}
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-foreground/85">
             Vastu Shastra and Feng Shui consultation with Sanjay Jain for homes, businesses, plots, builds and factories.
@@ -20,7 +21,7 @@ export function Footer() {
           <address className="mt-5 flex max-w-sm items-start gap-2 text-sm not-italic leading-6 text-foreground/85">
             <MapPin className="mt-1 h-4 w-4 shrink-0 text-terracotta-ink" aria-hidden="true" />
             <span>
-              Shivam Apartment, Acharya Kriplani Marg, Anand Puri, Bees Dukan, Adarsh Nagar, Jaipur, Rajasthan 302004
+              {ADDRESS.neighborhood}, {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
             </span>
           </address>
         </div>
@@ -35,10 +36,10 @@ export function Footer() {
         <div>
           <h2 className="eyebrow font-body">Get in touch</h2>
           <div className="mt-3 flex flex-col items-start gap-1 text-sm text-foreground/80">
-            <a href="tel:+919828088678" className={`inline-flex items-center gap-2 ${linkClass}`}>
-              <Phone className="h-4 w-4" aria-hidden="true" /> +91 98280 88678
+            <a href={`tel:${PHONE_E164}`} className={`inline-flex items-center gap-2 ${linkClass}`}>
+              <Phone className="h-4 w-4" aria-hidden="true" /> {PHONE_E164.replace('+91', '+91 ').replace(/(\d{5})(\d{5})/, '$1 $2')}
             </a>
-            <a href="https://wa.me/919828088678" target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 ${linkClass}`}>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 ${linkClass}`}>
               <MessageCircle className="h-4 w-4" aria-hidden="true" /> Message on WhatsApp
             </a>
           </div>
@@ -46,7 +47,7 @@ export function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="container mx-auto flex flex-col items-center justify-between px-4 py-4 text-xs text-muted-foreground sm:flex-row md:px-8">
-          <div>&copy; {new Date().getFullYear()} Homestyle Vastu. All rights reserved.</div>
+          <div>&copy; {new Date().getFullYear()} {BRAND_NAME}. All rights reserved.</div>
           <Link href="/privacy" className="mt-2 inline-flex min-h-11 items-center py-1.5 hover:text-primary sm:mt-0">Privacy Policy</Link>
         </div>
       </div>

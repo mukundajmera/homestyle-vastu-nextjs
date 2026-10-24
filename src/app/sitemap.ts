@@ -1,11 +1,9 @@
 import { MetadataRoute } from 'next';
-import { getSiteOrigin, isPublicProduction } from '@/lib/site';
+import { SITE_ORIGIN } from '@/lib/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (!isPublicProduction()) return [];
-
   const routes = ['', '/services', '/about', '/contact', '/privacy'].map((route) => ({
-    url: `${getSiteOrigin()}${route}`,
+    url: `${SITE_ORIGIN}${route}`,
     changeFrequency: 'monthly' as const,
     priority: route === '' ? 1 : 0.8,
   }));

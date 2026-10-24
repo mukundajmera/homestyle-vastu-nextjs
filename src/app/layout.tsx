@@ -4,74 +4,69 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
-import { getSiteOrigin, isPublicProduction } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, BRAND_TITLE, PERSON_NAME, PHONE_E164, SITE_ORIGIN } from '@/lib/site';
 
-const isProduction = isPublicProduction();
-const baseUrl = getSiteOrigin();
 const bodyFont = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'swap', variable: '--font-body' });
 const headlineFont = Playfair_Display({ subsets: ['latin'], display: 'swap', variable: '--font-headline' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
-    template: '%s | Homestyle Vastu'
+    default: `${BRAND_TITLE} | Vastu & Feng Shui`,
+    template: `%s | ${BRAND_NAME}`
   },
   description: 'Vastu Shastra and Feng Shui guidance with Sanjay Jain for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.',
   keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'residential Vastu', 'commercial Vastu', 'plot selection', 'construction Vastu', 'industrial Vastu', 'online floor-plan review', 'Sanjay Jain', 'Vastu consultant Jaipur', 'Feng Shui Jaipur'],
-  authors: [{ name: 'Sanjay Jain' }],
-  creator: 'Homestyle Vastu',
-  publisher: 'Homestyle Vastu',
+  authors: [{ name: PERSON_NAME }],
+  creator: BRAND_NAME,
+  publisher: BRAND_NAME,
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(SITE_ORIGIN),
+  alternates: {
+    canonical: SITE_ORIGIN,
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: '/',
-    title: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
+    url: SITE_ORIGIN,
+    title: `${BRAND_TITLE} | Vastu & Feng Shui`,
     description: 'Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.',
-    siteName: 'Homestyle Vastu',
+    siteName: BRAND_NAME,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Homestyle Vastu - Vastu & Feng Shui Consultations',
+    title: `${BRAND_TITLE} | Vastu & Feng Shui`,
     description: 'Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.',
   },
-  robots: isProduction
-    ? {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          'max-video-preview': -1,
-          'max-image-preview': 'large',
-          'max-snippet': -1,
-        },
-      }
-    : {
-        index: false,
-        follow: false,
-      },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
-const jsonLd = {
+export const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "Homestyle Vastu",
-  "@id": `${baseUrl}/#business`,
-  "url": baseUrl,
-  "telephone": "+919828088678",
+  "name": BRAND_NAME,
+  "@id": `${SITE_ORIGIN}/#business`,
+  "url": SITE_ORIGIN,
+  "telephone": PHONE_E164,
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Shivam Apartment, Acharya Kriplani Marg, Anand Puri, Bees Dukan, Adarsh Nagar",
-    "addressLocality": "Jaipur",
-    "addressRegion": "Rajasthan",
-    "postalCode": "302004",
-    "addressCountry": "IN"
+    "addressLocality": ADDRESS.locality,
+    "addressRegion": ADDRESS.region,
+    "postalCode": ADDRESS.postalCode,
+    "addressCountry": ADDRESS.countryCode
   },
   "makesOffer": [
     "Residential Vastu consultation",

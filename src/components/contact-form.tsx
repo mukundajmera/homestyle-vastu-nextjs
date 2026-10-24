@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { BRAND_NAME } from "@/lib/site";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -370,7 +371,7 @@ export function ContactForm() {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel className="text-sm font-normal cursor-pointer">
-                  I consent to Homestyle Vastu storing my submitted details in the inquiry database and contacting me about this request.
+                  I consent to {BRAND_NAME} storing my submitted details in the inquiry database and contacting me about this request.
                 </FormLabel>
                 <FormDescription className="text-xs">
                   Read the <Link href="/privacy" className="font-semibold text-primary underline underline-offset-2">Privacy Policy</Link>.

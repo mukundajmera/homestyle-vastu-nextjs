@@ -39,6 +39,10 @@ describe('proxy matcher', () => {
     expect(matcher.test('/api/contact')).toBe(true);
   });
 
+  it('runs for the plain-text llms.txt route', () => {
+    expect(matcher.test('/llms.txt')).toBe(true);
+  });
+
   it('skips static asset paths', () => {
     expect(matcher.test('/_next/static/chunk.js')).toBe(false);
     expect(matcher.test('/favicon.ico')).toBe(false);
