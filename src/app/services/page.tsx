@@ -4,8 +4,8 @@ import { Building2, Factory, Globe, Home, MapPin, MessageCircle, PencilRuler, Ru
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Consultation Services',
-  description: 'Explore Vastu Shastra and Feng Shui consultations for homes and businesses, plot or land selection, construction or renovation, industrial and factory properties, and online floor-plan reviews.',
+  title: 'Vastu and Feng Shui Consultation Services in Jaipur',
+  description: 'Vastu Shastra and Feng Shui consultations in Jaipur for homes, businesses, plots, construction, industrial properties and online floor-plan reviews.',
   alternates: { canonical: '/services' },
   openGraph: {
     title: 'Consultation Services | Homestyle Vastu',

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homestyle Vastu - Social Post</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: { DEFAULT: '#FAF8F3', dark: '#F3EFE6', border: '#E8E2D2' },
+            saffron: { DEFAULT: '#E67E22', soft: '#FDF1E6', deep: '#C96510' },
+            terracotta: { DEFAULT: '#C85A32', dark: '#A6401B', soft: '#FAEDE7' },
+            sage: { DEFAULT: '#587B66', soft: '#EAF0EC', deep: '#3E5949' },
+            sandstone: '#8C7D70',
+            charcoal: '#24211E',
+            warmgray: '#645D56'
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .architectural-grid {
+      background-size: 36px 36px;
+      background-image:
+        linear-gradient(to right, rgba(200, 90, 50, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(200, 90, 50, 0.045) 1px, transparent 1px);
+    }
+    .subtle-border { border: 1px solid rgba(140, 125, 112, 0.18); }
+    .card-shadow { box-shadow: 0 16px 36px -12px rgba(90, 68, 54, 0.07), 0 2px 8px -2px rgba(90, 68, 54, 0.04); }
+  </style>
+</head>
+<body class="bg-[#1C1A19] flex items-center justify-center min-h-screen p-4 sm:p-8 font-sans antialiased">
+
+  <!-- 1080x1080 artboard -->
+  <div class="relative w-[1080px] h-[1080px] bg-ivory text-charcoal overflow-hidden flex flex-col justify-between p-[68px] architectural-grid border border-ivory-border/60">
+
+    <div class="absolute inset-[24px] pointer-events-none border border-terracotta/20"></div>
+    <div class="absolute inset-[27px] pointer-events-none border border-sandstone/15"></div>
+
+    <header class="relative z-10 flex items-start justify-between border-b border-ivory-border pb-6">
+      <div class="space-y-1.5">
+        <div class="flex items-center gap-2.5">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-saffron ring-4 ring-saffron/20"></span>
+          <span class="text-[12px] font-semibold tracking-[0.24em] uppercase text-terracotta">Homestyle Vastu &bull; Jaipur</span>
+        </div>
+        <h1 class="font-serif text-[46px] leading-[1.12] text-charcoal font-medium tracking-tight max-w-[620px]">
+          Balance Your Home, <br><span class="italic font-normal text-terracotta">Room by Room.</span>
+        </h1>
+      </div>
+      <div class="flex flex-col items-end text-right pt-1">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-ivory-dark border border-ivory-border rounded-md text-[11px] font-medium tracking-wider text-warmgray uppercase">
+          Spatial Harmony
+        </div>
+        <p class="text-[12px] text-sandstone mt-2 tracking-wide">Directional Energy &amp; Styling</p>
+      </div>
+    </header>
+
+    <!-- Schematic floor plan with directional overlay -->
+    <div class="relative z-10 flex-1 my-5 flex items-center justify-center">
+      <div class="relative w-[780px] h-[510px] bg-white/80 subtle-border card-shadow rounded-sm p-6 overflow-hidden flex flex-col justify-between">
+        <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="390" cy="255" r="215" fill="none" stroke="#8C7D70" stroke-width="0.75" stroke-dasharray="3 4" stroke-opacity="0.35"/>
+          <circle cx="390" cy="255" r="145" fill="none" stroke="#C85A32" stroke-width="0.75" stroke-dasharray="2 3" stroke-opacity="0.3"/>
+          <line x1="390" y1="20" x2="390" y2="490" stroke="#8C7D70" stroke-width="0.75" stroke-dasharray="4 4" stroke-opacity="0.35"/>
+          <line x1="40" y1="255" x2="740" y2="255" stroke="#8C7D70" stroke-width="0.75" stroke-dasharray="4 4" stroke-opacity="0.35"/>
+          <text x="390" y="18" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="11" fill="#587B66" letter-spacing="1.5">NORTH</text>
+          <text x="760" y="274" text-anchor="end" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="10" fill="#E67E22" letter-spacing="1">EAST</text>
+          <text x="390" y="504" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="10" fill="#C85A32" letter-spacing="1">SOUTH</text>
+          <text x="25" y="274" text-anchor="start" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="10" fill="#8C7D70" letter-spacing="1">WEST</text>
+        </svg>
+
+        <div class="relative z-10 grid grid-cols-3 grid-rows-3 gap-3.5 w-full h-full">
+          <div class="border border-sandstone/25 bg-ivory/60 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-sandstone uppercase">NW &bull; Air</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Living &amp; Air</div>
+              <div class="text-[11px] text-warmgray mt-0.5 leading-snug">Light linen drapery, open cross-ventilation</div>
+            </div>
+          </div>
+          <div class="border border-sage/40 bg-sage-soft/35 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-sage-deep font-semibold uppercase">North &bull; Growth</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Study &amp; Library</div>
+              <div class="text-[11px] text-sage-deep/80 mt-0.5 leading-snug">Clear desk, indoor plants, uncluttered wall</div>
+            </div>
+          </div>
+          <div class="border border-saffron/40 bg-saffron-soft/40 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-saffron-deep font-semibold uppercase">NE &bull; Clarity</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Pooja &amp; Meditation</div>
+              <div class="text-[11px] text-warmgray mt-0.5 leading-snug">Open space, natural light, low seating</div>
+            </div>
+          </div>
+          <div class="border border-sandstone/25 bg-ivory/60 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-sandstone uppercase">West &bull; Stability</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Dining Salon</div>
+              <div class="text-[11px] text-warmgray mt-0.5 leading-snug">Round table, grounding earth tones</div>
+            </div>
+          </div>
+          <div class="border-2 border-dashed border-terracotta/35 bg-white/95 rounded-sm p-3 flex flex-col items-center justify-center text-center">
+            <div class="font-serif text-[15px] font-semibold text-charcoal">Brahmasthan</div>
+            <div class="text-[10px] text-terracotta font-medium tracking-wide uppercase mt-0.5">Keep Unburdened</div>
+            <div class="text-[10px] text-sandstone leading-tight mt-1 max-w-[170px]">Central space for circulation</div>
+          </div>
+          <div class="border border-sage/30 bg-sage-soft/25 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-sage-deep font-semibold uppercase">East &bull; Vitality</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Morning Lounge</div>
+              <div class="text-[11px] text-warmgray mt-0.5 leading-snug">Low seating, morning light, living greenery</div>
+            </div>
+          </div>
+          <div class="border border-terracotta/40 bg-terracotta-soft/35 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-terracotta-dark font-semibold uppercase">SW &bull; Earth</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Master Bedroom</div>
+              <div class="text-[11px] text-warmgray mt-0.5 leading-snug">Solid wood headboard, grounded palette</div>
+            </div>
+          </div>
+          <div class="border border-sandstone/25 bg-ivory/60 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-sandstone uppercase">South &bull; Strength</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Wardrobe &amp; Storage</div>
+              <div class="text-[11px] text-warmgray mt-0.5 leading-snug">Heavier storage, sound-softening textures</div>
+            </div>
+          </div>
+          <div class="border border-terracotta/40 bg-terracotta-soft/30 rounded-sm p-3.5 flex flex-col justify-between">
+            <span class="text-[9px] font-mono tracking-wider text-terracotta font-semibold uppercase">SE &bull; Agni</span>
+            <div>
+              <div class="font-serif text-[15px] font-semibold text-charcoal">Kitchen</div>
+              <div class="text-[11px] text-warmgray mt-0.5 leading-snug">Cooking zone with terracotta accents</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colour legend -->
+    <div class="relative z-10 grid grid-cols-3 gap-6 bg-ivory-dark/70 border border-ivory-border rounded px-6 py-3.5 my-1">
+      <div class="flex items-center gap-3">
+        <span class="w-3.5 h-3.5 rounded-full bg-saffron flex-shrink-0"></span>
+        <div class="text-[12px] leading-tight">
+          <span class="font-bold text-charcoal block">Saffron</span>
+          <span class="text-warmgray text-[11px]">Northeast clarity</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 border-x border-ivory-border px-4">
+        <span class="w-3.5 h-3.5 rounded-full bg-terracotta flex-shrink-0"></span>
+        <div class="text-[12px] leading-tight">
+          <span class="font-bold text-charcoal block">Terracotta</span>
+          <span class="text-warmgray text-[11px]">South and Southeast warmth</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 pl-2">
+        <span class="w-3.5 h-3.5 rounded-full bg-sage flex-shrink-0"></span>
+        <div class="text-[12px] leading-tight">
+          <span class="font-bold text-charcoal block">Sage Green</span>
+          <span class="text-warmgray text-[11px]">North and East balance</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="relative z-10 pt-5 border-t border-ivory-border flex items-end justify-between">
+      <div class="space-y-1">
+        <p class="text-[17px] text-warmgray max-w-[560px] leading-relaxed">
+          Expert Vastu room planning, tailored to your Jaipur home.
+        </p>
+      </div>
+      <div>
+        <span class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-terracotta text-white font-semibold text-[15px] tracking-wide shadow-md">
+          <span>Book a free consultation</span>
+        </span>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

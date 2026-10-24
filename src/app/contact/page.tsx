@@ -5,8 +5,8 @@ import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
-  title: 'Contact Us',
-  description: 'Contact Homestyle Vastu about Vastu and Feng Shui for homes, businesses, plots, construction or renovation, industrial properties, or online floor-plan review.',
+  title: 'Contact Homestyle Vastu in Jaipur',
+  description: 'Contact Homestyle Vastu in Jaipur about Vastu and Feng Shui for homes, businesses, plots and floor-plan review.',
   alternates: { canonical: '/contact' },
   openGraph: {
     title: 'Contact Homestyle Vastu',
