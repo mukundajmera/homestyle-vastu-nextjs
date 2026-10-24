@@ -3,14 +3,17 @@ import { join, relative } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
+import ContactPage from '@/app/contact/page';
 import { GET as getLlms } from '@/app/llms.txt/route';
 import { jsonLd, metadata } from '@/app/layout';
 import { metadata as homeMetadata } from '@/app/page';
 import { metadata as servicesMetadata } from '@/app/services/page';
 import { metadata as aboutMetadata } from '@/app/about/page';
 import { metadata as contactMetadata } from '@/app/contact/page';
+import PrivacyPage from '@/app/privacy/page';
 import { metadata as privacyMetadata } from '@/app/privacy/page';
-import { BRAND_NAME } from '@/lib/site';
+import TermsPage from '@/app/terms/page';
+import { ADDRESS, BRAND_NAME } from '@/lib/site';
 
 const thisTestFile = __filename;
 
@@ -38,6 +41,29 @@ describe('site identity', () => {
     expect(String(response.body).startsWith(`${BRAND_NAME}\n`)).toBe(true);
   });
 
+  it('includes the full street in JSON-LD and llms.txt', () => {
+    expect(jsonLd.address.streetAddress).toBe(ADDRESS.street);
+    expect(String(getLlms().body)).toContain(ADDRESS.street);
+  });
+
+  it('shows the full street on contact, privacy, terms, and footer', () => {
+    const contact = render(<ContactPage />);
+    expect(contact.container.querySelector('address')).toHaveTextContent(ADDRESS.street);
+    contact.unmount();
+
+    const privacy = render(<PrivacyPage />);
+    expect(privacy.container.querySelectorAll('address').length).toBeGreaterThan(0);
+    expect(Array.from(privacy.container.querySelectorAll('address')).every((address) => address.textContent?.includes(ADDRESS.street))).toBe(true);
+    privacy.unmount();
+
+    const terms = render(<TermsPage />);
+    expect(terms.container.querySelector('address')).toHaveTextContent(ADDRESS.street);
+    terms.unmount();
+
+    const footer = render(<Footer />);
+    expect(footer.container.querySelector('address')).toHaveTextContent(ADDRESS.street);
+  });
+
   it('keeps every explicit page title under about 60 characters including the brand template', () => {
     const titles = [homeMetadata, servicesMetadata, aboutMetadata, contactMetadata, privacyMetadata];
     for (const pageMetadata of titles) {
@@ -52,7 +78,7 @@ describe('site identity', () => {
 
   it('contains none of the retired brand, address, or unverified terms in src and tests', () => {
     const roots = [join(process.cwd(), 'src'), join(process.cwd(), '__tests__')];
-    const prohibited = /consultancy|homestyle\s+vastu|shivam apartment|bees dukan|adarsh nagar|openingHours|sameAs/i;
+    const prohibited = /consultancy|homestyle\s+vastu|openingHours|sameAs/i;
     const matches: string[] = [];
     for (const root of roots) {
       for (const file of listFiles(root)) {

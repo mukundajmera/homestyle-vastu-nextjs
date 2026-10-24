@@ -63,6 +63,7 @@ export const jsonLd = {
   "telephone": PHONE_E164,
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": ADDRESS.street,
     "addressLocality": ADDRESS.locality,
     "addressRegion": ADDRESS.region,
     "postalCode": ADDRESS.postalCode,

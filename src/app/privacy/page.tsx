@@ -90,7 +90,8 @@ export default function PrivacyPage() {
           <p>To make a request or raise a grievance, call <a href={`tel:${PHONE_E164}`}>{PHONE_E164}</a> or <a href={WHATSAPP_URL}>message me on WhatsApp</a>, or write to:</p>
           <address className="not-italic">
             <strong>{BRAND_NAME}</strong><br />
-            {ADDRESS.neighborhood}, {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
+            {ADDRESS.street}<br />
+            {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
           </address>
         </section>
 
@@ -116,7 +117,8 @@ export default function PrivacyPage() {
           <h2 className={sectionHeadingClass}>12. Contact</h2>
           <p>For privacy questions, requests, or grievances, call <a href={`tel:${PHONE_E164}`}>{PHONE_E164}</a> or <a href={WHATSAPP_URL}>message me on WhatsApp</a>, or write to:</p>
           <address className="not-italic">
-            {ADDRESS.neighborhood}, {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
+            {ADDRESS.street}<br />
+            {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
           </address>
         </section>
       </div>

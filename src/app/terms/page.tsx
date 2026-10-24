@@ -136,7 +136,8 @@ export default function TermsPage() {
           </p>
           <address className="not-italic">
             {BRAND_NAME}<br />
-            {ADDRESS.neighborhood}, {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
+            {ADDRESS.street}<br />
+            {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
           </address>
         </section>
       </div>
