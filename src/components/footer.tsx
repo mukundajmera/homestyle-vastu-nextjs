@@ -3,14 +3,14 @@ import { MapPin, MessageCircle, Phone } from 'lucide-react';
 import { BrandMark } from '@/components/brand-mark';
 
 const linkClass =
-  'rounded-sm py-1.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+  'inline-flex min-h-11 items-center rounded-sm py-1.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
 export function Footer() {
   return (
     <footer className="mt-auto border-t border-border bg-secondary">
       <div className="container mx-auto grid gap-10 px-4 py-12 md:grid-cols-[1.4fr_0.6fr_1.2fr] md:px-8 md:py-14">
         <div>
-          <Link href="/" className="inline-flex items-center gap-2.5 rounded-sm font-headline text-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Link href="/" className="inline-flex min-h-11 items-center gap-2.5 rounded-sm font-headline text-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <BrandMark className="h-8 w-8" />
             Homestyle Vastu
           </Link>
@@ -47,7 +47,7 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="container mx-auto flex flex-col items-center justify-between px-4 py-4 text-xs text-muted-foreground sm:flex-row md:px-8">
           <div>&copy; {new Date().getFullYear()} Homestyle Vastu. All rights reserved.</div>
-          <Link href="/privacy" className="mt-2 inline-block py-1.5 hover:text-primary sm:mt-0">Privacy Policy</Link>
+          <Link href="/privacy" className="mt-2 inline-flex min-h-11 items-center py-1.5 hover:text-primary sm:mt-0">Privacy Policy</Link>
         </div>
       </div>
     </footer>

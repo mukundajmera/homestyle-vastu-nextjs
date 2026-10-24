@@ -12,8 +12,6 @@ export function PropertyExplorer() {
   const [activeId, setActiveId] = useState(propertyServices[0].id);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const index = propertyServices.findIndex((item) => item.id === activeId);
-  const active = propertyServices[index];
-  const Icon = active.icon;
 
   function selectByOffset(offset: number, focus = true) {
     const next = (index + offset + propertyServices.length) % propertyServices.length;
@@ -22,10 +20,10 @@ export function PropertyExplorer() {
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
-    if (event.key === 'ArrowRight') {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
       event.preventDefault();
       selectByOffset(1);
-    } else if (event.key === 'ArrowLeft') {
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
       event.preventDefault();
       selectByOffset(-1);
     } else if (event.key === 'Home') {
@@ -53,7 +51,7 @@ export function PropertyExplorer() {
               type="button"
               role="tab"
               aria-selected={selected}
-              aria-controls="property-panel"
+              aria-controls={`property-panel-${item.id}`}
               tabIndex={selected ? 0 : -1}
               onClick={() => setActiveId(item.id)}
               onKeyDown={onKeyDown}
@@ -78,43 +76,54 @@ export function PropertyExplorer() {
         })}
       </div>
 
-      <div
-        id="property-panel"
-        role="tabpanel"
-        aria-labelledby={`tab-${active.id}`}
-        tabIndex={0}
-        className="paper-card flex flex-col p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:p-10"
-      >
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <span className="grid h-14 w-14 place-items-center rounded-full bg-secondary text-primary">
-            <Icon className="h-7 w-7" aria-hidden="true" />
-          </span>
-          <span className="tag-pill">{active.tag}</span>
-        </div>
-        <h3 className="font-headline text-2xl font-semibold md:text-3xl">{active.title}</h3>
-        <p className="mt-3 text-[17px] font-semibold leading-[29px] text-terracotta-ink">{active.lead}</p>
-        <p className="mt-4 leading-[29px] text-foreground/85">{active.text}</p>
-
-        <div className="mt-6 rounded border border-dashed border-border bg-secondary p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.09em] text-foreground/70">Helpful to have ready</p>
-          <p className="mt-1 leading-[29px] text-foreground">{active.bring}</p>
-        </div>
-
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button asChild size="lg" className="h-12 px-6 font-semibold">
-            <a href={whatsappLink(`Hello, I would like to ask about ${active.title.toLowerCase()}.`)} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
-              Ask about this
-            </a>
-          </Button>
-          <Link
-            href={`/services#${active.id}`}
-            className="inline-flex h-12 items-center justify-center rounded-md px-4 font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      {propertyServices.map((item) => {
+        const PanelIcon = item.icon;
+        const selected = item.id === activeId;
+        return (
+          <div
+            key={item.id}
+            id={`property-panel-${item.id}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${item.id}`}
+            tabIndex={0}
+            hidden={!selected}
+            className={cn(
+              'paper-card flex-col p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:p-10',
+              selected ? 'flex' : 'hidden'
+            )}
           >
-            Full details <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-          </Link>
-        </div>
-      </div>
+            <div className="mb-6 flex items-center justify-between gap-4">
+              <span className="grid h-14 w-14 place-items-center rounded-full bg-secondary text-primary">
+                <PanelIcon className="h-7 w-7" aria-hidden="true" />
+              </span>
+              <span className="tag-pill">{item.tag}</span>
+            </div>
+            <h3 className="font-headline text-2xl font-semibold md:text-3xl">{item.title}</h3>
+            <p className="mt-3 text-[17px] font-semibold leading-[29px] text-terracotta-ink">{item.lead}</p>
+            <p className="mt-4 leading-[29px] text-foreground/85">{item.text}</p>
+
+            <div className="mt-6 rounded border border-dashed border-border bg-secondary p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.09em] text-foreground/70">Helpful to have ready</p>
+              <p className="mt-1 leading-[29px] text-foreground">{item.bring}</p>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg" className="h-12 px-6 font-semibold">
+                <a href={whatsappLink(`Hello, I would like to ask about ${item.title.toLowerCase()}.`)} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
+                  Ask about this
+                </a>
+              </Button>
+              <Link
+                href={`/services#${item.id}`}
+                className="inline-flex h-12 items-center justify-center rounded-md px-4 font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Full details <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

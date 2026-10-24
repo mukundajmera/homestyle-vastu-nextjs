@@ -16,7 +16,7 @@ describe('accessible interactive controls', () => {
     expect(screen.getByText('01', { selector: 'span' })).toHaveClass('bg-primary', 'text-primary-foreground');
     expect(screen.getByText('02', { selector: 'span' })).toHaveClass('bg-secondary', 'text-foreground');
 
-    await user.click(screen.getByRole('button', { name: 'Share the details' }));
+    await user.click(screen.getByRole('button', { name: /Share the details/ }));
     expect(screen.getByText('01', { selector: 'span' })).toHaveClass('bg-sage', 'text-white');
     expect(screen.getByText('02', { selector: 'span' })).toHaveClass('bg-primary', 'text-primary-foreground');
   });

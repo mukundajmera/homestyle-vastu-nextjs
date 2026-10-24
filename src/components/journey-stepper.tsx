@@ -37,6 +37,7 @@ export function JourneyStepper({ steps }: { steps: JourneyStep[] }) {
                 </span>
                 <span className={cn('text-[17px] font-semibold', selected ? 'text-foreground' : 'text-foreground/85')}>{item.title}</span>
               </button>
+              <p className="ml-[4.5rem] mt-2 text-sm leading-6 text-foreground/80">{item.text}</p>
             </li>
           );
         })}
@@ -53,7 +54,6 @@ export function JourneyStepper({ steps }: { steps: JourneyStep[] }) {
           Step {active.step} of {steps.length.toString().padStart(2, '0')}
         </p>
         <h3 className="font-headline text-2xl font-semibold md:text-3xl">{active.title}</h3>
-        <p className="mt-4 text-[17px] leading-[29px] text-foreground/85">{active.text}</p>
         <div className="mt-8 flex items-center justify-between gap-4">
           <button
             type="button"

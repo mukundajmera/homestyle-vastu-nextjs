@@ -16,7 +16,7 @@ describe('JourneyStepper', () => {
     expect(screen.getByRole('button', { name: /Share your plans/ })).toHaveAttribute('aria-current', 'step');
     expect(screen.getByRole('button', { name: /Discuss guidance/ })).not.toHaveAttribute('aria-current');
     expect(screen.getByRole('heading', { name: 'Share your plans' })).toBeInTheDocument();
-    expect(screen.getByText('Tell us about the property.')).toBeInTheDocument();
+    expect(screen.getAllByText('Tell us about the property.').length).toBeGreaterThan(0);
   });
 
   it('changes active step by clicking a step or using the next and previous buttons', async () => {
