@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronDown, Compass, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
-import { VastuDial } from '@/components/vastu-dial';
-import { PropertyExplorer } from '@/components/property-explorer';
-import { JourneyStepper } from '@/components/journey-stepper';
+import { HomeJourneyStepper, HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
 import { whatsappLink } from '@/lib/services-data';
 
 export const metadata: Metadata = {
@@ -90,7 +88,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <VastuDial />
+          <HomeVastuDial />
         </div>
       </section>
 
@@ -107,7 +105,7 @@ export default function Home() {
               All services <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
-          <PropertyExplorer />
+          <HomePropertyExplorer />
         </div>
       </section>
 
@@ -120,7 +118,7 @@ export default function Home() {
             <p className="mt-4 text-lg text-foreground/85">Select each step to see what happens next.</p>
           </div>
           <div className="mx-auto max-w-6xl">
-            <JourneyStepper steps={journey} />
+            <HomeJourneyStepper steps={journey} />
           </div>
         </div>
       </section>

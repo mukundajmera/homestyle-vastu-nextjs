@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import { randomUUID } from 'node:crypto';
 import { TextEncoder } from 'node:util';
+import { NextResponse } from 'next/server';
 import { POST } from '@/app/api/contact/route';
 
 jest.mock('mysql2/promise', () => ({
@@ -13,6 +14,7 @@ const mockExecute = jest.fn();
 const mockEnd = jest.fn();
 const mockConnection = { execute: mockExecute, end: mockEnd };
 let requestNumber = 0;
+let mockedPhoneCount = 0;
 
 const basePayload = () => ({
   submissionId: randomUUID(),
@@ -58,6 +60,7 @@ describe('/api/contact', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     storedLeads.clear();
+    mockedPhoneCount = 0;
     process.env.DB_HOST = 'db.example.test';
     process.env.DB_PORT = '3306';
     process.env.DB_USER = 'test-user';
@@ -67,6 +70,9 @@ describe('/api/contact', () => {
     mockEnd.mockResolvedValue(undefined);
     mockExecute.mockImplementation(async (statement: string, values: unknown[] = []) => {
       if (statement.includes('CREATE ') || statement.includes('ALTER ')) throw new Error('Route code must not issue DDL at runtime');
+      if (statement.includes('SELECT COUNT(*) AS n FROM leads WHERE phone = ?')) {
+        return [[{ n: mockedPhoneCount }], []];
+      }
       if (statement.includes('INSERT INTO leads')) {
         const [submissionId, payloadHash] = values as [string, string];
         if (!storedLeads.has(submissionId)) storedLeads.set(submissionId, payloadHash);
@@ -134,6 +140,33 @@ describe('/api/contact', () => {
     const response = await POST(createMockRequest(basePayload()));
     expect(response.status).toBe(503);
     expect(mysql.createConnection).not.toHaveBeenCalled();
+    expect(mockExecute).not.toHaveBeenCalled();
+  });
+
+  it('returns 429 with Retry-After when the database phone limit is reached without inserting', async () => {
+    mockedPhoneCount = 10;
+    const jsonSpy = jest.spyOn(NextResponse, 'json');
+    const response = await POST(createMockRequest(basePayload()));
+
+    expect(response.status).toBe(429);
+    expect(jsonSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ error: expect.stringContaining('Too many inquiries') }),
+      { status: 429, headers: { 'Retry-After': '900' } },
+    );
+    expect(mockExecute).toHaveBeenCalledWith(
+      'SELECT COUNT(*) AS n FROM leads WHERE phone = ? AND created_at >= (UTC_TIMESTAMP() - INTERVAL 15 MINUTE)',
+      expect.any(Array),
+    );
+    expect(mockExecute.mock.calls.some(([statement]) => String(statement).includes('INSERT INTO leads'))).toBe(false);
+    jsonSpy.mockRestore();
+  });
+
+  it('inserts when the database phone count is below the limit', async () => {
+    mockedPhoneCount = 9;
+    const response = await POST(createMockRequest(basePayload()));
+
+    expect(response.status).toBe(200);
+    expect(mockExecute.mock.calls.some(([statement]) => String(statement).includes('INSERT INTO leads'))).toBe(true);
   });
 
   it('stores a lead with server-owned consent evidence and returns success', async () => {

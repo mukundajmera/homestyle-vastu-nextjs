@@ -8,6 +8,8 @@ export const runtime = 'nodejs';
 
 const MAX_REQUEST_BYTES = 5 * 1024;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+// Per-phone limit, tuned for a small consultancy site. A global cap was removed on
+// purpose: it let one unauthenticated sender block every lead. Per-IP limits belong at the edge.
 const RATE_LIMIT_MAX = 10;
 const MAX_RATE_LIMIT_KEYS = 10_000;
 const PRIVACY_POLICY_VERSION = 'v1.0';
@@ -174,6 +176,20 @@ export async function POST(request: Request) {
   let connection: mysql.Connection | undefined;
   try {
     connection = await mysql.createConnection({ ...databaseConfig, connectTimeout: 10000, timezone: 'Z' });
+
+    const [phoneCountRows] = await connection.execute(
+      'SELECT COUNT(*) AS n FROM leads WHERE phone = ? AND created_at >= (UTC_TIMESTAMP() - INTERVAL 15 MINUTE)',
+      [lead.phone],
+    );
+    const phoneCount = Array.isArray(phoneCountRows)
+      ? Number((phoneCountRows as Array<{ n: number | string }>)[0]?.n ?? 0)
+      : 0;
+    if (phoneCount >= RATE_LIMIT_MAX) {
+      return NextResponse.json(
+        { error: 'Too many inquiries were sent recently. Please wait a little and try again, or contact us on WhatsApp.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000)) } },
+      );
+    }
 
     const payloadHash = createHash('sha256').update(JSON.stringify(lead)).digest('hex');
     await connection.execute(

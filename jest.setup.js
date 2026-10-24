@@ -28,21 +28,6 @@ jest.mock('next/server', () => {
   };
 });
 
-// Mock embla carousel for testing components
-jest.mock('embla-carousel-react', () => {
-  return jest.fn().mockReturnValue([
-    jest.fn(),
-    {
-      on: jest.fn(),
-      off: jest.fn(),
-      canScrollNext: jest.fn().mockReturnValue(true),
-      canScrollPrev: jest.fn().mockReturnValue(true),
-      scrollNext: jest.fn(),
-      scrollPrev: jest.fn(),
-    },
-  ]);
-});
-
 // Polyfill for IntersectionObserver which isn't available in jsdom
 class IntersectionObserver {
   constructor() {}

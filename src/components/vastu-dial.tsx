@@ -97,7 +97,7 @@ export function VastuDial() {
               type="button"
               onClick={() => setSelected(i)}
               aria-pressed={i === selected}
-              aria-label={name}
+              aria-label={`${label} ${name}`}
               className={cn(
                 'rounded-md border py-2 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                 i === selected ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-white text-foreground hover:border-accent hover:text-terracotta-ink'

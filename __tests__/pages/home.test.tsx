@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import Home from '@/app/page';
 
 describe('Home Page', () => {
@@ -10,6 +10,7 @@ describe('Home Page', () => {
       level: 1,
       name: /Guidance for the spaces where you live and work/i,
     })).toBeInTheDocument();
+    expect(screen.getByText(/Talk with Sanjay Jain about a home, workplace, plot, planned build/)).toBeInTheDocument();
   });
 
   it('renders the WhatsApp link', () => {
@@ -34,6 +35,10 @@ describe('Home Page', () => {
     await user.click(screen.getByRole('tab', { name: 'Business' }));
     expect(screen.getByText('Commercial Vastu & Feng Shui')).toBeInTheDocument();
     expect(screen.getByRole('tab', { name: 'Business' })).toHaveAttribute('aria-selected', 'true');
+    const panel = screen.getByRole('tabpanel');
+    expect(within(panel).getByRole('heading', { name: 'Commercial Vastu & Feng Shui' })).toBeInTheDocument();
+    expect(within(panel).getByText(/Commercial consultations can cover offices, retail spaces/)).toBeInTheDocument();
+    expect(within(panel).getByText('The business type, the space you use and the decision you are weighing.')).toBeInTheDocument();
   });
 
   it('explains consultation formats without claiming a service area', () => {

@@ -29,7 +29,7 @@ export function JourneyStepper({ steps }: { steps: JourneyStep[] }) {
                 <span
                   className={cn(
                     'grid h-11 w-11 shrink-0 place-items-center rounded font-headline text-lg font-semibold transition-colors',
-                    selected ? 'bg-primary text-primary-foreground' : done ? 'bg-sage text-white' : 'bg-secondary text-primary'
+                    selected ? 'bg-primary text-primary-foreground' : done ? 'bg-sage text-white' : 'bg-secondary text-foreground'
                   )}
                   aria-hidden="true"
                 >
