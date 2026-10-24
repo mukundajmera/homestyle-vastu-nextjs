@@ -4,6 +4,7 @@ import { ArrowRight, ChevronDown, Compass, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { HomeJourneyStepper, HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
 import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { TestimonialsSection } from '@/components/testimonials-section';
 
 export const metadata: Metadata = {
   title: 'Vastu & Feng Shui Jaipur',
@@ -45,7 +46,7 @@ const faqs = [
 ];
 
 const highlights = [
-  { big: '22 years', small: 'of experience as of 2026' },
+  { big: '25+ years', small: 'of experience' },
   { big: 'On-site & online', small: 'consultation formats' },
   { big: 'Homes & business', small: 'residential and commercial' },
 ];
@@ -128,7 +129,7 @@ export default function Home() {
             <div className="grid h-24 w-24 place-items-center rounded border-2 border-accent/50 bg-secondary font-headline text-3xl font-semibold text-primary">SJ</div>
             <h3 className="mt-5 font-headline text-2xl font-semibold">{PERSON_NAME}</h3>
             <p className="mt-1 text-[17px] font-semibold leading-[29px] text-terracotta-ink">{PERSON_TITLE}</p>
-            <p className="mt-4 text-[17px] leading-[29px] text-muted-foreground">22 years of experience as of 2026</p>
+            <p className="mt-4 text-[17px] leading-[29px] text-muted-foreground">25+ years of experience</p>
           </div>
           <div className="space-y-5">
             <p className="eyebrow">The consultant</p>
@@ -142,6 +143,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <TestimonialsSection />
 
       {/* FAQ */}
       <section className="border-t border-border py-16 md:py-24">
