@@ -19,18 +19,18 @@ const contactSchema = z.object({
   email: z.string().trim().email('Enter a valid email address').max(255).optional().or(z.literal('')),
   location: z.string().trim().min(2, 'City/Location is required').max(100),
   type: z.enum(['home', 'business', 'plot', 'industrial', 'other'], {
-    required_error: 'Please select a property category',
+    message: 'Please select a property category'
   }),
   serviceInterest: z.enum(
     ['general_vastu', 'feng_shui', 'plot_selection', 'construction_renovation', 'industrial_vastu', 'floor_plan_review', 'other'],
-    { required_error: 'Please select a service' },
+    { message: 'Please select a service' }
   ),
   format: z.enum(['onsite', 'online'], {
-    required_error: 'Please select a consultation format',
+    message: 'Please select a consultation format'
   }),
   inquiry: z.string().trim().max(1000).optional().or(z.literal('')),
   consent: z.literal(true, {
-    errorMap: () => ({ message: 'Please consent to being contacted about this inquiry' }),
+    message: 'Please consent to being contacted about this inquiry'
   }),
   honeypot: z.string().max(0).optional(),
 });
