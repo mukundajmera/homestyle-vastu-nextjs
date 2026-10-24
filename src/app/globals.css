@@ -4,44 +4,44 @@
 
 @layer base {
   :root {
-    --background: 36 33% 96%; /* Warm ivory paper #FAF8F5 */
-    --foreground: 20 12% 16%; /* Deep umber #2B2623 */
+    --background: 37.5 44.4444% 96.4706%; /* Canvas ivory #FAF7F2 */
+    --foreground: 25.7143 30.4348% 13.5294%; /* Deep umber #2D2118 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 12% 16%;
+    --card: 24 33.3333% 94.1176%; /* Card surface #F5EFEB */
+    --card-foreground: 25.7143 30.4348% 13.5294%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 12% 16%;
+    --popover: 24 33.3333% 94.1176%;
+    --popover-foreground: 25.7143 30.4348% 13.5294%;
 
-    --primary: 27 92% 36%; /* Deep saffron, AA contrast with white */
+    --primary: 27 92% 36%; /* Text-safe saffron; display saffron is #D97706 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 36 30% 92%; /* Sandstone wash */
-    --secondary-foreground: 20 12% 16%;
+    --secondary: 36.6667 34.6154% 89.8039%; /* Nested inset #EEE7DC */
+    --secondary-foreground: 25.7143 30.4348% 13.5294%;
 
-    --muted: 34 32% 92%;
-    --muted-foreground: 25 8% 36%;
+    --muted: 36.6667 34.6154% 89.8039%;
+    --muted-foreground: 25 8% 30%;
 
-    --accent: 14 54% 52%; /* Terracotta #C86142 */
-    --accent-foreground: 0 0% 100%;
+    --accent: 14.5455 51.9685% 50.1961%; /* Terracotta #C25E3E */
+    --accent-foreground: 25.7143 30.4348% 13.5294%;
 
     --destructive: 0 70% 40%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 22% 85%;
-    --input: 30 22% 85%;
+    --border: 39.2308 30.9524% 83.5294%; /* Card border #E2D9C8 */
+    --input: 39.2308 30.9524% 83.5294%;
     --ring: 27 92% 36%;
 
-    --sage: 135 12% 33%; /* #4A5D4E */
+    --sage: 154.5455 18.232% 35.4902%; /* #4A6B5D */
     --terracotta-ink: 14 62% 36%; /* text-safe terracotta */
 
-    --radius: 0.5rem;
+    --radius: 0.375rem;
 
     --chart-1: 27 92% 36%;
-    --chart-2: 14 54% 52%;
-    --chart-3: 135 12% 33%;
-    --chart-4: 36 30% 92%;
-    --chart-5: 20 12% 16%;
+    --chart-2: 14.5455 51.9685% 50.1961%;
+    --chart-3: 154.5455 18.232% 35.4902%;
+    --chart-4: 36.6667 34.6154% 89.8039%;
+    --chart-5: 25.7143 30.4348% 13.5294%;
   }
 }
 
@@ -51,6 +51,8 @@
   }
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary/20;
+    font-size: 1.0625rem;
+    line-height: 29px;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -60,12 +62,16 @@
 
 @layer components {
   .eyebrow {
-    @apply text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-terracotta-ink;
+    @apply text-xs font-semibold uppercase tracking-[0.09em] text-terracotta-ink;
   }
   .paper-card {
-    @apply rounded-lg border bg-white;
-    border-color: rgba(200, 97, 66, 0.16);
-    box-shadow: 0 12px 32px -4px rgba(74, 53, 37, 0.06), 0 4px 12px -2px rgba(74, 53, 37, 0.03);
+    @apply rounded border border-border bg-card transition-colors duration-200 ease-out;
+  }
+  .paper-card-interactive {
+    @apply paper-card hover:border-primary/50 hover:bg-secondary/40 focus-within:border-primary/50;
+  }
+  .tag-pill {
+    @apply inline-flex items-center rounded border border-border bg-secondary px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.09em] text-sage;
   }
   .grid-lines {
     background-image:

@@ -52,7 +52,7 @@ export default function ContactPage() {
                 <Phone className="w-6 h-6" />
               </div>
               <h2 className="text-xl font-headline font-bold mb-2">Prefer to call?</h2>
-              <p className="text-foreground/70 text-sm mb-6">
+              <p className="text-foreground/85 text-sm mb-6">
                 Prefer to speak directly or having trouble with the form? Call to discuss your property.
               </p>
               <Button asChild variant="outline" className="w-full font-bold border-2">
@@ -84,7 +84,7 @@ export default function ContactPage() {
             Jaipur, Rajasthan 302004<br />
             India
           </address>
-          <p className="mt-4 text-sm text-foreground/60 italic">
+          <p className="mt-4 text-sm text-foreground/85 italic">
             On-site and online/remote consultation formats are available. Ask which may suit your property.
           </p>
         </div>

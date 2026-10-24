@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { MapPin, MessageCircle, Phone } from 'lucide-react';
-import { BrandMark } from '@/components/vastu-dial';
+import { BrandMark } from '@/components/brand-mark';
 
 const linkClass =
   'rounded-sm py-1.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
@@ -14,10 +14,10 @@ export function Footer() {
             <BrandMark className="h-8 w-8" />
             Homestyle Vastu
           </Link>
-          <p className="mt-4 max-w-sm text-sm leading-6 text-foreground/75">
+          <p className="mt-4 max-w-sm text-sm leading-6 text-foreground/85">
             Vastu Shastra and Feng Shui consultation with Sanjay Jain for homes, businesses, plots, builds and factories.
           </p>
-          <address className="mt-5 flex max-w-sm items-start gap-2 text-sm not-italic leading-6 text-foreground/75">
+          <address className="mt-5 flex max-w-sm items-start gap-2 text-sm not-italic leading-6 text-foreground/85">
             <MapPin className="mt-1 h-4 w-4 shrink-0 text-terracotta-ink" aria-hidden="true" />
             <span>
               Shivam Apartment, Acharya Kriplani Marg, Anand Puri, Bees Dukan, Adarsh Nagar, Jaipur, Rajasthan 302004

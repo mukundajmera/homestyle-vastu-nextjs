@@ -1,4 +1,5 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import Home from '@/app/page';
 
@@ -25,10 +26,14 @@ describe('Home Page', () => {
     expect(phoneLink).toHaveAttribute('href', 'tel:+919828088678');
   });
 
-  it('renders services preview cards', () => {
+  it('renders the property explorer and switches between property types', async () => {
+    const user = userEvent.setup();
     render(<Home />);
     expect(screen.getByText('Residential Vastu & Feng Shui')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('tab', { name: 'Business' }));
     expect(screen.getByText('Commercial Vastu & Feng Shui')).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Business' })).toHaveAttribute('aria-selected', 'true');
   });
 
   it('explains consultation formats without claiming a service area', () => {
