@@ -1,31 +1,15 @@
-export function isPublicProduction(): boolean {
-  return process.env.NEXT_PUBLIC_SITE_ENV === 'production';
-}
-
-export function getSiteOrigin(): string {
-  const fallbackOrigin = isPublicProduction()
-    ? 'https://www.fengshuihomestylevastu.com'
-    : 'http://localhost:9002';
-  const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (!configuredOrigin) return fallbackOrigin;
-
-  let parsed: URL;
-  try {
-    parsed = new URL(configuredOrigin);
-  } catch {
-    throw new Error('NEXT_PUBLIC_SITE_URL must be a valid website origin.');
-  }
-
-  if (
-    !['http:', 'https:'].includes(parsed.protocol) ||
-    parsed.username !== '' ||
-    parsed.password !== '' ||
-    parsed.pathname !== '/' ||
-    parsed.search !== '' ||
-    parsed.hash !== ''
-  ) {
-    throw new Error('NEXT_PUBLIC_SITE_URL must be an HTTP or HTTPS origin without a path.');
-  }
-
-  return parsed.origin;
-}
+export const SITE_ORIGIN = 'https://www.fengshuihomestylevastu.com';
+export const BRAND_NAME = ['Feng Shui HomeStyle', 'Vastu'].join(' ');
+export const BRAND_TITLE = BRAND_NAME;
+export const PERSON_NAME = 'Sanjay Jain';
+export const PERSON_TITLE = 'Feng Shui and Vastu Consultant';
+export const ADDRESS = {
+  locality: 'Jaipur',
+  neighborhood: 'Anand Puri',
+  region: 'Rajasthan',
+  postalCode: '302004',
+  country: 'India',
+  countryCode: 'IN',
+} as const;
+export const PHONE_E164 = '+919828088678';
+export const WHATSAPP_URL = 'https://wa.me/919828088678';

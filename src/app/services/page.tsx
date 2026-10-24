@@ -4,20 +4,21 @@ import { ArrowRight, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FormatToggle } from '@/components/format-toggle';
 import { consultationFormats, propertyServices, whatsappLink } from '@/lib/services-data';
+import { BRAND_NAME } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Vastu & Feng Shui Services in Jaipur',
+  title: 'Consultation Services',
   description: 'Vastu Shastra and Feng Shui consultations in Jaipur for homes, businesses, plots, construction, industrial properties and online floor-plan reviews.',
   alternates: { canonical: '/services' },
   openGraph: {
-    title: 'Consultation Services | Homestyle Vastu',
+    title: `Consultation Services | ${BRAND_NAME}`,
     description: 'Explore Vastu and Feng Shui guidance for homes and businesses, plot selection, construction or renovation, industrial and factory properties, and online floor-plan review.',
     url: '/services',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Consultation Services | Homestyle Vastu',
+    title: `Consultation Services | ${BRAND_NAME}`,
     description: 'Explore Vastu and Feng Shui guidance for homes and businesses, plot selection, construction or renovation, industrial and factory properties, and online floor-plan review.',
   },
 };

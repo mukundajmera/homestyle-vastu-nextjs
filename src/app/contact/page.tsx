@@ -3,27 +3,27 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { ContactForm } from "@/components/contact-form";
+import { ADDRESS, BRAND_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contact Homestyle Vastu in Jaipur',
-  description: 'Contact Homestyle Vastu in Jaipur about Vastu and Feng Shui for homes, businesses, plots and floor-plan review.',
+  title: 'Contact in Jaipur',
+  description: `Contact ${BRAND_NAME} in Jaipur about Vastu and Feng Shui for homes, businesses, plots and floor-plan review.`,
   alternates: { canonical: '/contact' },
   openGraph: {
-    title: 'Contact Homestyle Vastu',
+    title: `Contact | ${BRAND_NAME}`,
     description: 'Contact Sanjay Jain by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.',
     url: '/contact',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Contact Homestyle Vastu',
+    title: `Contact | ${BRAND_NAME}`,
     description: 'Contact Sanjay Jain by WhatsApp or phone about homes, businesses, plots, construction, renovation, factories, or online floor-plan review.',
   },
 };
 
 export default function ContactPage() {
-  const whatsappNumber = "919828088678";
-  const displayPhone = "+91 98280 88678";
+  const displayPhone = PHONE_E164.replace('+91', '+91 ').replace(/(\d{5})(\d{5})/, '$1 $2');
 
   return (
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-4xl">
@@ -56,13 +56,13 @@ export default function ContactPage() {
                 Prefer to speak directly or having trouble with the form? Call to discuss your property.
               </p>
               <Button asChild variant="outline" className="w-full font-bold border-2">
-                <a href={`tel:+${whatsappNumber}`}>
+                <a href={`tel:${PHONE_E164}`}>
                   <Phone className="mr-2 h-4 w-4" />
                   {displayPhone}
                 </a>
               </Button>
               <Button asChild className="mt-3 w-full font-bold">
-                <a href={`https://wa.me/${whatsappNumber}?text=Hello%2C%20I%20would%20like%20to%20ask%20about%20a%20consultation.`} target="_blank" rel="noopener noreferrer">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-4 w-4" aria-hidden="true" />
                   Message on WhatsApp
                 </a>
@@ -79,10 +79,9 @@ export default function ContactPage() {
         <div className="text-center md:text-left">
           <h2 className="text-2xl font-headline font-bold mb-2">Location</h2>
           <address className="not-italic text-lg text-foreground/80 leading-relaxed font-body">
-            Shivam Apartment, Acharya Kriplani Marg<br />
-            Anand Puri, Bees Dukan, Adarsh Nagar<br />
-            Jaipur, Rajasthan 302004<br />
-            India
+            {ADDRESS.neighborhood}, {ADDRESS.locality}<br />
+            {ADDRESS.region} {ADDRESS.postalCode}<br />
+            {ADDRESS.country}
           </address>
           <p className="mt-4 text-sm text-foreground/85 italic">
             On-site and online/remote consultation formats are available. Ask which may suit your property.

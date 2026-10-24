@@ -1,19 +1,20 @@
 import { Metadata } from 'next';
+import { ADDRESS, BRAND_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'How Homestyle Vastu handles information submitted through its consultation form.',
+  description: `How ${BRAND_NAME} handles information submitted through its consultation form.`,
   alternates: { canonical: '/privacy' },
   openGraph: {
-    title: 'Privacy Policy | Homestyle Vastu',
-    description: 'How Homestyle Vastu handles information submitted through its consultation form.',
+    title: `Privacy Policy | ${BRAND_NAME}`,
+    description: `How ${BRAND_NAME} handles information submitted through its consultation form.`,
     url: '/privacy',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Privacy Policy | Homestyle Vastu',
-    description: 'How Homestyle Vastu handles information submitted through its consultation form.',
+    title: `Privacy Policy | ${BRAND_NAME}`,
+    description: `How ${BRAND_NAME} handles information submitted through its consultation form.`,
   },
 };
 
@@ -28,7 +29,7 @@ export default function PrivacyPage() {
         <section className="space-y-4">
           <h2 className="text-2xl font-headline font-semibold text-foreground">Information you submit</h2>
           <p>
-            If you use the consultation form, Homestyle Vastu collects the details you choose to provide: your name, phone number, optional email address, city or location, property category, service interest, preferred consultation format, and inquiry message.
+            If you use the consultation form, {BRAND_NAME} collects the details you choose to provide: your name, phone number, optional email address, city or location, property category, service interest, preferred consultation format, and inquiry message.
           </p>
         </section>
 
@@ -55,18 +56,17 @@ export default function PrivacyPage() {
         <section className="space-y-4">
           <h2 className="text-2xl font-headline font-semibold text-foreground">Your information</h2>
           <p>
-            To ask about your submitted information or request a correction or deletion, contact Homestyle Vastu by phone or WhatsApp. Please include enough context to identify the inquiry without sending sensitive documents.
+            To ask about your submitted information or request a correction or deletion, contact {BRAND_NAME} by phone or WhatsApp. Please include enough context to identify the inquiry without sending sensitive documents.
           </p>
         </section>
 
         <section className="space-y-4">
           <h2 className="text-2xl font-headline font-semibold text-foreground">Contact</h2>
           <address className="not-italic">
-            Homestyle Vastu<br />
-            Shivam Apartment, Acharya Kriplani Marg<br />
-            Anand Puri, Bees Dukan, Adarsh Nagar<br />
-            Jaipur, Rajasthan 302004<br />
-            Phone and WhatsApp: +91 98280 88678
+            {BRAND_NAME}<br />
+            {ADDRESS.neighborhood}, {ADDRESS.locality}<br />
+            {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}<br />
+            Phone: {PHONE_E164}; WhatsApp: {WHATSAPP_URL}
           </address>
         </section>
       </div>

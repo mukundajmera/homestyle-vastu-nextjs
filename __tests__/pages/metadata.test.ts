@@ -1,64 +1,46 @@
-import sitemap from '@/app/sitemap';
-import robots from '@/app/robots';
 import type { MetadataRoute } from 'next';
+import { metadata } from '@/app/layout';
+import robots from '@/app/robots';
+import sitemap from '@/app/sitemap';
+import { SITE_ORIGIN } from '@/lib/site';
 
 describe('metadata', () => {
-  const originalEnv = process.env;
-
-  beforeEach(() => {
-    process.env = { ...originalEnv };
-  });
-
-  afterAll(() => {
-    process.env = originalEnv;
-  });
-
   describe('sitemap', () => {
-    it('returns empty array when not in production', () => {
-      process.env.NEXT_PUBLIC_SITE_ENV = 'development';
-      expect(sitemap()).toEqual([]);
-    });
-
-    it('returns routes when in production', () => {
-      process.env.NEXT_PUBLIC_SITE_ENV = 'production';
-      const result = sitemap();
-      expect(result.length).toBe(5);
-      expect(result.map(r => r.url)).toEqual([
-        'https://www.fengshuihomestylevastu.com',
-        'https://www.fengshuihomestylevastu.com/services',
-        'https://www.fengshuihomestylevastu.com/about',
-        'https://www.fengshuihomestylevastu.com/contact',
-        'https://www.fengshuihomestylevastu.com/privacy',
-      ]);
-    });
-
-    it('uses the configured origin for a preview deployment', () => {
-      process.env.NEXT_PUBLIC_SITE_ENV = 'preview';
-      process.env.NEXT_PUBLIC_SITE_URL = 'https://preview.example.test/';
-      expect(sitemap()).toEqual([]);
+  it('always returns all public routes at SITE_ORIGIN', () => {
+      expect(sitemap().map((route) => route.url)).toEqual([
+        SITE_ORIGIN,
+        `${SITE_ORIGIN}/services`,
+        `${SITE_ORIGIN}/about`,
+        `${SITE_ORIGIN}/contact`,
+        `${SITE_ORIGIN}/privacy`,
+    ]);
+    expect(sitemap().some(({ url }) => url.endsWith('/llms.txt'))).toBe(false);
     });
   });
 
   describe('robots', () => {
-    it('disallows all in local development', () => {
-      process.env.NEXT_PUBLIC_SITE_ENV = 'development';
+    it('allows all and sets the SITE_ORIGIN sitemap', () => {
       const result: MetadataRoute.Robots = robots();
-      expect(result.rules).toEqual({ userAgent: '*', disallow: '/' });
-      expect(result.sitemap).toBeUndefined();
+      expect(result.rules).toContainEqual({ userAgent: '*', allow: '/' });
+      expect(JSON.stringify(result.rules)).not.toContain('"disallow"');
+      expect(result.sitemap).toBe(`${SITE_ORIGIN}/sitemap.xml`);
     });
+  });
 
-    it('allows all and sets sitemap when in production', () => {
-      process.env.NEXT_PUBLIC_SITE_ENV = 'production';
-      const result: MetadataRoute.Robots = robots();
-      expect(result.rules).toEqual({ userAgent: '*', allow: '/' });
-      expect(result.sitemap).toBe('https://www.fengshuihomestylevastu.com/sitemap.xml');
-    });
-
-    it('uses the configured origin in robots for a production site', () => {
-      process.env.NEXT_PUBLIC_SITE_ENV = 'production';
-      process.env.NEXT_PUBLIC_SITE_URL = 'https://preview.example.test/';
-      const result: MetadataRoute.Robots = robots();
-      expect(result.sitemap).toBe('https://preview.example.test/sitemap.xml');
+  it('sets the public origin and allows indexing', () => {
+    expect(metadata.metadataBase).toEqual(new URL(SITE_ORIGIN));
+    expect(metadata.alternates?.canonical).toBe(SITE_ORIGIN);
+    expect(metadata.openGraph?.url).toBe(SITE_ORIGIN);
+    expect(metadata.robots).toMatchObject({
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     });
   });
 });

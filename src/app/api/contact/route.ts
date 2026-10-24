@@ -8,7 +8,7 @@ export const runtime = 'nodejs';
 
 const MAX_REQUEST_BYTES = 5 * 1024;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-// Per-phone limit, tuned for a small consultancy site. A global cap was removed on
+// Per-phone limit, tuned for a small consultation site. A global cap was removed on
 // purpose: it let one unauthenticated sender block every lead. Per-IP limits belong at the edge.
 const RATE_LIMIT_MAX = 10;
 const MAX_RATE_LIMIT_KEYS = 10_000;

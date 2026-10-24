@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
+import { BRAND_NAME, PERSON_NAME, PERSON_TITLE } from '@/lib/site';
 
 export const runtime = 'nodejs';
 
-export const alt = 'Homestyle Vastu - Vastu & Feng Shui Consultations';
+export const alt = `${BRAND_NAME} - Vastu & Feng Shui Consultations`;
 export const size = {
   width: 1200,
   height: 630,
@@ -38,13 +39,13 @@ export default async function Image() {
             VASTU SHASTRA · FENG SHUI · JAIPUR
           </div>
           <div style={{ display: 'flex', fontSize: 88, fontWeight: 700, marginTop: 24, letterSpacing: -2, lineHeight: 1.05 }}>
-            Homestyle Vastu
+            {BRAND_NAME}
           </div>
           <div style={{ display: 'flex', fontSize: 36, marginTop: 24, color: '#554336', maxWidth: 640 }}>
             Guidance for the spaces where you live and work
           </div>
           <div style={{ display: 'flex', marginTop: 44, fontSize: 26, fontWeight: 700, color: '#B05A07' }}>
-            Consultant: Sanjay Jain
+            {PERSON_TITLE}: {PERSON_NAME}
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 400 }}>

@@ -3,26 +3,24 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronDown, Compass, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { HomeJourneyStepper, HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
-import { whatsappLink } from '@/lib/services-data';
+import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, WHATSAPP_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Vastu & Feng Shui in Jaipur for Homes',
-  description: 'Vastu and Feng Shui guidance by Sanjay Jain in Jaipur for homes, businesses, plots, construction, renovation and online floor-plan reviews.',
+  title: 'Vastu & Feng Shui Jaipur',
+  description: `${BRAND_NAME} offers Vastu and Feng Shui guidance by ${PERSON_NAME} in Jaipur for homes, businesses, plots, construction, renovation and online floor-plan reviews.`,
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Vastu & Feng Shui for Homes and Businesses | Homestyle Vastu',
+    title: `Vastu & Feng Shui Jaipur | ${BRAND_NAME}`,
     description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial properties and online floor-plan reviews.',
     url: '/',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vastu & Feng Shui for Homes and Businesses | Homestyle Vastu',
+    title: `Vastu & Feng Shui Jaipur | ${BRAND_NAME}`,
     description: 'Explore Vastu and Feng Shui guidance for homes, businesses, plots, construction and renovation, industrial properties and online floor-plan reviews.',
   },
 };
-
-const WHATSAPP_URL = whatsappLink('Hello, I would like to ask about a consultation.');
 
 const journey = [
   { step: '01', title: 'Start a conversation', text: 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.' },
@@ -129,14 +127,14 @@ export default function Home() {
           <div className="paper-card mx-auto flex w-full max-w-sm flex-col items-center p-10 text-center">
             <div className="grid h-24 w-24 place-items-center rounded border-2 border-accent/50 bg-secondary font-headline text-3xl font-semibold text-primary">SJ</div>
             <h3 className="mt-5 font-headline text-2xl font-semibold">Sanjay Jain</h3>
-            <p className="mt-1 text-[17px] font-semibold leading-[29px] text-terracotta-ink">Vastu &amp; Feng Shui Consultant</p>
+            <p className="mt-1 text-[17px] font-semibold leading-[29px] text-terracotta-ink">{PERSON_TITLE}</p>
             <p className="mt-4 text-[17px] leading-[29px] text-muted-foreground">22 years of experience as of 2026</p>
           </div>
           <div className="space-y-5">
             <p className="eyebrow">The consultant</p>
             <h2 className="font-headline text-3xl font-semibold md:text-4xl">Rooted in tradition, applied for modern living</h2>
             <p className="text-lg leading-8 text-foreground/85">
-              Sanjay Jain is the Vastu and Feng Shui consultant at Homestyle Vastu. The practice offers guidance for homes, businesses, plots and land, construction or renovation, industrial properties and online floor-plan review.
+              {PERSON_NAME} is the {PERSON_TITLE} at {BRAND_NAME}. The practice offers guidance for homes, businesses, plots and land, construction or renovation, industrial properties and online floor-plan review.
             </p>
             <Button asChild variant="outline" className="h-12 border-accent px-6 text-base font-semibold text-terracotta-ink hover:bg-accent/10 hover:text-terracotta-ink">
               <Link href="/about">Read full profile</Link>

@@ -1,30 +1,28 @@
 import { MetadataRoute } from 'next';
-import { getSiteOrigin, isPublicProduction } from '@/lib/site';
+import { SITE_ORIGIN } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
-  if (process.env.NEXT_PUBLIC_SITE_ENV === 'preview') {
-    return {
-      rules: {
-        userAgent: '*',
-        allow: '/',
-      },
-    };
-  }
-
-  if (!isPublicProduction()) {
-    return {
-      rules: {
-        userAgent: '*',
-        disallow: '/',
-      },
-    };
-  }
+  const userAgents = [
+    'Googlebot',
+    'Bingbot',
+    'Google-Extended',
+    'GPTBot',
+    'OAI-SearchBot',
+    'ChatGPT-User',
+    'ClaudeBot',
+    'Claude-SearchBot',
+    'Claude-User',
+    'PerplexityBot',
+    'Applebot-Extended',
+    'CCBot',
+  ];
 
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
-    sitemap: `${getSiteOrigin()}/sitemap.xml`,
+    rules: [
+      { userAgent: '*', allow: '/' },
+      ...userAgents.map((userAgent) => ({ userAgent, allow: '/' })),
+    ],
+    sitemap: `${SITE_ORIGIN}/sitemap.xml`,
+    host: new URL(SITE_ORIGIN).host,
   };
 }
