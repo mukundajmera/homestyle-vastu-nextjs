@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { VastuDial } from '@/components/vastu-dial';
 
 export const metadata: Metadata = {
-  title: 'Vastu & Feng Shui for Homes and Businesses in Jaipur',
+  title: 'Vastu & Feng Shui in Jaipur for Homes',
   description: 'Vastu and Feng Shui guidance by Sanjay Jain in Jaipur for homes, businesses, plots, construction, renovation and online floor-plan reviews.',
   alternates: { canonical: '/' },
   openGraph: {
