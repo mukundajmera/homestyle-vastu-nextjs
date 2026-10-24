@@ -12,7 +12,7 @@ const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 // purpose: it let one unauthenticated sender block every lead. Per-IP limits belong at the edge.
 const RATE_LIMIT_MAX = 10;
 const MAX_RATE_LIMIT_KEYS = 10_000;
-const PRIVACY_POLICY_VERSION = 'v1.0';
+const PRIVACY_POLICY_VERSION = 'v2.0';
 
 const contactSchema = z.object({
   submissionId: z.string().uuid(),

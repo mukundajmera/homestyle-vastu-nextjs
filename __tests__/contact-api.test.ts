@@ -180,7 +180,7 @@ describe('/api/contact', () => {
     const insertCall = mockExecute.mock.calls.find(([statement]) => String(statement).includes('INSERT INTO leads'));
     expect(insertCall).toBeDefined();
     expect(insertCall?.[1]).toContain(true);
-    expect(insertCall?.[1]).toContain('v1.0');
+    expect(insertCall?.[1]).toContain('v2.0');
     const consentTimestamp = insertCall?.[1]?.[11] as string;
     const timestamp = new Date(`${consentTimestamp.replace(' ', 'T')}Z`).getTime();
     expect(timestamp).toBeGreaterThanOrEqual(before - 1000);
