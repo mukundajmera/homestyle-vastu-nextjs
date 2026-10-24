@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
-  title: 'About Sanjay Jain',
-  description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant at Homestyle Vastu, with 22 years of experience as of 2026. Guidance for homes, businesses, plots, builds, renovations, factories, and online floor-plan review.',
+  title: 'About Sanjay Jain, Vastu Consultant in Jaipur',
+  description: 'Meet Sanjay Jain, Vastu and Feng Shui consultant in Jaipur, with 22 years of experience as of 2026.',
   alternates: { canonical: '/about' },
   openGraph: {
     title: 'About Sanjay Jain | Homestyle Vastu',

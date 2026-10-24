@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: '%s | Homestyle Vastu'
   },
   description: 'Vastu Shastra and Feng Shui guidance with Sanjay Jain for homes, businesses, plots, construction and renovation, industrial spaces, and online floor-plan review.',
-  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'residential Vastu', 'commercial Vastu', 'plot selection', 'construction Vastu', 'industrial Vastu', 'online floor-plan review', 'Sanjay Jain'],
+  keywords: ['Vastu Shastra', 'Feng Shui', 'consultation', 'residential Vastu', 'commercial Vastu', 'plot selection', 'construction Vastu', 'industrial Vastu', 'online floor-plan review', 'Sanjay Jain', 'Vastu consultant Jaipur', 'Feng Shui Jaipur'],
   authors: [{ name: 'Sanjay Jain' }],
   creator: 'Homestyle Vastu',
   publisher: 'Homestyle Vastu',
