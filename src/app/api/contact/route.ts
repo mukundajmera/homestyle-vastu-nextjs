@@ -1,8 +1,10 @@
 import { createHash } from 'node:crypto';
 import { TextDecoder } from 'node:util';
 import { NextResponse } from 'next/server';
-import mysql from 'mysql2/promise';
+import mysql, { type ResultSetHeader } from 'mysql2/promise';
 import { z } from 'zod';
+import { sendLeadEmail } from '@/lib/lead-notifications';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export const runtime = 'nodejs';
 
@@ -35,6 +37,7 @@ const contactSchema = z.object({
     message: 'Please consent to being contacted about this inquiry'
   }),
   honeypot: z.string().max(0).optional(),
+  turnstileToken: z.string().max(2048).optional(),
 });
 
 type RateLimitEntry = { count: number; expiresAt: number };
@@ -155,11 +158,22 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: 'Please correct the highlighted fields and try again.' }, { status: 400 });
   }
-  const lead = parsed.data;
+  const { turnstileToken, ...lead } = parsed.data;
 
   // Normalize optional blank fields to undefined for canonical idempotency payload hash
   if (lead.email === '') lead.email = undefined;
   if (lead.inquiry === '') lead.inquiry = undefined;
+
+  // Fail closed in production: without a Turnstile secret, bots cannot be told apart from people.
+  if (process.env.NODE_ENV === 'production' && !process.env.TURNSTILE_SECRET_KEY) {
+    return NextResponse.json({ error: 'The inquiry form is temporarily unavailable. Please contact us on WhatsApp.' }, { status: 503 });
+  }
+  if (process.env.TURNSTILE_SECRET_KEY) {
+    const isHuman = turnstileToken ? await verifyTurnstileToken(turnstileToken) : false;
+    if (!isHuman) {
+      return NextResponse.json({ error: 'Please complete the security check and try again.' }, { status: 400 });
+    }
+  }
 
   if (isRateLimited(getRateLimitKey(lead.phone))) {
     return NextResponse.json(
@@ -192,7 +206,7 @@ export async function POST(request: Request) {
     }
 
     const payloadHash = createHash('sha256').update(JSON.stringify(lead)).digest('hex');
-    await connection.execute(
+    const [insertResult] = await connection.execute(
       `INSERT INTO leads
         (submission_id, payload_hash, name, phone, email, location, type, service_interest, format, inquiry, consent, consent_timestamp, privacy_policy_version)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -219,6 +233,12 @@ export async function POST(request: Request) {
     if (!savedRow) throw new Error('Lead insert could not be confirmed');
     if (savedRow.payload_hash !== payloadHash) {
       return NextResponse.json({ error: 'This form has already been submitted with different details.' }, { status: 409 });
+    }
+
+    // Email only the first save of a submission, so a retried request does not send a duplicate.
+    const isNewLead = (insertResult as ResultSetHeader).affectedRows === 1;
+    if (isNewLead && !(await sendLeadEmail(lead))) {
+      console.error('Lead notification email was not sent.');
     }
 
     return NextResponse.json({ success: true, dbSuccess: true });

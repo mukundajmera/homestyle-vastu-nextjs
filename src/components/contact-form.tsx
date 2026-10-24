@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 import { BRAND_NAME, WHATSAPP_URL } from "@/lib/site";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,6 +65,8 @@ export function ContactForm() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [whatsAppUrl, setWhatsAppUrl] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaKey, setCaptchaKey] = useState(0);
   const submissionId = useRef<string | null>(null);
 
   const form = useForm<FormInput, unknown, FormValues>({
@@ -107,6 +110,9 @@ export function ContactForm() {
       if (!data.type || !data.serviceInterest || !data.format) {
         throw new Error("Please complete the required consultation selections.");
       }
+      if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !captchaToken) {
+        throw new Error("Please complete the security check before sending.");
+      }
 
       submissionId.current ??= window.crypto.randomUUID();
       const response = await fetch("/api/contact", {
@@ -124,6 +130,7 @@ export function ContactForm() {
           inquiry: data.inquiry,
           honeypot: data.honeypot,
           consent: data.consent,
+          turnstileToken: captchaToken,
         }),
       });
 
@@ -146,6 +153,9 @@ export function ContactForm() {
 
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred. Please try calling us instead.");
+      // Turnstile tokens are single-use, so a failed attempt needs a fresh check.
+      setCaptchaToken(null);
+      setCaptchaKey((key) => key + 1);
     } finally {
       setIsSubmitting(false);
     }
@@ -251,7 +261,7 @@ export function ContactForm() {
                 <FormControl>
                   <Input type="email" placeholder="your@email.com" {...field} disabled={isSubmitting || Boolean(success)} />
                 </FormControl>
-                <p className="text-sm text-muted-foreground">No automatic email is sent after you submit this form.</p>
+                <p className="text-sm text-muted-foreground">Used only to reply to your inquiry.</p>
                 <FormMessage />
               </FormItem>
             )}
@@ -370,7 +380,7 @@ export function ContactForm() {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel className="text-sm font-normal cursor-pointer">
-                  I consent to {BRAND_NAME} storing my submitted details in the inquiry database and contacting me about this request.
+                  I consent to {BRAND_NAME} storing my submitted details in its inquiry database, sharing them with its team, and contacting me about this request.
                 </FormLabel>
                 <FormDescription className="text-xs">
                   Read the <Link href="/privacy" className="font-semibold text-primary underline underline-offset-2">Privacy Policy</Link>.
@@ -386,6 +396,8 @@ export function ContactForm() {
               <strong>Next step:</strong> After the form is saved, we will open WhatsApp with a short draft message. The draft includes only your selected service interest; your name, phone, email, location, property category, and inquiry details are not added to the WhatsApp link. You will need to press Send in WhatsApp to start the conversation.
           </p>
         </div>
+
+        <TurnstileWidget key={captchaKey} onToken={setCaptchaToken} />
 
         <Button
           type="submit"

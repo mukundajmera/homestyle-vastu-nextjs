@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent } from 'react';
+import { useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { cn } from '@/lib/utils';
 import { whatsappLink } from '@/lib/services-data';
 import { vastuDirections } from '@/lib/vastu-directions';
@@ -26,6 +26,28 @@ function snapToDirection(angle: number) {
   return Math.round(angle / 45) % vastuDirections.length;
 }
 
+/** The needle can turn at most this far from the locked direction, so a drag only reaches neighbouring zones. */
+const MAX_TURN = 45;
+/** Movement below this (degrees) counts as a tap rather than a drag. */
+const TAP_THRESHOLD = 4;
+/** Distance from the centre (in SVG units) that still counts as touching the dial. */
+const DIAL_RADIUS = 150;
+
+type DragState = { pointerId: number; startAngle: number; needleAngle: number; moved: boolean };
+
+function normaliseAngle(angle: number) {
+  return ((angle % 360) + 360) % 360;
+}
+
+/** Shortest signed difference between two angles, from -180 to 180 degrees. */
+function signedDelta(angle: number, from: number) {
+  return ((angle - from + 540) % 360) - 180;
+}
+
+function clamp(value: number, limit: number) {
+  return Math.max(-limit, Math.min(limit, value));
+}
+
 export function VastuDial() {
   const [lockedIndex, setLockedIndex] = useState(1); // North-East is the initial selection.
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
@@ -36,9 +58,7 @@ export function VastuDial() {
   const focusRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const previewIndexRef = useRef<number | null>(null);
   const lockedIndexRef = useRef(1);
-  const pointerAngleRef = useRef<number | null>(null);
-  const frameRef = useRef<number | null>(null);
-  const lastPointerTypeRef = useRef<string | null>(null);
+  const dragRef = useRef<DragState | null>(null);
 
   const visibleIndex = previewIndex ?? lockedIndex;
   const direction = vastuDirections[visibleIndex];
@@ -48,14 +68,16 @@ export function VastuDial() {
     needleRef.current?.setAttribute('transform', `rotate(${angle} 160 160)`);
   }
 
+  function setPreview(index: number | null) {
+    if (previewIndexRef.current === index) return;
+    previewIndexRef.current = index;
+    setPreviewIndex(index);
+  }
+
   function lockDirection(index: number) {
     const lockedDirection = vastuDirections[index];
     lockedIndexRef.current = index;
-    pointerAngleRef.current = null;
-    if (frameRef.current !== null) {
-      window.cancelAnimationFrame(frameRef.current);
-      frameRef.current = null;
-    }
+    dragRef.current = null;
     previewIndexRef.current = null;
     setPreviewIndex(null);
     setLockedIndex(index);
@@ -63,76 +85,74 @@ export function VastuDial() {
     setNeedleAngle(lockedDirection.angle);
   }
 
-  function pointToDirection(clientX: number, clientY: number) {
+  /** Abandons a drag and returns the needle to the locked direction. */
+  function cancelDrag() {
+    dragRef.current = null;
+    setPreview(null);
+    setNeedleAngle(vastuDirections[lockedIndexRef.current].angle);
+  }
+
+  function pointerAngleAt(clientX: number, clientY: number) {
     const svg = svgRef.current;
     if (!svg) return null;
     const bounds = svg.getBoundingClientRect();
     if (!bounds.width || !bounds.height) return null;
 
-    const x = ((clientX - bounds.left) / bounds.width) * 320;
-    const y = ((clientY - bounds.top) / bounds.height) * 320;
-    const dx = x - 160;
-    const dy = y - 160;
-    if (Math.hypot(dx, dy) > 150) return null;
+    const dx = ((clientX - bounds.left) / bounds.width) * 320 - 160;
+    const dy = ((clientY - bounds.top) / bounds.height) * 320 - 160;
+    return { angle: normaliseAngle((Math.atan2(dx, -dy) * 180) / Math.PI), distance: Math.hypot(dx, dy) };
+  }
 
-    const angle = (Math.atan2(dx, -dy) * 180) / Math.PI;
-    return { angle: (angle + 360) % 360, index: snapToDirection((angle + 360) % 360) };
+  function handlePointerDown(event: PointerEvent<SVGSVGElement>) {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    const point = pointerAngleAt(event.clientX, event.clientY);
+    if (!point || point.distance > DIAL_RADIUS) return;
+
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startAngle: point.angle,
+      needleAngle: vastuDirections[lockedIndexRef.current].angle,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
   }
 
   function handlePointerMove(event: PointerEvent<SVGSVGElement>) {
-    lastPointerTypeRef.current = event.pointerType;
-    if (event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+    // Hovering without a pressed pointer does nothing: only an active drag moves the needle.
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const point = pointerAngleAt(event.clientX, event.clientY);
+    if (!point) return;
 
-    const point = pointToDirection(event.clientX, event.clientY);
-    if (!point) {
-      clearPreview();
-      return;
-    }
-    pointerAngleRef.current = point.angle;
-    if (frameRef.current !== null) return;
-
-    frameRef.current = window.requestAnimationFrame(() => {
-      frameRef.current = null;
-      if (pointerAngleRef.current === null) return;
-      setNeedleAngle(pointerAngleRef.current);
-      const nextPreview = snapToDirection(pointerAngleRef.current);
-      if (previewIndexRef.current !== nextPreview) {
-        previewIndexRef.current = nextPreview;
-        setPreviewIndex(nextPreview);
-      }
-    });
-  }
-
-  function clearPreview() {
-    pointerAngleRef.current = null;
-    if (frameRef.current !== null) {
-      window.cancelAnimationFrame(frameRef.current);
-      frameRef.current = null;
-    }
-    previewIndexRef.current = null;
-    setPreviewIndex(null);
-    setNeedleAngle(vastuDirections[lockedIndexRef.current].angle);
-  }
-
-  function handlePointerLeave() {
-    clearPreview();
+    const lockedAngle = vastuDirections[lockedIndexRef.current].angle;
+    const turn = clamp(signedDelta(point.angle, drag.startAngle), MAX_TURN);
+    if (Math.abs(turn) >= TAP_THRESHOLD) drag.moved = true;
+    drag.needleAngle = normaliseAngle(lockedAngle + turn);
+    setNeedleAngle(drag.needleAngle);
+    setPreview(drag.moved ? snapToDirection(drag.needleAngle) : null);
   }
 
   function handlePointerUp(event: PointerEvent<SVGSVGElement>) {
-    lastPointerTypeRef.current = event.pointerType;
-    if (event.pointerType === 'touch') {
-      const point = pointToDirection(event.clientX, event.clientY);
-      if (point) lockDirection(point.index);
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
     }
-  }
 
-  function handleClick(event: MouseEvent<SVGSVGElement>) {
-    if (lastPointerTypeRef.current === 'touch') {
-      lastPointerTypeRef.current = null;
+    if (drag.moved) {
+      lockDirection(snapToDirection(drag.needleAngle));
       return;
     }
-    const point = pointToDirection(event.clientX, event.clientY);
-    if (point) lockDirection(point.index);
+
+    // A tap without a drag locks the direction under the finger or pointer.
+    const point = pointerAngleAt(event.clientX, event.clientY);
+    if (point && point.distance <= DIAL_RADIUS) lockDirection(snapToDirection(point.angle));
+    else cancelDrag();
+  }
+
+  function handlePointerCancel(event: PointerEvent<SVGSVGElement>) {
+    if (dragRef.current?.pointerId !== event.pointerId) return;
+    cancelDrag();
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -148,10 +168,6 @@ export function VastuDial() {
     focusRefs.current[nextIndex]?.focus();
   }
 
-  useEffect(() => () => {
-    if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
-  }, []);
-
   return (
     <figure className="relative mx-auto w-full max-w-[30rem]">
       <div className="paper-card relative overflow-hidden rounded-[1.25rem] p-4 sm:p-6">
@@ -160,13 +176,13 @@ export function VastuDial() {
           ref={svgRef}
           aria-hidden="true"
           viewBox="0 0 320 320"
-          className="relative block h-auto w-full touch-manipulation"
+          className="relative block h-auto w-full touch-none"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
-          onPointerLeave={handlePointerLeave}
           onPointerUp={handlePointerUp}
-          onClick={handleClick}
+          onPointerCancel={handlePointerCancel}
         >
           <circle cx="160" cy="160" r="150" stroke="#C86142" strokeOpacity=".35" strokeWidth="1" />
           <circle cx="160" cy="160" r="128" stroke="#C86142" strokeOpacity=".5" strokeWidth="1.25" />
@@ -244,7 +260,7 @@ export function VastuDial() {
           <p className="mt-1 font-semibold text-foreground">{direction.theme}</p>
           <p className="mt-1 leading-7 text-foreground">{direction.question}</p>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">{direction.note}</p>
-          <p className="mt-2 text-sm text-foreground">{isPreviewing ? `Previewing ${direction.name}. Click or tap to lock this direction.` : `Selected ${direction.name}. Move over the compass to preview another direction.`}</p>
+          <p className="mt-2 text-sm text-foreground">{isPreviewing ? `Previewing ${direction.name}. Release to lock this direction.` : `Selected ${direction.name}. Press and drag the needle a little, or choose a button below, to pick another direction.`}</p>
           <a
             href={whatsappLink(`Hello, I would like to ask about the ${direction.name} side of my property.`)}
             target="_blank"
