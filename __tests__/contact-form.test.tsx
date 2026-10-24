@@ -72,7 +72,7 @@ describe('ContactForm', () => {
 
     expect(await screen.findByText(message)).toBeInTheDocument();
     expect(mockFetch).not.toHaveBeenCalled();
-  });
+  }, 15000); // Typing into eight fields is slow under parallel test load; the 5 s default is flaky.
 
   it('saves the questionnaire, explains the WhatsApp handoff, and excludes personal details from its link', async () => {
     jest.useFakeTimers();
