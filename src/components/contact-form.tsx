@@ -109,7 +109,7 @@ export function ContactForm() {
           To continue the conversation now, message us on WhatsApp. The message is already written; just press Send.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button asChild className="h-12 bg-[#25D366] px-6 font-bold text-white hover:bg-[#1ebe5a]">
+          <Button asChild className="h-12 bg-[#15803D] px-6 font-bold text-white hover:bg-[#116B32]">
             <a href={whatsAppUrl ?? WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Chat on WhatsApp now</a>
           </Button>
           <Button type="button" variant="outline" className="h-12 font-semibold" onClick={() => setConfirmation(null)}>
