@@ -129,6 +129,11 @@ describe('/api/contact', () => {
     expect(storedLeads.size).toBe(0);
   });
 
+  it('accepts a null Turnstile token when the form has no widget', async () => {
+    const response = await POST(createMockRequest({ ...basePayload(), turnstileToken: null }));
+    expect(response.status).not.toBe(400);
+  });
+
   it('requires affirmative consent', async () => {
     const response = await POST(createMockRequest({ ...basePayload(), consent: false }));
     expect(response.status).toBe(400);

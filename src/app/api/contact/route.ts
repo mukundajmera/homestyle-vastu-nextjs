@@ -37,7 +37,7 @@ const contactSchema = z.object({
     message: 'Please consent to being contacted about this inquiry'
   }),
   honeypot: z.string().max(0).optional(),
-  turnstileToken: z.string().max(2048).optional(),
+  turnstileToken: z.string().max(2048).nullish(),
 });
 
 type RateLimitEntry = { count: number; expiresAt: number };

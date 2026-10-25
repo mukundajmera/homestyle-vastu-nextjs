@@ -51,29 +51,57 @@ module.exports = async (page, baseUrl) => {
     assert(consoleErrors.length === 0, consoleErrors.join('\n') || 'Unexpected console error');
   });
 
-  await check('home compass previews West, restores its lock, and locks East', async () => {
+  await check('home compass ignores hover, then a click locks East and turns the needle', async () => {
     await page.goto(new URL('/', base).href, { waitUntil: 'domcontentloaded' });
+    await page.waitForLoadState('networkidle');
     const figure = page.locator('figure').filter({ has: page.getByRole('group', { name: 'Choose a compass direction' }) });
     const dial = figure.locator('svg').first();
     const bounds = await dial.boundingBox();
     assert(bounds, 'Could not find compass dial bounds');
-    const status = figure.getByText(/^(Previewing|Selected) /);
+    const status = figure.getByText(/^Selected /);
 
-    await page.mouse.move(bounds.x + bounds.width * 0.1, bounds.y + bounds.height * 0.5);
-    await status.waitFor({ state: 'visible' });
-    await page.waitForFunction(() => document.querySelector('figure')?.textContent?.includes('Previewing West'));
-    assert((await status.textContent())?.startsWith('Previewing West'), 'Left side of the dial did not preview West');
-
-    await page.mouse.move(5, 5);
     await page.waitForFunction(() => document.querySelector('figure')?.textContent?.includes('Selected North-East'));
-    assert((await status.textContent())?.startsWith('Selected North-East'), 'Moving off the dial did not restore North-East');
+    await page.mouse.move(bounds.x + bounds.width * 0.1, bounds.y + bounds.height * 0.5);
+    await page.mouse.move(bounds.x + bounds.width * 0.12, bounds.y + bounds.height * 0.5);
+    assert((await status.textContent())?.startsWith('Selected North-East'), 'Hovering the dial changed the selection');
 
     await page.mouse.click(bounds.x + bounds.width * 0.9, bounds.y + bounds.height * 0.5);
     await page.waitForFunction(() => document.querySelector('figure')?.textContent?.includes('Selected East'));
     assert((await status.textContent())?.startsWith('Selected East'), 'Right side click did not lock East');
+    const needle = await figure.locator('svg g[aria-hidden="true"]').first().getAttribute('style');
+    assert(needle && needle.includes('rotate(90deg)'), 'Needle did not turn to East');
   });
 
   let contactPostCalls = 0;
+  consoleErrors = [];
+  await check('blog index lists at least three articles and each article renders one h1', async () => {
+    const response = await page.goto(new URL('/blog', base).href, { waitUntil: 'domcontentloaded' });
+    assert(response && response.status() === 200, `Expected HTTP 200 for /blog, received ${response?.status() ?? 'no response'}`);
+    const hrefs = await page.locator('a[href^="/blog/"]').evaluateAll((links) => [...new Set(links.map((link) => link.getAttribute('href')))]);
+    assert(hrefs.length >= 3, `Expected at least 3 article links, found ${hrefs.length}`);
+    for (const href of hrefs) {
+      const articleResponse = await page.goto(new URL(href, base).href, { waitUntil: 'domcontentloaded' });
+      assert(articleResponse && articleResponse.status() === 200, `Article ${href} returned ${articleResponse?.status() ?? 'no response'}`);
+      const headings = await page.locator('h1').count();
+      assert(headings === 1, `Article ${href} has ${headings} h1 elements`);
+    }
+  });
+  await check('home shows a WhatsApp button and no booking button', async () => {
+    await page.goto(new URL('/', base).href, { waitUntil: 'domcontentloaded' });
+    const whatsapp = page.locator('a[aria-label="Chat or call on WhatsApp"]');
+    assert(await whatsapp.count() >= 1, 'WhatsApp button is missing');
+    const href = await whatsapp.first().getAttribute('href');
+    assert(href && href.startsWith('https://wa.me/'), `WhatsApp href is ${href}`);
+    assert(await page.getByRole('link', { name: 'Book a consultation' }).count() === 0, 'A Book a consultation link is still present');
+  });
+  await check('about page shows Sanjay Jain’s photo', async () => {
+    await page.goto(new URL('/about', base).href, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => {
+      const img = document.querySelector('img[alt*="Sanjay Jain"]');
+      return Boolean(img && img.complete && img.naturalWidth > 0);
+    }, null, { timeout: 15000 });
+  });
+
   await page.route('**/api/contact', async (route) => {
     if (route.request().method() === 'POST') contactPostCalls += 1;
     await route.abort();
