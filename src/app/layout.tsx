@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { WhatsAppButton } from '@/components/whatsapp-button';
 import { Toaster } from '@/components/ui/toaster';
 import { ADDRESS, BRAND_NAME, BRAND_TITLE, PERSON_NAME, PHONE_E164, SITE_ORIGIN } from '@/lib/site';
 
@@ -98,6 +99,7 @@ export default function RootLayout({
         <Header />
         <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col">{children}</main>
         <Footer />
+        <WhatsAppButton />
         <Toaster />
       </body>
     </html>

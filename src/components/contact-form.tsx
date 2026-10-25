@@ -136,7 +136,7 @@ export function ContactForm() {
 
       const result = await response.json().catch(() => ({}));
 
-      if (!response.ok || result.success !== true || result.dbSuccess !== true) {
+      if (!response.ok || result.success !== true) {
         throw new Error(result.error || "Failed to submit");
       }
 

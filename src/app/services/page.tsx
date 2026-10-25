@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FormatToggle } from '@/components/format-toggle';
-import { consultationFormats, propertyServices, whatsappLink } from '@/lib/services-data';
+import { consultationFormats, propertyServices, servicePageCopy, whatsappLink } from '@/lib/services-data';
 import { BRAND_NAME, PERSON_NAME } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Consultation Services',
-  description: 'Vastu Shastra and Feng Shui consultations in Jaipur for homes, businesses, plots, construction, industrial properties and online floor-plan reviews.',
+  description: 'Vastu and Feng Shui consultations in Jaipur for homes, businesses, plots, construction, factories, and online floor-plan reviews.',
   alternates: { canonical: '/services' },
   openGraph: {
     title: `Consultation Services | ${BRAND_NAME}`,
@@ -23,25 +23,41 @@ export const metadata: Metadata = {
   },
 };
 
+const services = propertyServices.map((service) => ({ ...service, ...servicePageCopy[service.id] }));
+
 export default function ServicesPage() {
   return (
     <div>
       <section className="relative isolate overflow-hidden border-b border-border">
         <div className="grid-lines absolute inset-0 -z-10 opacity-50" aria-hidden="true" />
         <div className="container mx-auto max-w-5xl break-words px-4 py-16 md:py-24">
-          <p className="eyebrow mb-4">Consultation services</p>
-          <h1 className="max-w-3xl font-headline text-4xl font-semibold leading-tight md:text-5xl">Vastu and Feng Shui Consultation Services</h1>
+          <p className="eyebrow mb-4">Vastu &amp; Feng Shui consultations in Jaipur</p>
+          <h1 className="max-w-3xl font-headline text-4xl font-semibold leading-tight md:text-5xl">Make your space work for you</h1>
           <p className="mt-6 max-w-3xl text-xl leading-9 text-foreground/85">
-            Vastu Shastra and Feng Shui guidance for homes and businesses, plus plot selection, construction or renovation guidance, industrial and factory Vastu, and online floor-plan review.
+            Whether you are choosing a plot, building a home, opening a shop, or running a factory, {PERSON_NAME} helps you read the space and decide what to change, with practical guidance you can act on.
           </p>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="h-14 px-7 text-lg font-semibold">
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-5 w-5 shrink-0" aria-hidden="true" />
+                <span>Ask about your property</span>
+              </a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-14 px-7 text-lg font-semibold">
+              <Link href="/contact">Send an inquiry</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
       <div className="container mx-auto max-w-5xl space-y-20 px-4 py-16 md:py-24">
         <section className="break-words">
-          <h2 className="mb-8 border-b border-border pb-4 font-headline text-3xl font-semibold">Guidance by property and project</h2>
+          <h2 className="mb-3 border-b border-border pb-4 font-headline text-3xl font-semibold">Find the consultation that fits your project</h2>
+          <p className="mb-8 max-w-3xl text-lg leading-8 text-foreground/80">
+            Pick the situation closest to yours. Each card lists what to have ready for the first conversation.
+          </p>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {propertyServices.map(({ id, icon: Icon, title, tag, lead, text, bring }) => (
+            {services.map(({ id, icon: Icon, title, tag, lead, text, bring }) => (
               <article key={id} id={id} className="paper-card-interactive flex scroll-mt-24 flex-col p-6 md:p-8">
                 <div className="mb-5 flex items-center justify-between gap-4">
                   <span className="grid h-12 w-12 place-items-center rounded-full bg-secondary text-primary">
@@ -71,14 +87,14 @@ export default function ServicesPage() {
         </section>
 
         <section className="break-words">
-          <h2 className="mb-8 border-b border-border pb-4 font-headline text-3xl font-semibold">Consultation formats</h2>
+          <h2 className="mb-8 border-b border-border pb-4 font-headline text-3xl font-semibold">How you can consult</h2>
           <FormatToggle formats={consultationFormats} />
         </section>
 
         <section className="break-words rounded border border-border bg-primary p-8 text-center text-primary-foreground md:p-12">
-          <h2 className="mb-4 font-headline text-2xl font-semibold text-white md:text-3xl">Not sure which format suits your property?</h2>
+          <h2 className="mb-4 font-headline text-2xl font-semibold text-white md:text-3xl">Not sure where to start?</h2>
           <p className="mx-auto mb-8 max-w-2xl text-xl leading-8 text-white/95">
-            Contact {PERSON_NAME} to discuss your property and ask which consultation format may suit your needs.
+            Tell {PERSON_NAME} about your property and which format may suit you. A short message is enough to begin.
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Button asChild size="lg" className="h-14 bg-white px-7 text-lg font-semibold text-primary hover:bg-white/90">

@@ -10,10 +10,15 @@ describe('metadata', () => {
       expect(sitemap().map((route) => route.url)).toEqual([
         SITE_ORIGIN,
         `${SITE_ORIGIN}/services`,
+        `${SITE_ORIGIN}/blog`,
         `${SITE_ORIGIN}/about`,
         `${SITE_ORIGIN}/contact`,
         `${SITE_ORIGIN}/privacy`,
         `${SITE_ORIGIN}/terms`,
+        `${SITE_ORIGIN}/blog/vastu-and-feng-shui-compared`,
+        `${SITE_ORIGIN}/blog/plot-selection-checklist`,
+        `${SITE_ORIGIN}/blog/entrance-and-kitchen-basics`,
+        `${SITE_ORIGIN}/blog/preparing-floor-plan-for-online-review`,
     ]);
     expect(sitemap().some(({ url }) => url.endsWith('/llms.txt'))).toBe(false);
     });

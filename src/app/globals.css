@@ -81,14 +81,6 @@
   }
 }
 
-@keyframes dial-turn {
-  from { transform: rotate(-8deg); }
-  to { transform: rotate(8deg); }
-}
-.dial-needle {
-  transform-origin: 160px 160px;
-  animation: dial-turn 6s ease-in-out infinite alternate;
-}
 
 /* Utilities for accessibility */
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { BRAND_NAME, PERSON_NAME, PERSON_TITLE } from '@/lib/site';
@@ -25,14 +26,15 @@ export default function AboutPage() {
     <div className="container mx-auto max-w-5xl px-4 py-16 md:py-24">
       <div className="flex flex-col gap-12 md:flex-row md:gap-16">
         <aside className="w-full md:w-1/3">
-          <div className="paper-card relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-t-[6rem] rounded-b-lg">
-            <div className="grid-lines absolute inset-0 opacity-70" aria-hidden="true" />
-            <svg aria-hidden="true" viewBox="0 0 100 100" className="absolute h-4/5 w-4/5 text-accent/40" fill="none">
-              <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="0.8" />
-              <rect x="20" y="20" width="60" height="60" stroke="currentColor" strokeWidth="0.8" transform="rotate(45 50 50)" />
-              <path d="M50 0V100M0 50H100" stroke="currentColor" strokeWidth="0.5" />
-            </svg>
-            <span className="relative font-headline text-6xl font-semibold text-primary">SJ</span>
+          <div className="paper-card relative aspect-[3/4] w-full overflow-hidden rounded-t-[6rem] rounded-b-lg">
+            <Image
+              src="/brand/sanjay-jain.jpg"
+              alt={`${PERSON_NAME}, ${PERSON_TITLE}`}
+              fill
+              sizes="(min-width: 768px) 30vw, 100vw"
+              className="object-cover object-top"
+              priority
+            />
           </div>
           <div className="mt-6 text-center md:text-left">
             <h1 className="font-headline text-3xl font-semibold">{PERSON_NAME}</h1>

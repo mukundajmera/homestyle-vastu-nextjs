@@ -1,7 +1,7 @@
 /** Inbox list that receives every new website inquiry, in addition to the database row. */
 export const LEAD_RECIPIENTS = ['mukundajmera94@gmail.com', 'ajmeramukund94@gmail.com'] as const;
 
-import nodemailer from 'nodemailer';
+const RESEND_API_URL = 'https://api.resend.com/emails';
 
 export type LeadEmailDetails = {
   name: string;
@@ -35,34 +35,40 @@ function buildLeadEmailText(lead: LeadEmailDetails) {
 }
 
 /**
- * Sends the inquiry to every address in LEAD_RECIPIENTS through the Hostinger mailbox in SMTP_*.
- * Returns false when email is not configured or the send fails; callers keep the database row either way.
+ * Sends the inquiry to every address in LEAD_RECIPIENTS through Resend, one email per recipient.
+ * Sending separately means one rejected address (for example, Resend's test sender only reaches the
+ * account owner) does not block the others. Returns true when at least one email is accepted.
+ * Callers keep the database row either way.
  */
 export async function sendLeadEmail(lead: LeadEmailDetails): Promise<boolean> {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASSWORD;
+  const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.LEAD_EMAIL_FROM;
-  if (!host || !user || !pass || !from) return false;
+  if (!apiKey || !from) return false;
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host,
-      port: Number(process.env.SMTP_PORT ?? 465),
-      secure: Number(process.env.SMTP_PORT ?? 465) === 465,
-      auth: { user, pass },
-      connectionTimeout: 10_000,
-      socketTimeout: 10_000,
-    });
-    await transporter.sendMail({
-      from,
-      to: [...LEAD_RECIPIENTS],
-      ...(lead.email ? { replyTo: lead.email } : {}),
-      subject: `New website inquiry from ${lead.name}`,
-      text: buildLeadEmailText(lead),
-    });
-    return true;
-  } catch {
-    return false;
-  }
+  const results = await Promise.all(
+    LEAD_RECIPIENTS.map(async (recipient) => {
+      try {
+        const response = await fetch(RESEND_API_URL, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from,
+            to: [recipient],
+            ...(lead.email ? { reply_to: lead.email } : {}),
+            subject: `New website inquiry from ${lead.name}`,
+            text: buildLeadEmailText(lead),
+          }),
+          signal: AbortSignal.timeout(10_000),
+        });
+        return response.ok;
+      } catch {
+        return false;
+      }
+    }),
+  );
+
+  return results.some(Boolean);
 }

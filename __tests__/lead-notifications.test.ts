@@ -1,13 +1,5 @@
-import nodemailer from 'nodemailer';
 import { LEAD_RECIPIENTS, sendLeadEmail } from '@/lib/lead-notifications';
 import { verifyTurnstileToken } from '@/lib/turnstile';
-
-const mockSendMail = jest.fn();
-
-jest.mock('nodemailer', () => ({
-  __esModule: true,
-  default: { createTransport: jest.fn(() => ({ sendMail: mockSendMail })) },
-}));
 
 const lead = {
   submissionId: '6f1b6c2e-3d6a-4f3e-9a51-2f1c4e7b9d10',
@@ -24,16 +16,8 @@ describe('sendLeadEmail', () => {
   const originalFetch = global.fetch;
 
   beforeEach(() => {
-    process.env = {
-      ...originalEnv,
-      SMTP_HOST: 'smtp.hostinger.com',
-      SMTP_PORT: '465',
-      SMTP_USER: 'leads@example.test',
-      SMTP_PASSWORD: 'smtp-test-value',
-      LEAD_EMAIL_FROM: 'Leads <leads@example.test>',
-    };
-    mockSendMail.mockReset().mockResolvedValue({ messageId: 'test-message' });
-    (nodemailer.createTransport as jest.Mock).mockClear();
+    process.env = { ...originalEnv, RESEND_API_KEY: 're_test_key', LEAD_EMAIL_FROM: 'Leads <leads@example.test>' };
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({}) });
   });
 
   afterEach(() => {
@@ -41,35 +25,38 @@ describe('sendLeadEmail', () => {
     global.fetch = originalFetch;
   });
 
-  it('sends one email to both configured recipients and sets reply-to to the visitor', async () => {
+  it('sends one email per configured recipient and sets reply-to to the visitor', async () => {
     await expect(sendLeadEmail({ ...lead, email: 'visitor@example.test' })).resolves.toBe(true);
 
-    expect(nodemailer.createTransport).toHaveBeenCalledWith(
-      expect.objectContaining({
-        host: 'smtp.hostinger.com',
-        port: 465,
-        secure: true,
-        auth: { user: 'leads@example.test', pass: 'smtp-test-value' },
-      }),
-    );
-    expect(mockSendMail).toHaveBeenCalledTimes(1);
-    const message = mockSendMail.mock.calls[0][0];
-    expect(message.to).toEqual(['mukundajmera94@gmail.com', 'ajmeramukund94@gmail.com']);
-    expect(LEAD_RECIPIENTS).toEqual(message.to);
-    expect(message.from).toBe('Leads <leads@example.test>');
-    expect(message.replyTo).toBe('visitor@example.test');
-    expect(message.text).toContain('Phone: 9876543210');
+    const calls = (global.fetch as jest.Mock).mock.calls;
+    expect(calls).toHaveLength(LEAD_RECIPIENTS.length);
+    const bodies = calls.map(([url, init]) => {
+      expect(url).toBe('https://api.resend.com/emails');
+      return JSON.parse(init.body);
+    });
+    expect(bodies.map((body) => body.to[0])).toEqual([...LEAD_RECIPIENTS]);
+    bodies.forEach((body) => {
+      expect(body.from).toBe('Leads <leads@example.test>');
+      expect(body.reply_to).toBe('visitor@example.test');
+      expect(body.text).toContain('Phone: 9876543210');
+    });
   });
 
-  it('does not open an SMTP connection when email is not configured', async () => {
-    delete process.env.SMTP_PASSWORD;
+  it('still reports success when only one recipient is accepted', async () => {
+    global.fetch = jest.fn()
+      .mockResolvedValueOnce({ ok: false, status: 403, json: async () => ({}) })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({}) });
+    await expect(sendLeadEmail(lead)).resolves.toBe(true);
+  });
+
+  it('does not call Resend when email is not configured', async () => {
+    delete process.env.RESEND_API_KEY;
     await expect(sendLeadEmail(lead)).resolves.toBe(false);
-    expect(nodemailer.createTransport).not.toHaveBeenCalled();
-    expect(mockSendMail).not.toHaveBeenCalled();
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
-  it('returns false when the SMTP server rejects the message', async () => {
-    mockSendMail.mockRejectedValueOnce(new Error('535 authentication failed'));
+  it('returns false when Resend rejects the request', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 422, json: async () => ({}) });
     await expect(sendLeadEmail(lead)).resolves.toBe(false);
   });
 });

@@ -184,6 +184,10 @@ export async function POST(request: Request) {
 
   const databaseConfig = getDatabaseConfig();
   if (!databaseConfig) {
+    // Without a database the email is the only copy of the lead, so the request succeeds only when the email is sent.
+    if (await sendLeadEmail(lead)) {
+      return NextResponse.json({ success: true, dbSuccess: false, emailSent: true });
+    }
     return NextResponse.json({ error: 'The inquiry form is temporarily unavailable. Please contact us on WhatsApp.' }, { status: 503 });
   }
 

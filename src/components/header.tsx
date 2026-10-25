@@ -14,6 +14,7 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger, SheetTitle, SheetDescrip
 const navItems: NavItem[] = [
   { title: 'Home', href: '/' },
   { title: 'Services', href: '/services' },
+  { title: 'Blog', href: '/blog' },
   { title: 'About', href: '/about' },
   { title: 'Contact', href: '/contact' },
 ];
@@ -46,9 +47,6 @@ export function Header() {
               {item.title}
             </Link>
           ))}
-          <Button asChild className="ml-3 h-10 px-5 font-semibold">
-            <Link href="/contact">Book a consultation</Link>
-          </Button>
         </nav>
         <div className="flex flex-1 items-center justify-end md:hidden">
           <Sheet>

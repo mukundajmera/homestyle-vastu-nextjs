@@ -1,6 +1,6 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, MessageCircle, Phone } from 'lucide-react';
-import { BrandMark } from '@/components/brand-mark';
 import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 
 const linkClass =
@@ -11,8 +11,8 @@ export function Footer() {
     <footer className="mt-auto border-t border-border bg-secondary">
       <div className="container mx-auto grid gap-10 px-4 py-12 md:grid-cols-[1.4fr_0.6fr_1.2fr] md:px-8 md:py-14">
         <div>
-          <Link href="/" className="inline-flex min-h-11 items-center gap-2.5 rounded-sm font-headline text-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <BrandMark className="h-8 w-8" />
+          <Link href="/" className="inline-flex flex-col items-start gap-2 rounded-sm font-headline text-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <Image src="/brand/logo-512.png" alt={`${BRAND_NAME} logo`} width={512} height={512} className="h-28 w-28 object-contain" />
             {BRAND_NAME}
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-foreground/85">

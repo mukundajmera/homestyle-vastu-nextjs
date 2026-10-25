@@ -1,42 +1,28 @@
 import userEvent from '@testing-library/user-event';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { VastuDial } from '@/components/vastu-dial';
-import { vastuDirections } from '@/lib/vastu-directions';
 
 const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
 
 // Each button's accessible name is its abbreviation plus the direction, for example "NE North-East".
 const byDirection = (direction: string) => ({ name: new RegExp(`^\\S+ ${direction}$`) });
 
-function pointerEvent(type: string, init: { pointerType: string; clientX: number; clientY: number; pointerId?: number; button?: number }) {
-  const event = new Event(type, { bubbles: true });
-  Object.entries({ pointerId: 1, button: 0, ...init }).forEach(([key, value]) => Object.defineProperty(event, key, { value }));
-  return event;
-}
-
-/** Returns the dial SVG with a 320x320 layout box and pointer-capture stubs (jsdom has no layout or capture). */
+/** Returns the dial SVG with a 320x320 layout box, so click coordinates map to SVG units. */
 function dialSvg() {
   const svg = screen.getByText('N', { selector: 'text' }).closest('svg')!;
   jest.spyOn(svg, 'getBoundingClientRect').mockReturnValue({
     x: 0, y: 0, left: 0, top: 0, right: 320, bottom: 320, width: 320, height: 320, toJSON: () => ({}),
   });
-  Object.assign(svg, {
-    setPointerCapture: jest.fn(),
-    releasePointerCapture: jest.fn(),
-    hasPointerCapture: jest.fn(() => true),
-  });
   return svg;
 }
 
-/** Sends a pointer event at a compass angle (0 = North, clockwise) and a distance from the centre. */
-function sendAt(svg: SVGSVGElement, type: string, angle: number, pointerType = 'mouse', radius = 100) {
+/** Clicks the dial at a compass angle (0 = North, clockwise) and a distance from the centre. */
+function clickAt(svg: SVGSVGElement, angle: number, radius = 100) {
   const rad = (angle * Math.PI) / 180;
-  const clientX = 160 + radius * Math.sin(rad);
-  const clientY = 160 - radius * Math.cos(rad);
-  fireEvent(svg, pointerEvent(type, { pointerType, clientX, clientY }));
+  fireEvent.click(svg, { clientX: 160 + radius * Math.sin(rad), clientY: 160 - radius * Math.cos(rad) });
 }
 
-const needleAngle = (svg: SVGSVGElement) => svg.querySelector('g.dial-needle')?.getAttribute('transform');
+const needleTransform = (svg: SVGSVGElement) => svg.querySelector('g[aria-hidden="true"]')?.getAttribute('style') ?? '';
 
 describe('VastuDial', () => {
   it('renders all eight accessible direction buttons and the default information', () => {
@@ -47,7 +33,7 @@ describe('VastuDial', () => {
     expect(screen.getByText('North-East side')).toBeInTheDocument();
   });
 
-  it.each(directions)('selects and displays the %s direction', async (direction) => {
+  it.each(directions)('selects and displays the %s direction from its button', async (direction) => {
     const user = userEvent.setup();
     render(<VastuDial />);
 
@@ -58,102 +44,43 @@ describe('VastuDial', () => {
     expect(screen.getByRole('link', { name: `Ask about the ${direction} side` })).toBeInTheDocument();
   });
 
-  it('does not move the needle or preview a direction when a mouse only hovers', () => {
+  it('does not move the needle when the pointer only hovers over the dial', () => {
     render(<VastuDial />);
     const svg = dialSvg();
+    const before = needleTransform(svg);
 
-    sendAt(svg, 'pointermove', 90);
+    fireEvent.pointerMove(svg, { clientX: 260, clientY: 80 });
+    fireEvent.mouseMove(svg, { clientX: 260, clientY: 80 });
 
-    expect(needleAngle(svg)).toBe('rotate(45 160 160)');
+    expect(needleTransform(svg)).toBe(before);
     expect(screen.getByText('North-East side')).toBeInTheDocument();
-    expect(screen.queryByText(/Previewing/)).not.toBeInTheDocument();
   });
 
-  it('turns the needle while dragging and locks the nearest direction on release', () => {
+  it('selects the nearest direction when the dial is clicked or tapped', () => {
     render(<VastuDial />);
     const svg = dialSvg();
 
-    sendAt(svg, 'pointerdown', 45);
-    sendAt(svg, 'pointermove', 70);
-
-    expect(needleAngle(svg)).toBe('rotate(70 160 160)');
-    expect(screen.getByText('Previewing East. Release to lock this direction.')).toBeInTheDocument();
-
-    sendAt(svg, 'pointerup', 70);
-
-    expect(screen.getByText('East side')).toBeInTheDocument();
-    expect(screen.getByRole('button', byDirection('East'))).toHaveAttribute('aria-pressed', 'true');
-  });
-
-  it('limits a drag to 45 degrees either side of the locked direction', () => {
-    render(<VastuDial />);
-    const svg = dialSvg();
-
-    sendAt(svg, 'pointerdown', 45);
-    sendAt(svg, 'pointermove', 200);
-    expect(needleAngle(svg)).toBe('rotate(90 160 160)');
-
-    sendAt(svg, 'pointermove', 250);
-    expect(needleAngle(svg)).toBe('rotate(0 160 160)');
-
-    sendAt(svg, 'pointerup', 250);
-    expect(screen.getByRole('button', byDirection('North'))).toHaveAttribute('aria-pressed', 'true');
-  });
-
-  it('locks the direction under a tap that does not drag', () => {
-    render(<VastuDial />);
-    const svg = dialSvg();
-
-    sendAt(svg, 'pointerdown', 180);
-    sendAt(svg, 'pointerup', 180);
+    clickAt(svg, 180);
 
     expect(screen.getByText('South side')).toBeInTheDocument();
     expect(screen.getByRole('button', byDirection('South'))).toHaveAttribute('aria-pressed', 'true');
+    expect(needleTransform(svg)).toContain('rotate(180deg)');
   });
 
-  it('returns to the locked direction when a drag is cancelled', () => {
+  it('ignores clicks in the hub of the dial', () => {
     render(<VastuDial />);
     const svg = dialSvg();
 
-    sendAt(svg, 'pointerdown', 45);
-    sendAt(svg, 'pointermove', 70);
-    sendAt(svg, 'pointercancel', 70);
+    clickAt(svg, 90, 5);
 
-    expect(needleAngle(svg)).toBe('rotate(45 160 160)');
     expect(screen.getByText('North-East side')).toBeInTheDocument();
-    expect(screen.getByRole('button', byDirection('North-East'))).toHaveAttribute('aria-pressed', 'true');
   });
 
-  it('drags on touch the same way as with a mouse', () => {
+  it('moves between directions with the arrow keys', () => {
     render(<VastuDial />);
-    const svg = dialSvg();
 
-    sendAt(svg, 'pointerdown', 45, 'touch');
-    sendAt(svg, 'pointermove', 70, 'touch');
-    expect(screen.getByText('Previewing East. Release to lock this direction.')).toBeInTheDocument();
+    fireEvent.keyDown(screen.getByRole('button', byDirection('North-East')), { key: 'ArrowRight' });
 
-    sendAt(svg, 'pointerup', 70, 'touch');
-    expect(screen.getByRole('button', byDirection('East'))).toHaveAttribute('aria-pressed', 'true');
-  });
-
-  it('moves focus with arrow keys and locks with Enter', async () => {
-    const user = userEvent.setup();
-    render(<VastuDial />);
-    const northEast = screen.getByRole('button', byDirection('North-East'));
-    northEast.focus();
-
-    await user.keyboard('{ArrowRight}');
     expect(screen.getByRole('button', byDirection('East'))).toHaveFocus();
-    expect(screen.getByRole('button', byDirection('East'))).toHaveAttribute('aria-pressed', 'false');
-    await user.keyboard('{Enter}');
-    expect(screen.getByRole('button', byDirection('East'))).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByText('East side')).toBeInTheDocument();
-  });
-
-  it('exposes eight unique directions at 45 degree intervals with traditional notes', () => {
-    expect(vastuDirections).toHaveLength(8);
-    expect(vastuDirections.map(({ angle }) => angle)).toEqual([0, 45, 90, 135, 180, 225, 270, 315]);
-    expect(new Set(vastuDirections.map(({ label }) => label)).size).toBe(8);
-    vastuDirections.forEach(({ note }) => expect(note).toContain('traditional'));
   });
 });

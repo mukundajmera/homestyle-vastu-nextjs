@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronDown, Compass, MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { HomeJourneyStepper, HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
 import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
@@ -126,7 +127,8 @@ export default function Home() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto grid items-center gap-12 px-4 md:grid-cols-[0.8fr_1.2fr]">
           <div className="paper-card mx-auto flex w-full max-w-sm flex-col items-center p-10 text-center">
-            <div className="grid h-24 w-24 place-items-center rounded border-2 border-accent/50 bg-secondary font-headline text-3xl font-semibold text-primary">SJ</div>
+            <Image src="/brand/sanjay-jain.jpg" alt={`${PERSON_NAME}, ${PERSON_TITLE}`} width={800} height={1131} sizes="(min-width: 768px) 25vw, 60vw" className="h-64 w-52 rounded-lg border border-accent/40 object-cover object-top" />
+
             <h3 className="mt-5 font-headline text-2xl font-semibold">{PERSON_NAME}</h3>
             <p className="mt-1 text-[17px] font-semibold leading-[29px] text-terracotta-ink">{PERSON_TITLE}</p>
             <p className="mt-4 text-[17px] leading-[29px] text-muted-foreground">25+ years of experience</p>

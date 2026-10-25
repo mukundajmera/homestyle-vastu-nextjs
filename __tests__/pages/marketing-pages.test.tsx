@@ -31,7 +31,7 @@ describe('Services page', () => {
   it('renders one main heading, contact and WhatsApp CTAs, and valid metadata', () => {
     render(<ServicesPage />);
     expectSingleH1();
-    expect(screen.getByRole('heading', { level: 1, name: 'Vastu and Feng Shui Consultation Services' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Make your space work for you' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Go to contact page/ })).toHaveAttribute('href', '/contact');
     expect(screen.getByRole('link', { name: 'Inquire via WhatsApp' })).toHaveAttribute('href', expect.stringContaining('https://wa.me/'));
     expectValidMetadata(servicesMetadata);
