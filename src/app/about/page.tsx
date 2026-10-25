@@ -28,7 +28,7 @@ export default function AboutPage() {
         <aside className="w-full md:w-1/3">
           <div className="paper-card relative aspect-[3/4] w-full overflow-hidden rounded-t-[6rem] rounded-b-lg">
             <Image
-              src="/brand/sanjay-jain.jpg"
+              src="/brand/sanjay-about-belt.jpg"
               alt={`${PERSON_NAME}, ${PERSON_TITLE}`}
               fill
               sizes="(min-width: 768px) 30vw, 100vw"

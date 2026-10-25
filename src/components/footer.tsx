@@ -1,30 +1,27 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, MessageCircle, Phone } from 'lucide-react';
 import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { BrandMark } from '@/components/brand-mark';
 
 const linkClass =
   'inline-flex min-h-11 items-center rounded-sm py-1.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
 
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${ADDRESS.street}, ${ADDRESS.locality}, ${ADDRESS.region} ${ADDRESS.postalCode}, ${ADDRESS.country}`
+)}`;
+
 export function Footer() {
   return (
     <footer className="mt-auto border-t border-border bg-secondary">
-      <div className="container mx-auto grid gap-10 px-4 py-12 md:grid-cols-[1.4fr_0.6fr_1.2fr] md:px-8 md:py-14">
+      <div className="container mx-auto grid gap-10 px-4 py-12 md:grid-cols-[1.3fr_0.7fr_1fr_1fr] md:px-8 md:py-14">
         <div>
-          <Link href="/" className="inline-flex flex-col items-start gap-2 rounded-sm font-headline text-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <Image src="/brand/logo-512.png" alt={`${BRAND_NAME} logo`} width={512} height={512} className="h-28 w-28 object-contain" />
+          <Link href="/" className="inline-flex items-center gap-3 rounded-sm font-headline text-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <BrandMark className="h-12 w-12" />
             {BRAND_NAME}
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-foreground/85">
             Vastu Shastra and Feng Shui consultation with {PERSON_NAME} for homes, businesses, plots, builds and factories.
           </p>
-          <address className="mt-5 flex max-w-sm items-start gap-2 text-sm not-italic leading-6 text-foreground/85">
-            <MapPin className="mt-1 h-4 w-4 shrink-0 text-terracotta-ink" aria-hidden="true" />
-            <span>
-              {ADDRESS.street}<br />
-              {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}, {ADDRESS.country}
-            </span>
-          </address>
         </div>
         <nav aria-label="Footer navigation">
           <h2 className="eyebrow font-body">Explore</h2>
@@ -34,6 +31,20 @@ export function Footer() {
             <li><Link href="/contact" className={`inline-block ${linkClass}`}>Contact</Link></li>
           </ul>
         </nav>
+        <div>
+          <h2 className="eyebrow font-body">Visit us</h2>
+          <address className="mt-3 flex items-start gap-2 text-sm not-italic leading-6 text-foreground/85">
+            <MapPin className="mt-1 h-4 w-4 shrink-0 text-terracotta-ink" aria-hidden="true" />
+            <span>
+              {ADDRESS.street}<br />
+              {ADDRESS.locality}, {ADDRESS.region} {ADDRESS.postalCode}<br />
+              {ADDRESS.country}
+            </span>
+          </address>
+          <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className={`mt-2 inline-flex text-sm font-semibold text-primary ${linkClass}`}>
+            Get directions
+          </a>
+        </div>
         <div>
           <h2 className="eyebrow font-body">Get in touch</h2>
           <div className="mt-3 flex flex-col items-start gap-1 text-sm text-foreground/80">

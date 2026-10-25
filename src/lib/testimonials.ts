@@ -35,7 +35,7 @@ export const TESTIMONIALS: Testimonial[] = [
  * Placeholder testimonials are shown with a visible [PLACEHOLDER] label, so visitors can see they are not real client reviews.
  * Replace each entry with a real testimonial, then remove the label and set placeholder to false.
  */
-export const SHOW_PLACEHOLDER_TESTIMONIALS = true;
+export const SHOW_PLACEHOLDER_TESTIMONIALS = false;
 
 export function visibleTestimonials(): Testimonial[] {
   return TESTIMONIALS.filter((testimonial) => !testimonial.placeholder || SHOW_PLACEHOLDER_TESTIMONIALS);

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronDown, Compass, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { HomeJourneyStepper, HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
+import { HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
 import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
 import { TestimonialsSection } from '@/components/testimonials-section';
 
@@ -25,10 +25,10 @@ export const metadata: Metadata = {
 };
 
 const journey = [
-  { step: '01', title: 'Start a conversation', text: 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.' },
-  { step: '02', title: 'Share the details', text: 'Tell us the property type and project stage, and what guidance you are looking for.' },
-  { step: '03', title: 'Choose a format', text: 'Ask whether an on-site or an online/remote consultation may suit your property.' },
-  { step: '04', title: 'Agree next steps', text: `Discuss your questions with ${PERSON_NAME} and decide how you would like to continue.` },
+  { step: '01', title: 'Send your enquiry', text: 'Tell us the property type (home, shop, office, plot or factory), its area in Jaipur, and the decision you are weighing.' },
+  { step: '02', title: 'Share the layout', text: 'Send a floor plan with the main compass directions marked, plus any drawings you have. Businesses should show entry, work areas and staff spaces.' },
+  { step: '03', title: 'Choose on-site or online', text: 'An on-site visit walks through the property with you. An online floor-plan review suits properties outside Jaipur or a plan you only need checked.' },
+  { step: '04', title: 'Agree the next step', text: 'Go through what was observed, then decide what to change and what your architect, engineer or legal adviser should confirm.' },
 ];
 
 const faqs = [
@@ -106,19 +106,40 @@ export default function Home() {
             </Link>
           </div>
           <HomePropertyExplorer />
+          <div className="mt-10 flex flex-col items-start gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-lg text-foreground/85">Not sure which property type applies? Send a short WhatsApp message describing your property.</p>
+            <Button asChild variant="outline" className="h-12 border-accent px-6 text-base font-semibold text-terracotta-ink hover:bg-accent/10 hover:text-terracotta-ink">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />Ask on WhatsApp</a>
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Journey */}
-      <section className="border-y border-border bg-secondary py-16 md:py-24">
+      <section className="border-y border-border bg-secondary py-14 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-12 max-w-3xl text-center">
+          <div className="mb-10 max-w-2xl">
             <p className="eyebrow mb-3">How it works</p>
-            <h2 className="font-headline text-3xl font-semibold md:text-4xl">A clear first step</h2>
-            <p className="mt-4 text-lg text-foreground/85">Select each step to see what happens next.</p>
+            <h2 className="font-headline text-3xl font-semibold md:text-4xl">Start with one WhatsApp message</h2>
+            <p className="mt-4 text-lg text-foreground/85">Four steps from your first enquiry to a clear decision on what to do next.</p>
           </div>
-          <div className="mx-auto max-w-6xl">
-            <HomeJourneyStepper steps={journey} />
+          <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {journey.map((item, i) => (
+              <li key={item.step} className={`rounded border bg-card p-6 ${i === 0 ? 'border-primary' : 'border-border'}`}>
+                <span className="font-headline text-2xl font-semibold text-terracotta-ink">{item.step}</span>
+                <h3 className="mt-3 text-lg font-semibold">{item.title}</h3>
+                <p className="mt-2 text-[15px] leading-6 text-foreground/80">{item.text}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Button asChild size="lg" className="h-12 px-6 font-semibold">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
+                Start with step 01
+              </a>
+            </Button>
+            <p className="text-sm text-muted-foreground">Guidance is traditional and offered as a consultation, not a guarantee of results.</p>
           </div>
         </div>
       </section>
@@ -127,7 +148,7 @@ export default function Home() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto grid items-center gap-12 px-4 md:grid-cols-[0.8fr_1.2fr]">
           <div className="paper-card mx-auto flex w-full max-w-sm flex-col items-center p-10 text-center">
-            <Image src="/brand/sanjay-jain.jpg" alt={`${PERSON_NAME}, ${PERSON_TITLE}`} width={800} height={1131} sizes="(min-width: 768px) 25vw, 60vw" className="h-64 w-52 rounded-lg border border-accent/40 object-cover object-top" />
+            <Image src="/brand/sanjay-home-v4.jpg" alt={`${PERSON_NAME}, ${PERSON_TITLE}`} width={780} height={1200} sizes="(min-width: 768px) 25vw, 60vw" className="h-64 w-52 rounded-lg border border-accent/40 object-cover object-top" />
 
             <h3 className="mt-5 font-headline text-2xl font-semibold">{PERSON_NAME}</h3>
             <p className="mt-1 text-[17px] font-semibold leading-[29px] text-terracotta-ink">{PERSON_TITLE}</p>

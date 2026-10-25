@@ -4,15 +4,14 @@ import userEvent from '@testing-library/user-event';
 import { render, screen, within } from '@testing-library/react';
 import Home from '@/app/page';
 import { Footer } from '@/components/footer';
-import { JourneyStepper } from '@/components/journey-stepper';
 import { PropertyExplorer } from '@/components/property-explorer';
 import { PERSON_NAME } from '@/lib/site';
 
 const journeySteps = [
-  { step: '01', title: 'Start a conversation', text: 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.' },
-  { step: '02', title: 'Share the details', text: 'Tell us the property type and project stage, and what guidance you are looking for.' },
-  { step: '03', title: 'Choose a format', text: 'Ask whether an on-site or an online/remote consultation may suit your property.' },
-  { step: '04', title: 'Agree next steps', text: `Discuss your questions with ${PERSON_NAME} and decide how you would like to continue.` },
+  { title: 'Send your enquiry', text: 'Tell us the property type (home, shop, office, plot or factory), its area in Jaipur, and the decision you are weighing.' },
+  { title: 'Share the layout', text: 'Send a floor plan with the main compass directions marked, plus any drawings you have. Businesses should show entry, work areas and staff spaces.' },
+  { title: 'Choose on-site or online', text: 'An on-site visit walks through the property with you. An online floor-plan review suits properties outside Jaipur or a plan you only need checked.' },
+  { title: 'Agree the next step', text: 'Go through what was observed, then decide what to change and what your architect, engineer or legal adviser should confirm.' },
 ];
 
 describe('Home Page', () => {
@@ -80,13 +79,8 @@ describe('Home Page', () => {
     expect(screen.getByText(/Share your layout remotely and discuss what information/)).toBeInTheDocument();
   });
 
-  it('includes all six service titles and four step titles in server-rendered HTML', () => {
-    const markup = renderToStaticMarkup(
-      <>
-        <PropertyExplorer />
-        <JourneyStepper steps={journeySteps} />
-      </>
-    );
+  it('includes all six service titles in server-rendered HTML', () => {
+    const markup = renderToStaticMarkup(<PropertyExplorer />);
 
     const decodedMarkup = markup.replaceAll('&amp;', '&');
     for (const title of [
@@ -96,22 +90,16 @@ describe('Home Page', () => {
       'Construction & Renovation',
       'Industrial & Factory Vastu',
       'Online Floor-Plan Review',
-      ...journeySteps.map(({ title: stepTitle }) => stepTitle),
     ]) {
       expect(decodedMarkup).toContain(title);
     }
   });
 
-  it('renders all four journey step titles and texts before a step is clicked', () => {
+  it('renders all four journey step titles and texts on the page', () => {
     render(<Home />);
 
-    for (const [title, text] of [
-      ['Start a conversation', 'Message or call and say what you are asking about: a home, business, plot, build, renovation, factory or floor plan.'],
-      ['Share the details', 'Tell us the property type and project stage, and what guidance you are looking for.'],
-      ['Choose a format', 'Ask whether an on-site or an online/remote consultation may suit your property.'],
-      ['Agree next steps', `Discuss your questions with ${PERSON_NAME} and decide how you would like to continue.`],
-    ]) {
-      expect(screen.getAllByText(title).length).toBeGreaterThan(0);
+    for (const { title, text } of journeySteps) {
+      expect(screen.getByRole('heading', { level: 3, name: title })).toBeInTheDocument();
       expect(screen.getAllByText(text)).toHaveLength(1);
     }
   });

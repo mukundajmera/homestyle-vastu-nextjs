@@ -42,7 +42,7 @@ describe('Contact page', () => {
   it('renders one main heading, WhatsApp CTA, and valid metadata', () => {
     render(<ContactPage />);
     expectSingleH1();
-    expect(screen.getByRole('heading', { level: 1, name: 'Contact Us' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Contact the Practice' })).toBeInTheDocument();
     const whatsapp = screen.getByRole('link', { name: 'Message on WhatsApp' });
     expect(whatsapp).toHaveAttribute('href', expect.stringContaining('https://wa.me/919828088678'));
     expectValidMetadata(contactMetadata);

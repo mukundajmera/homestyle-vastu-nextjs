@@ -95,32 +95,32 @@ export const servicePageCopy: Record<PropertyService['id'], ServicePageCopy> = {
   },
   commercial: {
     title: 'Business: Vastu & Feng Shui',
-    lead: 'A workspace that supports your team and your customers.',
-    text: 'Offices, showrooms, hotels, clinics, and restaurants all work better when the entrance, counters, and seating support how people move through them. We focus on the spaces your business depends on most.',
+    lead: 'Commercial Vastu and Feng Shui for offices, shops and hospitality spaces.',
+    text: 'Commercial consultations can cover offices, retail spaces, hotels, hospitals and restaurants. Discuss which Vastu or Feng Shui questions are relevant to your space, such as the entrance, counters and seating.',
     bring: 'The business type, the spaces customers and staff use, and the decision you are weighing.',
   },
   'plot-land': {
     title: 'Plots & Land: Check Before You Buy',
     lead: 'Know what a site is telling you before you commit.',
-    text: "Look at a plot's shape, slope, road access, and surroundings before you buy or start building. A short conversation now helps you choose with confidence.",
+    text: "Look at a plot's shape, slope, road access, and surroundings before you buy or start building. Discuss Vastu considerations for a plot or site you are considering.",
     bring: 'The plot location, its shape if you have it, and whether it is for a home or a business.',
   },
   construction: {
     title: 'Construction & Renovation',
     lead: 'Plan it right at the drawing stage, or fix it mid-way.',
-    text: 'Bring your plan to the design stage, or ask about a renovation already in progress. We look at the entrance, room placement, and key spaces, so changes are simple to make now rather than after the walls go up.',
+    text: 'Bring your plan to the design stage, or ask about a renovation already in progress. Discuss the entrance, room placement and key spaces at your current project stage.',
     bring: 'Your project stage, drawings if you have them, and the rooms you plan to change.',
   },
   industrial: {
     title: 'Factories & Industrial Units',
     lead: 'A layout that supports production and the people on the floor.',
-    text: 'For factories, warehouses, and industrial units, we review the entry, work zones, storage, and machinery areas, then suggest practical changes that fit how your operation runs.',
+    text: 'For factories, warehouses, and industrial units, discuss the entry, work zones, storage and machinery areas of your property.',
     bring: 'The site layout, the main work areas, and the entry and exit points.',
   },
   'floor-plan': {
     title: 'Online Floor-Plan Review',
     lead: 'A second look at your layout, from wherever you are.',
-    text: 'Share your plan and get a focused review of the directions, room placement, and entrances, with notes you can act on before you build, buy, or move in.',
+    text: 'Share your plan and discuss the directions, room placement and entrances of your plan remotely.',
     bring: 'A clear photo or PDF of the layout, with the main directions marked.',
   },
 };

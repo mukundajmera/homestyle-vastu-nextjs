@@ -29,7 +29,7 @@ export default function ContactPage() {
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-4xl">
       <div className="text-center mb-16">
         <p className="eyebrow mb-4">Get in touch</p>
-        <h1 className="text-4xl md:text-5xl font-headline font-semibold mb-6 text-foreground">Contact Us</h1>
+        <h1 className="text-4xl md:text-5xl font-headline font-semibold mb-6 text-foreground">Contact the Practice</h1>
         <p className="text-xl text-foreground/80 leading-relaxed font-body max-w-2xl mx-auto">
           Contact {PERSON_NAME} about Vastu and Feng Shui for homes, businesses, plot selection, construction or renovation, industrial properties, or online floor-plan review.
         </p>
