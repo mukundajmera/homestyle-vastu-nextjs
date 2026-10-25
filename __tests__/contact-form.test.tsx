@@ -108,8 +108,8 @@ describe('ContactForm', () => {
     expect(request.consentTimestamp).toBeUndefined();
     expect(request.privacyPolicyVersion).toBeUndefined();
 
-    expect(await screen.findByRole('status')).toHaveTextContent('Your inquiry has been saved');
-    const whatsappLink = screen.getByRole('link', { name: 'Continue to WhatsApp now' });
+    expect(await screen.findByRole('status')).toHaveTextContent('Thank you, John.');
+    const whatsappLink = screen.getByRole('link', { name: 'Chat on WhatsApp now' });
     expect(whatsappLink).toHaveAttribute('href', expect.stringContaining('wa.me/919828088678'));
     const whatsappMessage = decodeURIComponent((whatsappLink.getAttribute('href') ?? '').split('?text=')[1] ?? '');
     expect(whatsappMessage).toContain('online floor-plan review');
@@ -118,10 +118,9 @@ describe('ContactForm', () => {
     expect(whatsappMessage).not.toContain('98280');
     expect(whatsappMessage).not.toContain('Jaipur');
     expect(whatsappMessage).not.toContain('Review my new floor plan');
-    expect(jest.getTimerCount()).toBe(1);
   });
 
-  it('navigates to exactly the same WhatsApp URL automatically after a delay upon success', async () => {
+  it('confirms the inquiry, keeps WhatsApp as a button, and does not redirect automatically', async () => {
     jest.useFakeTimers();
     mockFetch.mockResolvedValue({
       ok: true,
@@ -142,25 +141,27 @@ describe('ContactForm', () => {
     await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
-    expect(await screen.findByRole('status')).toHaveTextContent('Your inquiry has been saved');
+    const confirmation = await screen.findByRole('status');
+    expect(confirmation).toHaveTextContent('Thank you, Jane.');
+    expect(confirmation).toHaveTextContent('We have received your inquiry and will reach out soon.');
 
-    const whatsappLink = screen.getByRole('link', { name: 'Continue to WhatsApp now' }) as HTMLAnchorElement;
-    const expectedUrl = whatsappLink.href;
-
-    expect(navigate).not.toHaveBeenCalled();
-
-    jest.advanceTimersByTime(1200);
-
-    expect(navigate).toHaveBeenCalledTimes(1);
-    expect(navigate).toHaveBeenCalledWith(expectedUrl);
-
-    const whatsappMessage = new URL(expectedUrl).searchParams.get('text');
+    const whatsappLink = screen.getByRole('link', { name: 'Chat on WhatsApp now' }) as HTMLAnchorElement;
+    expect(whatsappLink.getAttribute('target')).toBe('_blank');
+    const whatsappMessage = new URL(whatsappLink.href).searchParams.get('text');
     expect(whatsappMessage).toBe('Hello, I have submitted an inquiry about Feng Shui consultation and would like to continue the conversation.');
     expect(whatsappMessage).not.toContain('Jane Test');
     expect(whatsappMessage).not.toContain('98280');
     expect(whatsappMessage).not.toContain('jane.test@example.com');
     expect(whatsappMessage).not.toContain('Jaipur');
     expect(whatsappMessage).not.toContain('Please review my new office layout before I sign the lease.');
+
+    jest.advanceTimersByTime(5000);
+    expect(navigate).not.toHaveBeenCalled();
+    expect(screen.getByRole('status')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Send another inquiry' }));
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Submit & Discuss/i })).toBeInTheDocument();
   });
 
   it('shows a screen-reader alert and does not offer WhatsApp if persistence fails', async () => {
@@ -183,7 +184,7 @@ describe('ContactForm', () => {
 
     expect(await screen.findByRole('alert')).toHaveTextContent('We could not save your inquiry');
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Continue to WhatsApp now' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Chat on WhatsApp now' })).not.toBeInTheDocument();
   });
 
   describe('lead intake gate', () => {

@@ -22,7 +22,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
-import { navigate } from "@/lib/navigate";
 
 const formSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -63,7 +62,7 @@ const serviceLabels: Record<FormValues["serviceInterest"], string> = {
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [confirmation, setConfirmation] = useState<{ firstName: string } | null>(null);
   const [whatsAppUrl, setWhatsAppUrl] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
@@ -101,10 +100,29 @@ export function ContactForm() {
     );
   }
 
+  if (confirmation) {
+    return (
+      <div role="status" aria-live="polite" className="space-y-5 rounded-lg border border-green-700/20 bg-green-700/10 p-6 md:p-8">
+        <h3 className="font-headline text-2xl font-semibold text-foreground">Thank you, {confirmation.firstName}.</h3>
+        <p className="text-lg leading-relaxed text-foreground">We have received your inquiry and will reach out soon.</p>
+        <p className="leading-relaxed text-foreground/80">
+          To continue the conversation now, message us on WhatsApp. The message is already written; just press Send.
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button asChild className="h-12 bg-[#25D366] px-6 font-bold text-white hover:bg-[#1ebe5a]">
+            <a href={whatsAppUrl ?? WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Chat on WhatsApp now</a>
+          </Button>
+          <Button type="button" variant="outline" className="h-12 font-semibold" onClick={() => setConfirmation(null)}>
+            Send another inquiry
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     setError(null);
-    setSuccess(null);
 
     try {
       if (!data.type || !data.serviceInterest || !data.format) {
@@ -143,13 +161,10 @@ export function ContactForm() {
       const whatsappMessage = encodeURIComponent(
         `Hello, I have submitted an inquiry about ${serviceLabels[data.serviceInterest]} and would like to continue the conversation.`
       );
-      const nextWhatsAppUrl = `${WHATSAPP_URL}?text=${whatsappMessage}`;
-
-      setWhatsAppUrl(nextWhatsAppUrl);
-      setSuccess("Your inquiry has been saved. WhatsApp will open with a short message; review it and press Send to start the conversation.");
+      setWhatsAppUrl(`${WHATSAPP_URL}?text=${whatsappMessage}`);
+      setConfirmation({ firstName: data.name.trim().split(/\s+/)[0] });
       submissionId.current = null;
       form.reset();
-      window.setTimeout(() => navigate(nextWhatsAppUrl), 1200);
 
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred. Please try calling us instead.");
@@ -172,12 +187,6 @@ export function ContactForm() {
             {error}
           </div>
         )}
-        {success && (
-          <div role="status" aria-live="polite" className="rounded-md border border-green-700/20 bg-green-700/10 p-4 text-sm text-foreground">
-            <p>{success}</p>
-            {whatsAppUrl && <a className="mt-2 inline-block font-semibold text-primary underline underline-offset-4" href={whatsAppUrl}>Continue to WhatsApp now</a>}
-          </div>
-        )}
 
         {/* Honeypot field - hidden from users */}
         <FormField
@@ -186,7 +195,7 @@ export function ContactForm() {
           render={({ field }) => (
             <FormItem className="hidden" aria-hidden="true">
               <FormControl>
-                <Input {...field} tabIndex={-1} autoComplete="off" disabled={isSubmitting || Boolean(success)} />
+                <Input {...field} tabIndex={-1} autoComplete="off" disabled={isSubmitting} />
               </FormControl>
             </FormItem>
           )}
@@ -200,7 +209,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>Name <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
-                  <Input placeholder="Your full name" {...field} disabled={isSubmitting || Boolean(success)} />
+                  <Input placeholder="Your full name" {...field} disabled={isSubmitting} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -214,7 +223,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
-                  <Input type="tel" placeholder="e.g. +91 98765 43210" {...field} disabled={isSubmitting || Boolean(success)} />
+                  <Input type="tel" placeholder="e.g. +91 98765 43210" {...field} disabled={isSubmitting} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -234,7 +243,7 @@ export function ContactForm() {
                   value={field.value ?? ""}
                   onChange={(event) => field.onChange(event.target.value || undefined)}
                   className="flex h-10 w-full rounded-md border border-input bg-background pl-3 pr-10 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  disabled={isSubmitting || Boolean(success)}
+                  disabled={isSubmitting}
                 >
                   <option value="" disabled>Select a service</option>
                   <option value="general_vastu">Residential or commercial Vastu</option>
@@ -259,7 +268,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>Email (Optional)</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="your@email.com" {...field} disabled={isSubmitting || Boolean(success)} />
+                  <Input type="email" placeholder="your@email.com" {...field} disabled={isSubmitting} />
                 </FormControl>
                 <p className="text-sm text-muted-foreground">Used only to reply to your inquiry.</p>
                 <FormMessage />
@@ -274,7 +283,7 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>City/Location <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. Jaipur, Rajasthan" {...field} disabled={isSubmitting || Boolean(success)} />
+                  <Input placeholder="e.g. Jaipur, Rajasthan" {...field} disabled={isSubmitting} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -295,7 +304,7 @@ export function ContactForm() {
                     value={field.value ?? ""}
                     onChange={(event) => field.onChange(event.target.value || undefined)}
                     className="flex h-10 w-full rounded-md border border-input bg-background pl-3 pr-10 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    disabled={isSubmitting || Boolean(success)}
+                    disabled={isSubmitting}
                   >
                     <option value="" disabled>Select a property category</option>
                     <option value="home">Home</option>
@@ -321,11 +330,11 @@ export function ContactForm() {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     className="flex flex-col sm:flex-row gap-4"
-                    disabled={isSubmitting || Boolean(success)}
+                    disabled={isSubmitting}
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
                       <FormControl>
-                        <RadioGroupItem value="onsite" disabled={isSubmitting || Boolean(success)} />
+                        <RadioGroupItem value="onsite" disabled={isSubmitting} />
                       </FormControl>
                       <FormLabel className="font-normal w-full cursor-pointer">
                         On-site (In person)
@@ -333,7 +342,7 @@ export function ContactForm() {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
                       <FormControl>
-                        <RadioGroupItem value="online" disabled={isSubmitting || Boolean(success)} />
+                        <RadioGroupItem value="online" disabled={isSubmitting} />
                       </FormControl>
                       <FormLabel className="font-normal w-full cursor-pointer">
                         Online / Remote
@@ -358,7 +367,7 @@ export function ContactForm() {
                   placeholder="e.g., I would like to review the floor plan for a new office space before finalizing the layout."
                   className="resize-y min-h-[100px]"
                   {...field}
-                  disabled={isSubmitting || Boolean(success)}
+                  disabled={isSubmitting}
                 />
               </FormControl>
               <FormMessage />
@@ -375,7 +384,7 @@ export function ContactForm() {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  disabled={isSubmitting || Boolean(success)}
+                  disabled={isSubmitting}
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
@@ -393,7 +402,7 @@ export function ContactForm() {
 
         <div className="bg-muted/30 p-4 rounded-md text-sm text-muted-foreground flex flex-col space-y-2">
             <p>
-              <strong>Next step:</strong> After the form is saved, we will open WhatsApp with a short draft message. The draft includes only your selected service interest; your name, phone, email, location, property category, and inquiry details are not added to the WhatsApp link. You will need to press Send in WhatsApp to start the conversation.
+              <strong>Next step:</strong> After you submit, we will reach out soon, and you can also message us on WhatsApp at any time. The WhatsApp draft includes only your selected service interest; your name, phone, email, location, property category, and inquiry details are not added to the WhatsApp link.
           </p>
         </div>
 
@@ -402,7 +411,7 @@ export function ContactForm() {
         <Button
           type="submit"
           className="w-full min-h-[3rem] h-auto py-3 text-base font-bold bg-primary hover:bg-primary/90 text-primary-foreground whitespace-normal text-center leading-snug"
-          disabled={isSubmitting || Boolean(success)}
+          disabled={isSubmitting}
         >
           {isSubmitting ? (
             <>
@@ -410,7 +419,7 @@ export function ContactForm() {
               Preparing to discuss your property...
             </>
           ) : (
-            success ? "Inquiry saved" : "Submit & Discuss Your Property / Floor Plan on WhatsApp"
+            "Submit & Discuss Your Property / Floor Plan on WhatsApp"
           )}
         </Button>
 
