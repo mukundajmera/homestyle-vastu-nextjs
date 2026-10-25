@@ -4,9 +4,9 @@ import { ADDRESS, BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, SITE_ORIGIN
 export function GET() {
   const address = `${ADDRESS.street}, ${ADDRESS.locality}, ${ADDRESS.region} ${ADDRESS.postalCode}, ${ADDRESS.country}`;
   const content = [
-    BRAND_NAME,
+    `# ${BRAND_NAME}`,
     '',
-    `${BRAND_NAME} provides Vastu and Feng Shui consultation guidance for homes, businesses, plots, construction, renovation, industrial properties, and online floor-plan review.`,
+    `> ${BRAND_NAME} provides Vastu and Feng Shui consultation guidance for homes, businesses, plots, construction, renovation, industrial properties, and online floor-plan review.`,
     '',
     `Person: ${PERSON_NAME}`,
     `Title: ${PERSON_TITLE}`,
@@ -15,16 +15,16 @@ export function GET() {
     `WhatsApp: ${WHATSAPP_URL}`,
     `Website: ${SITE_ORIGIN}`,
     '',
-    'Consultation formats:',
+    '## Consultation formats',
     ...consultationFormats.map(({ title, text }) => `- ${title}: ${text}`),
     '',
-    'Services:',
+    '## Services',
     ...propertyServices.map(({ title }) => `- ${title}`),
     '',
-    'Pages:',
-    `- ${SITE_ORIGIN}/services`,
-    `- ${SITE_ORIGIN}/about`,
-    `- ${SITE_ORIGIN}/contact`,
+    '## Pages',
+    `- [Services](${SITE_ORIGIN}/services)`,
+    `- [About](${SITE_ORIGIN}/about)`,
+    `- [Contact](${SITE_ORIGIN}/contact)`,
     '',
   ].join('\n');
 
