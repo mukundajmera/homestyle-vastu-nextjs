@@ -15,6 +15,8 @@ const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX = 10;
 const MAX_RATE_LIMIT_KEYS = 10_000;
 const PRIVACY_POLICY_VERSION = 'v2.0';
+// Must match the action the contact form's Turnstile widget is rendered with.
+const CONTACT_TURNSTILE_ACTION = 'contact';
 
 const contactSchema = z.object({
   submissionId: z.string().uuid(),
@@ -169,7 +171,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'The inquiry form is temporarily unavailable. Please contact us on WhatsApp.' }, { status: 503 });
   }
   if (process.env.TURNSTILE_SECRET_KEY) {
-    const isHuman = turnstileToken ? await verifyTurnstileToken(turnstileToken) : false;
+    const isHuman = turnstileToken ? await verifyTurnstileToken(turnstileToken, { action: CONTACT_TURNSTILE_ACTION }) : false;
     if (!isHuman) {
       return NextResponse.json({ error: 'Please complete the security check and try again.' }, { status: 400 });
     }

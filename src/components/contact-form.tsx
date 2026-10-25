@@ -165,6 +165,9 @@ export function ContactForm() {
       setConfirmation({ firstName: data.name.trim().split(/\s+/)[0] });
       submissionId.current = null;
       form.reset();
+      // Turnstile tokens are single-use, so the next inquiry needs a fresh check.
+      setCaptchaToken(null);
+      setCaptchaKey((key) => key + 1);
 
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred. Please try calling us instead.");
@@ -406,7 +409,7 @@ export function ContactForm() {
           </p>
         </div>
 
-        <TurnstileWidget key={captchaKey} onToken={setCaptchaToken} />
+        <TurnstileWidget key={captchaKey} action="contact" onToken={setCaptchaToken} />
 
         <Button
           type="submit"

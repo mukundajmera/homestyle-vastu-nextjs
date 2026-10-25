@@ -1,4 +1,5 @@
 import { LEAD_RECIPIENTS, sendLeadEmail } from '@/lib/lead-notifications';
+import { SITE_ORIGIN } from '@/lib/site';
 import { verifyTurnstileToken } from '@/lib/turnstile';
 
 const lead = {
@@ -74,14 +75,38 @@ describe('verifyTurnstileToken', () => {
     global.fetch = originalFetch;
   });
 
-  it('accepts a token that Cloudflare marks as successful', async () => {
-    global.fetch = jest.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({ success: true }) });
-    await expect(verifyTurnstileToken('token-value')).resolves.toBe(true);
+  const siteHostname = new URL(SITE_ORIGIN).hostname;
+
+  it('accepts a token that Cloudflare marks as successful for this site and action', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ success: true, hostname: siteHostname, action: 'contact' }),
+    });
+    await expect(verifyTurnstileToken('token-value', { action: 'contact' })).resolves.toBe(true);
   });
 
   it('rejects a token that Cloudflare does not mark as successful', async () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({ success: false }) });
     await expect(verifyTurnstileToken('token-value')).resolves.toBe(false);
+  });
+
+  it('rejects a token solved on another hostname', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ success: true, hostname: 'attacker.example.test', action: 'contact' }),
+    });
+    await expect(verifyTurnstileToken('token-value', { action: 'contact' })).resolves.toBe(false);
+  });
+
+  it('rejects a token issued for a different form action', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ success: true, hostname: siteHostname, action: 'login' }),
+    });
+    await expect(verifyTurnstileToken('token-value', { action: 'contact' })).resolves.toBe(false);
   });
 
   it('fails closed when the secret is missing', async () => {
