@@ -4,7 +4,7 @@ import { ArrowRight, ChevronDown, Compass, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HomePropertyExplorer, HomeVastuDial } from '@/components/home-interactions';
-import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, WHATSAPP_CHAT_URL } from '@/lib/site';
 import { TestimonialsSection } from '@/components/testimonials-section';
 
 export const metadata: Metadata = {
@@ -33,16 +33,24 @@ const journey = [
 
 const faqs = [
   {
-    q: 'What kinds of properties can I ask about?',
-    a: 'You can ask about homes and businesses, plot or land selection, construction or renovation, industrial and factory properties, and online floor-plan review.',
+    q: 'What happens in a consultation, and what should I bring?',
+    a: 'You walk through your property and priorities with Sanjay Jain, who reads the layout against Vastu and Feng Shui principles and gives you clear, prioritised observations. Bring a floor plan or plot map (even a hand sketch or photo), the direction of your main entrance, and your top questions.',
   },
   {
-    q: 'Are on-site and online consultations available?',
-    a: 'Both on-site and online/remote formats are available. Ask which may suit your property.',
+    q: 'I live outside Jaipur. Can you review my floor plan online?',
+    a: 'Yes. Send a clear plan with room names and a north direction on WhatsApp or the inquiry form, and the review is done remotely. Online review also suits a quick second opinion on a plan your architect has already drawn.',
   },
   {
-    q: 'Is a particular outcome guaranteed?',
-    a: 'No specific result is promised. You can contact the practice to discuss your inquiry before deciding on next steps.',
+    q: 'Should I consult before buying a plot or starting construction?',
+    a: 'Earlier is easier. Plot shape, road side and entrance position are hard to change after purchase, and a layout is far cheaper to adjust on paper than after the walls are up. Many clients consult at plot selection and again at the drawing stage.',
+  },
+  {
+    q: 'Will I have to demolish or rebuild to follow your advice?',
+    a: 'No. Suggestions are ranked by priority and practicality, so you can see what is worth changing, what can be adjusted with placement or simple modifications, and what is best left alone. Structural decisions stay with your architect or engineer.',
+  },
+  {
+    q: 'How do I book, and how are fees decided?',
+    a: 'Send an inquiry or WhatsApp message with your property details. You will hear back about the best format, and the fee is agreed with you in writing before any work starts, so there are no surprises.',
   },
 ];
 
@@ -70,7 +78,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
               <Button asChild size="lg" className="h-14 px-7 text-lg font-semibold shadow-[0_8px_20px_-8px_rgba(176,90,7,0.55)] transition-transform hover:-translate-y-0.5">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
                   Message on WhatsApp
                 </a>
@@ -109,7 +117,7 @@ export default function Home() {
           <div className="mt-10 flex flex-col items-start gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-lg text-foreground/85">Not sure which property type applies? Send a short WhatsApp message describing your property.</p>
             <Button asChild variant="outline" className="h-12 border-accent px-6 text-base font-semibold text-terracotta-ink hover:bg-accent/10 hover:text-terracotta-ink">
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />Ask on WhatsApp</a>
+              <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer"><MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />Ask on WhatsApp</a>
             </Button>
           </div>
         </div>
@@ -134,7 +142,7 @@ export default function Home() {
           </ol>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button asChild size="lg" className="h-12 px-6 font-semibold">
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
                 Start with step 01
               </a>
@@ -173,7 +181,7 @@ export default function Home() {
       <section className="border-t border-border py-16 md:py-24">
         <div className="container mx-auto max-w-3xl px-4">
           <p className="eyebrow mb-3">Questions</p>
-          <h2 className="mb-8 font-headline text-3xl font-semibold md:text-4xl">Common questions</h2>
+          <h2 className="mb-8 font-headline text-3xl font-semibold md:text-4xl">Questions clients ask before they book</h2>
           <div className="divide-y divide-border border-y border-border">
             {faqs.map((item) => (
               <details key={item.q} className="group py-5">
@@ -198,7 +206,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button asChild size="lg" className="h-14 bg-white px-8 text-lg font-bold text-primary hover:bg-white/90">
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" aria-hidden="true" />
                 WhatsApp Us
               </a>

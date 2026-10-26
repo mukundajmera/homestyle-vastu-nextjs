@@ -1,10 +1,10 @@
-import { WHATSAPP_URL } from '@/lib/site';
+import { WHATSAPP_CHAT_URL } from '@/lib/site';
 
 /** Always-visible WhatsApp shortcut so visitors can message or call the consultant in one tap. */
 export function WhatsAppButton() {
   return (
     <a
-      href={WHATSAPP_URL}
+      href={WHATSAPP_CHAT_URL}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat or call on WhatsApp"

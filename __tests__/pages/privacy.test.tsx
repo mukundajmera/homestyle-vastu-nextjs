@@ -1,30 +1,55 @@
-import { render, screen } from '@testing-library/react';
-import PrivacyPage from '@/app/privacy/page';
+import { render, screen, within } from '@testing-library/react';
+import PrivacyPage, { metadata } from '@/app/privacy/page';
+import { Footer } from '@/components/footer';
 
 describe('PrivacyPage', () => {
-  it('renders the approved policy sections in order without draft language', () => {
+  it('presents a dated, plain-language summary and a linked contents list', () => {
     const { container } = render(<PrivacyPage />);
 
-    expect(screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent)).toEqual([
-      '1. Who we are',
-      '2. Information we collect',
-      '3. How we use it',
-      '4. Legal basis and consent',
-      '5. Storage and security',
-      '6. Retention',
-      '7. Sharing',
-      '8. Your rights and how to use them',
-      '9. Children',
-      '10. Cookies and tracking',
-      '11. Changes to this policy',
-      '12. Contact',
-    ]);
+    expect(screen.getByRole('heading', { level: 1, name: 'Privacy Policy' })).toBeInTheDocument();
+    expect(screen.getByText('Last updated: 27 October 2026')).toBeInTheDocument();
+    expect(screen.getByLabelText('Privacy summary')).toHaveTextContent('do not sell your information');
 
+    const contents = within(screen.getByRole('navigation', { name: 'On this page' }));
+    const links = contents.getAllByRole('link');
+    expect(links).toHaveLength(10);
+    links.forEach((link) => {
+      const targetId = link.getAttribute('href')?.slice(1);
+      expect(targetId).toBeTruthy();
+      expect(container.querySelector(`#${targetId}`)).toBeInTheDocument();
+    });
+  });
+
+  it('explains the actual enquiry data flow, retention, rights and security checks', () => {
+    const { container } = render(<PrivacyPage />);
     const pageText = container.textContent ?? '';
-    expect(pageText).toContain('Effective from 25 October 2026');
+
+    for (const expected of [
+      'Digital Personal Data Protection Act, 2023',
+      'Information Technology Act, 2000',
+      'name, phone number, location, property type, service interest',
+      'Cloudflare Turnstile',
+      'Resend',
+      'Hostinger',
+      'up to 12 months',
+      'withdraw your consent',
+      'request erasure',
+      'does not currently use analytics or advertising cookies',
+    ]) {
+      expect(pageText.toLowerCase()).toContain(expected.toLowerCase());
+    }
+
+    expect(pageText).not.toContain('Effective from 25 October 2026');
     expect(pageText).not.toContain('[OWNER');
-    expect(pageText.toLowerCase()).not.toContain('preview');
-    expect(pageText).not.toContain('Owner decisions');
-    expect(pageText).not.toContain('Data Protection Board');
+  });
+
+  it('keeps canonical metadata and footer legal links aligned with the routes', () => {
+    expect(metadata.alternates).toEqual({ canonical: '/privacy' });
+    expect((metadata.description as string).length).toBeGreaterThanOrEqual(50);
+    expect((metadata.description as string).length).toBeLessThanOrEqual(170);
+
+    render(<Footer />);
+    expect(screen.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy');
+    expect(screen.getByRole('link', { name: 'Terms of Use' })).toHaveAttribute('href', '/terms');
   });
 });

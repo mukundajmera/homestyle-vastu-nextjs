@@ -20,6 +20,11 @@ Do not rerun v1 on a database that already completed it; v1 adds columns and an 
 - `NEXT_PUBLIC_SITE_ENV=preview`
 - `LEAD_INTAKE_ENABLED=false` (keep false on public preview)
 - `NEXT_PUBLIC_LEAD_INTAKE_ENABLED=false` (keep false on public preview)
+- `TURNSTILE_SECRET_KEY` (Cloudflare Turnstile secret, server only). Without it the production inquiry endpoint refuses every submission.
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (Turnstile site key, shown on the form). Set it with the secret above so the widget appears.
+- `TURNSTILE_HOSTNAME` (optional, hostname only, e.g. `preview.example.com`). Tokens must be issued for this hostname. Defaults to the production domain in `src/lib/site.ts`, so set it on preview deployments.
+
+The form's captcha is checked on the server: the endpoint verifies each token with Cloudflare, checks its hostname and action, and only then saves the lead or sends the email. Hiding the widget or skipping it in the browser does not bypass the check.
 
 Keep database credentials in Hostinger environment settings. Do not commit them or send them in chat. The request handler uses the configured database for lead inserts and idempotency checks; provision the schema before enabling the form. Restrict the runtime account to the database permissions required by those operations wherever the hosting provider permits it. The runtime query uses `INSERT ... ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)`, so it needs `INSERT`, `SELECT`, and `UPDATE` access on `leads` (or equivalent column-level rights, where supported). The runtime user does not need schema-management privileges.
 

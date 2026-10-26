@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { ContactForm } from "@/components/contact-form";
-import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_CHAT_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact in Jaipur',
@@ -29,9 +29,9 @@ export default function ContactPage() {
     <div className="container mx-auto px-4 py-16 md:py-24 max-w-4xl">
       <div className="text-center mb-16">
         <p className="eyebrow mb-4">Get in touch</p>
-        <h1 className="text-4xl md:text-5xl font-headline font-semibold mb-6 text-foreground">Contact the Practice</h1>
+        <h1 className="text-4xl md:text-5xl font-headline font-semibold mb-6 text-foreground">Talk to a Vastu &amp; Feng Shui Expert Before You Build, Buy or Move In</h1>
         <p className="text-xl text-foreground/80 leading-relaxed font-body max-w-2xl mx-auto">
-          Contact {PERSON_NAME} about Vastu and Feng Shui for homes, businesses, plot selection, construction or renovation, industrial properties, or online floor-plan review.
+          Share your plan or plot details and get clear, practical direction from {PERSON_NAME}, backed by 25+ years of experience. Homes, businesses, plots, factories or an online floor-plan review.
         </p>
       </div>
 
@@ -39,7 +39,7 @@ export default function ContactPage() {
         <div className="lg:col-span-2">
           <Card className="bg-white border-border shadow-sm">
             <CardContent className="p-6 md:p-8">
-              <h2 className="text-2xl font-headline font-bold mb-6">Consultation Inquiry</h2>
+              <h2 className="text-2xl font-headline font-bold mb-6">Start with your property details</h2>
               <ContactForm />
             </CardContent>
           </Card>
@@ -51,9 +51,9 @@ export default function ContactPage() {
               <div className="w-12 h-12 rounded-full bg-secondary/30 flex items-center justify-center mb-4 text-secondary-foreground">
                 <Phone className="w-6 h-6" />
               </div>
-              <h2 className="text-xl font-headline font-bold mb-2">Prefer to call?</h2>
+              <h2 className="text-xl font-headline font-bold mb-2">Want answers right now?</h2>
               <p className="text-foreground/85 text-sm mb-6">
-                Prefer to speak directly or having trouble with the form? Call to discuss your property.
+                Speak to Sanjay directly. A quick call can show which consultation fits your property.
               </p>
               <Button asChild variant="outline" className="w-full font-bold border-2">
                 <a href={`tel:${PHONE_E164}`}>
@@ -62,7 +62,7 @@ export default function ContactPage() {
                 </a>
               </Button>
               <Button asChild className="mt-3 w-full font-bold">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-4 w-4" aria-hidden="true" />
                   Message on WhatsApp
                 </a>

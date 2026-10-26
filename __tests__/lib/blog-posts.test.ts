@@ -11,8 +11,19 @@ describe('blog posts', () => {
       expect(post.publishedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(post.description.length).toBeLessThanOrEqual(160);
       expect(post.sections.length).toBeGreaterThan(0);
+      expect(post.keywords.length).toBeGreaterThanOrEqual(6);
+      expect(post.keywords.length).toBeLessThanOrEqual(10);
       post.sections.forEach((section) => expect(section.paragraphs.length).toBeGreaterThan(0));
     }
+  });
+
+  it('uses the requested fortnightly publication schedule', () => {
+    expect(Object.fromEntries(blogPosts.map(({ slug, publishedAt }) => [slug, publishedAt]))).toEqual({
+      'vastu-and-feng-shui-compared': '2026-09-01',
+      'plot-selection-checklist': '2026-09-15',
+      'entrance-and-kitchen-basics': '2026-09-29',
+      'preparing-floor-plan-for-online-review': '2026-10-13',
+    });
   });
 
   it('lists the newest article first and finds articles by slug', () => {

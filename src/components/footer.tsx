@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { MapPin, MessageCircle, Phone } from 'lucide-react';
-import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_URL } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_CHAT_URL } from '@/lib/site';
 import { BrandMark } from '@/components/brand-mark';
 
 const linkClass =
@@ -51,7 +51,7 @@ export function Footer() {
             <a href={`tel:${PHONE_E164}`} className={`inline-flex items-center gap-2 ${linkClass}`}>
               <Phone className="h-4 w-4" aria-hidden="true" /> {PHONE_E164.replace('+91', '+91 ').replace(/(\d{5})(\d{5})/, '$1 $2')}
             </a>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 ${linkClass}`}>
+            <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 ${linkClass}`}>
               <MessageCircle className="h-4 w-4" aria-hidden="true" /> Message on WhatsApp
             </a>
           </div>

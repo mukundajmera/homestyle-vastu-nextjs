@@ -19,8 +19,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: post.title,
     description: post.description,
+    keywords: post.keywords,
     alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: { title: post.title, description: post.description, url, type: 'article', publishedTime: post.publishedAt, images: [{ url: image, alt: post.imageAlt }] },
+    openGraph: { title: post.title, description: post.description, url, type: 'article', publishedTime: post.publishedAt, tags: post.keywords, images: [{ url: image, alt: post.imageAlt }] },
     twitter: { card: 'summary_large_image', title: post.title, description: post.description, images: [{ url: image, alt: post.imageAlt }] }
   };
 }
@@ -33,7 +34,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   const image = `${SITE_ORIGIN}${post.image}`;
   const jsonLd = [
     {
-      '@context': 'https://schema.org', '@type': 'Article', headline: post.title, description: post.description,
+      '@context': 'https://schema.org', '@type': 'Article', headline: post.title, description: post.description, keywords: post.keywords.join(', '),
       image, datePublished: post.publishedAt, dateModified: post.publishedAt,
       author: { '@type': 'Person', name: PERSON_NAME, url: `${SITE_ORIGIN}/about` },
       publisher: { '@type': 'Organization', name: BRAND_NAME, url: SITE_ORIGIN }, mainEntityOfPage: url

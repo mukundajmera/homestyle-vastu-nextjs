@@ -64,7 +64,7 @@ export default function AboutPage() {
                 Guidance covers homes and businesses, plot or land selection, new construction or renovation, industrial and factory properties, and online floor-plan review. On-site and online/remote formats are available.
               </p>
               <p className="border-l-2 border-accent pl-4">
-                No outcome or result is promised. Contact {PERSON_NAME} to discuss what guidance may be relevant to your property.
+                Every property is different, so each consultation starts with your layout, your goals and your questions. {PERSON_NAME} shares clear, practical observations and suggestions you can discuss with your architect or builder. Talk to him about what could work for your space.
               </p>
               <p>
                 For details about the service categories and consultation formats, explore the <Link href="/services" className="font-semibold text-primary underline underline-offset-4">Services page</Link> or contact the practice directly.

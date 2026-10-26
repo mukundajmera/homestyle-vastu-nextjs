@@ -117,6 +117,6 @@ describe('Home Page', () => {
 
   it('provides keyboard-operable FAQ disclosures', () => {
     render(<Home />);
-    expect(screen.getByText('Are on-site and online consultations available?').tagName).toBe('SUMMARY');
+    expect(screen.getByText('I live outside Jaipur. Can you review my floor plan online?').tagName).toBe('SUMMARY');
   });
 });
