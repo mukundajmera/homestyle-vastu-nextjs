@@ -202,10 +202,9 @@ describe('/api/contact', () => {
     expect(storedLeads.size).toBe(1);
   });
 
-  it('treats an omitted optional field and an empty string as functionally identical for retries', async () => {
+  it('treats an omitted inquiry and an empty string as functionally identical for retries', async () => {
     const payload = basePayload();
-    // Remove the optional fields to represent an omitted state
-    delete (payload as Record<string, unknown>).email;
+    // Remove the optional field to represent an omitted state
     delete (payload as Record<string, unknown>).inquiry;
 
     const first = await POST(createMockRequest(payload));
@@ -213,13 +212,27 @@ describe('/api/contact', () => {
     // Retry with explicit empty strings
     const second = await POST(createMockRequest({
       ...payload,
-      email: '',
       inquiry: '',
     }));
 
     expect(first.status).toBe(200);
     expect(second.status).toBe(200);
     expect(storedLeads.size).toBe(1);
+  });
+
+  it('requires an email address', async () => {
+    const payload = basePayload();
+    delete (payload as Record<string, unknown>).email;
+    const response = await POST(createMockRequest(payload));
+    expect(response.status).toBe(400);
+  });
+
+  it('stores a property category derived from the service when none is sent', async () => {
+    const payload = { ...basePayload(), serviceInterest: 'plot_selection' } as Record<string, unknown>;
+    delete payload.type;
+    delete payload.format;
+    const response = await POST(createMockRequest(payload));
+    expect(response.status).toBe(200);
   });
 
   it('confirms a materially changed inquiry still returns 409', async () => {

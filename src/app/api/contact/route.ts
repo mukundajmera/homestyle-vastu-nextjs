@@ -22,18 +22,14 @@ const contactSchema = z.object({
   submissionId: z.string().uuid(),
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
   phone: z.string().trim().regex(/^\+?[0-9\s\-\(\)]{10,20}$/, 'Invalid phone number format').transform(v => v.replace(/\D/g, '')).pipe(z.string().min(10, 'Phone number must have at least 10 digits').max(15, 'Phone number must not exceed 15 digits')),
-  email: z.string().trim().email('Enter a valid email address').max(255).optional().or(z.literal('')),
+  email: z.string().trim().email('Enter a valid email address').max(255),
   location: z.string().trim().min(2, 'City/Location is required').max(100),
-  type: z.enum(['home', 'business', 'plot', 'industrial', 'other'], {
-    message: 'Please select a property category'
-  }),
+  type: z.enum(['home', 'business', 'plot', 'industrial', 'other']).optional(),
   serviceInterest: z.enum(
     ['general_vastu', 'feng_shui', 'plot_selection', 'construction_renovation', 'industrial_vastu', 'floor_plan_review', 'other'],
     { message: 'Please select a service' }
   ),
-  format: z.enum(['onsite', 'online'], {
-    message: 'Please select a consultation format'
-  }),
+  format: z.enum(['onsite', 'online']).optional(),
   inquiry: z.string().trim().max(1000).optional().or(z.literal('')),
   consent: z.literal(true, {
     message: 'Please consent to being contacted about this inquiry'
@@ -41,6 +37,13 @@ const contactSchema = z.object({
   honeypot: z.string().max(0).optional(),
   turnstileToken: z.string().max(2048).nullish(),
 });
+
+/** The form no longer asks for a property category, so the column is filled from the service chosen. */
+function propertyTypeFor(service: string) {
+  if (service === 'plot_selection') return 'plot';
+  if (service === 'industrial_vastu') return 'industrial';
+  return 'other';
+}
 
 type RateLimitEntry = { count: number; expiresAt: number };
 const rateLimits = new Map<string, RateLimitEntry>();
@@ -163,7 +166,6 @@ export async function POST(request: Request) {
   const { turnstileToken, ...lead } = parsed.data;
 
   // Normalize optional blank fields to undefined for canonical idempotency payload hash
-  if (lead.email === '') lead.email = undefined;
   if (lead.inquiry === '') lead.inquiry = undefined;
 
   // Fail closed in production: without a Turnstile secret, bots cannot be told apart from people.
@@ -222,11 +224,11 @@ export async function POST(request: Request) {
         payloadHash,
         lead.name,
         lead.phone,
-        lead.email || null,
+        lead.email,
         lead.location,
-        lead.type,
+        lead.type ?? propertyTypeFor(lead.serviceInterest),
         lead.serviceInterest,
-        lead.format,
+        lead.format ?? (lead.serviceInterest === 'floor_plan_review' ? 'online' : 'onsite'),
         lead.inquiry || null,
         lead.consent,
         new Date().toISOString().slice(0, 19).replace('T', ' '),

@@ -30,7 +30,7 @@ describe('ContactForm', () => {
 
     expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Phone Number/i)).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: /What guidance are you looking for/i })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: /What do you need help with/i })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /Plot or land selection/i })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /New construction or renovation/i })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /Industrial or factory Vastu/i })).toBeInTheDocument();
@@ -46,9 +46,8 @@ describe('ContactForm', () => {
     expect(await screen.findByText('Name must be at least 2 characters')).toBeInTheDocument();
     expect(screen.getByText('Invalid phone number format')).toBeInTheDocument();
     expect(screen.getByText('City/Location is required')).toBeInTheDocument();
-    expect(screen.getByText('Please select a property category')).toBeInTheDocument();
+    expect(screen.getByText('Email is required so we can send your reply')).toBeInTheDocument();
     expect(screen.getByText('Please select a service')).toBeInTheDocument();
-    expect(screen.getByText('Please select a consultation format')).toBeInTheDocument();
     expect(screen.getByText('Please consent to being contacted about this inquiry')).toBeInTheDocument();
     expect(mockFetch).not.toHaveBeenCalled();
   });
@@ -63,10 +62,9 @@ describe('ContactForm', () => {
 
     await user.type(screen.getByLabelText(/Name/i), 'Jane Doe');
     await user.type(screen.getByLabelText(/Phone Number/i), phone);
+    await user.type(screen.getByLabelText(/Email/i), 'jane@example.com');
     await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
-    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'general_vastu');
-    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
-    await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
+    await user.selectOptions(screen.getByRole('combobox', { name: /What do you need help with/i }), 'general_vastu');
     await user.click(screen.getByRole('checkbox'));
     await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
 
@@ -85,10 +83,9 @@ describe('ContactForm', () => {
 
     await user.type(screen.getByLabelText(/Name/i), 'John Doe');
     await user.type(screen.getByLabelText(/Phone Number/i), '+91 98280 88678');
+    await user.type(screen.getByLabelText(/Email/i), 'jane@example.com');
     await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
-    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'floor_plan_review');
-    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
-    await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
+    await user.selectOptions(screen.getByRole('combobox', { name: /What do you need help with/i }), 'floor_plan_review');
     await user.click(screen.getByRole('checkbox'));
     await user.type(screen.getByPlaceholderText(/review the floor plan for a new office space/i), 'Review my new floor plan');
     await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
@@ -100,9 +97,7 @@ describe('ContactForm', () => {
       name: 'John Doe',
       phone: '919828088678',
       location: 'Jaipur',
-      type: 'home',
       serviceInterest: 'floor_plan_review',
-      format: 'online',
       consent: true,
     });
     expect(request.consentTimestamp).toBeUndefined();
@@ -133,9 +128,7 @@ describe('ContactForm', () => {
     await user.type(screen.getByLabelText(/Phone Number/i), '+91 98280 88679');
     await user.type(screen.getByLabelText(/Email/i), 'jane.test@example.com');
     await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
-    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'feng_shui');
-    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'business');
-    await user.click(screen.getByRole('radio', { name: /On-site/i }));
+    await user.selectOptions(screen.getByRole('combobox', { name: /What do you need help with/i }), 'feng_shui');
     await user.type(screen.getByPlaceholderText(/review the floor plan for a new office space/i), 'Please review my new office layout before I sign the lease.');
     await user.click(screen.getByRole('checkbox'));
     await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
@@ -175,10 +168,9 @@ describe('ContactForm', () => {
     render(<ContactForm />);
     await user.type(screen.getByLabelText(/Name/i), 'Jane Doe');
     await user.type(screen.getByLabelText(/Phone Number/i), '9876543210');
+    await user.type(screen.getByLabelText(/Email/i), 'jane@example.com');
     await user.type(screen.getByLabelText(/City\/Location/i), 'Jaipur');
-    await user.selectOptions(screen.getByRole('combobox', { name: /What guidance are you looking for/i }), 'general_vastu');
-    await user.selectOptions(screen.getByRole('combobox', { name: /Property Category/i }), 'home');
-    await user.click(screen.getByRole('radio', { name: /Online \/ Remote/i }));
+    await user.selectOptions(screen.getByRole('combobox', { name: /What do you need help with/i }), 'general_vastu');
     await user.click(screen.getByRole('checkbox'));
     await user.click(screen.getByRole('button', { name: /Submit & Discuss/i }));
 

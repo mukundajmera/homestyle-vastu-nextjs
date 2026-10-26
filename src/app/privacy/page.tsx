@@ -71,7 +71,7 @@ export default function PrivacyPage() {
 
         <section id="information-we-collect" className="scroll-mt-24 space-y-4">
           <h2 className={sectionHeadingClass}>2. What information do we collect?</h2>
-          <p>If you submit the consultation form, it asks for your name, phone number, location, property type, service interest, preferred consultation format (on-site or online), and consent to be contacted. Email and inquiry text are optional. Inquiry text may be up to 1,000 characters.</p>
+          <p>If you submit the consultation form, it asks for your name, phone number, email address, city or location, the service you need help with, and your consent to be contacted. A message about your property is optional and may be up to 1,000 characters.</p>
           <p>The form also processes a submission identifier, the time and policy version of your consent, and a fingerprint used to identify a repeated submission. To limit abuse, the service checks a one-way hash of the phone number for a short-lived rate limit. The form includes a hidden anti-spam field.</p>
           <p>When enabled, Cloudflare Turnstile checks whether a form submission is likely to be automated. It receives the security-check token and technical request information needed to perform that check. Do not include sensitive personal information in the enquiry message.</p>
         </section>

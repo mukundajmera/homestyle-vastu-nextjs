@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2 } from "lucide-react";
@@ -26,9 +25,8 @@ import Link from "next/link";
 const formSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
   phone: z.string().trim().regex(/^\+?[0-9\s\-\(\)]{10,20}$/, 'Invalid phone number format').transform(v => v.replace(/\D/g, '')).pipe(z.string().min(10, 'Phone number must have at least 10 digits').max(15, 'Phone number must not exceed 15 digits')),
-  email: z.string().trim().email("Invalid email").max(255).optional().or(z.literal("")),
+  email: z.string().trim().min(1, "Email is required so we can send your reply").email("Enter a valid email address").max(255),
   location: z.string().trim().min(2, "City/Location is required").max(100),
-  type: z.enum(["", "home", "business", "plot", "industrial", "other"]).refine((value): boolean => value !== "", "Please select a property category"),
   serviceInterest: z.enum([
     "",
     "general_vastu",
@@ -39,7 +37,6 @@ const formSchema = z.object({
     "floor_plan_review",
     "other",
   ]).refine((value): boolean => value !== "", "Please select a service"),
-  format: z.enum(["", "onsite", "online"]).refine((value): boolean => value !== "", "Please select a consultation format"),
   inquiry: z.string().trim().max(1000).optional().or(z.literal("")),
   consent: z.boolean().refine((value) => value, "Please consent to being contacted about this inquiry"),
   honeypot: z.string().max(0).optional(),
@@ -75,9 +72,7 @@ export function ContactForm() {
       phone: "",
       email: "",
       location: "",
-      type: "",
       serviceInterest: "",
-      format: "",
       inquiry: "",
       honeypot: "",
       consent: false,
@@ -125,8 +120,8 @@ export function ContactForm() {
     setError(null);
 
     try {
-      if (!data.type || !data.serviceInterest || !data.format) {
-        throw new Error("Please complete the required consultation selections.");
+      if (!data.serviceInterest) {
+        throw new Error("Please select the service you need.");
       }
       if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !captchaToken) {
         throw new Error("Please complete the security check before sending.");
@@ -142,9 +137,7 @@ export function ContactForm() {
           phone: data.phone,
           email: data.email,
           location: data.location,
-          type: data.type,
           serviceInterest: data.serviceInterest,
-          format: data.format,
           inquiry: data.inquiry,
           honeypot: data.honeypot,
           consent: data.consent,
@@ -239,7 +232,7 @@ export function ContactForm() {
           name="serviceInterest"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Service Interest (What guidance are you looking for?) <span className="text-destructive">*</span></FormLabel>
+              <FormLabel>What do you need help with? <span className="text-destructive">*</span></FormLabel>
               <FormControl>
                 <select
                   {...field}
@@ -269,11 +262,11 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email (Optional)</FormLabel>
+                <FormLabel>Email <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="your@email.com" {...field} disabled={isSubmitting} />
                 </FormControl>
-                <p className="text-sm text-muted-foreground">Used only to reply to your inquiry.</p>
+                <p className="text-sm text-muted-foreground">We send your reply and next steps here.</p>
                 <FormMessage />
               </FormItem>
             )}
@@ -287,71 +280,6 @@ export function ContactForm() {
                 <FormLabel>City/Location <span className="text-destructive">*</span></FormLabel>
                 <FormControl>
                   <Input placeholder="e.g. Jaipur, Rajasthan" {...field} disabled={isSubmitting} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="space-y-6 bg-muted/50 p-6 rounded-lg border border-border">
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Property Category (What type of space is this?) <span className="text-destructive">*</span></FormLabel>
-                <FormControl>
-                  <select
-                    {...field}
-                    value={field.value ?? ""}
-                    onChange={(event) => field.onChange(event.target.value || undefined)}
-                    className="flex h-10 w-full rounded-md border border-input bg-background pl-3 pr-10 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    disabled={isSubmitting}
-                  >
-                    <option value="" disabled>Select a property category</option>
-                    <option value="home">Home</option>
-                    <option value="business">Business, Hotel, Hospital, or Restaurant</option>
-                    <option value="plot">Plot</option>
-                    <option value="industrial">Industrial</option>
-                    <option value="other">Other</option>
-                  </select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="format"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Preferred Format <span className="text-destructive">*</span></FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col sm:flex-row gap-4"
-                    disabled={isSubmitting}
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
-                      <FormControl>
-                        <RadioGroupItem value="onsite" disabled={isSubmitting} />
-                      </FormControl>
-                      <FormLabel className="font-normal w-full cursor-pointer">
-                        On-site (In person)
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0 bg-background p-3 rounded-md border flex-1 cursor-pointer hover:border-primary/50 transition-colors">
-                      <FormControl>
-                        <RadioGroupItem value="online" disabled={isSubmitting} />
-                      </FormControl>
-                      <FormLabel className="font-normal w-full cursor-pointer">
-                        Online / Remote
-                      </FormLabel>
-                    </FormItem>
-                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>

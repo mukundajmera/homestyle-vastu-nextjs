@@ -8,9 +8,9 @@ export type LeadEmailDetails = {
   phone: string;
   email?: string;
   location: string;
-  type: string;
+  type?: string;
   serviceInterest: string;
-  format: string;
+  format?: string;
   inquiry?: string;
   submissionId: string;
 };
@@ -23,9 +23,9 @@ function buildLeadEmailText(lead: LeadEmailDetails) {
     `Phone: ${lead.phone}`,
     `Email: ${lead.email ?? 'Not given'}`,
     `City/Location: ${lead.location}`,
-    `Property category: ${lead.type}`,
+    ...(lead.type ? [`Property category: ${lead.type}`] : []),
     `Service interest: ${lead.serviceInterest}`,
-    `Preferred format: ${lead.format}`,
+    ...(lead.format ? [`Preferred format: ${lead.format}`] : []),
     '',
     'Guidance requested:',
     lead.inquiry ?? 'Not given',
