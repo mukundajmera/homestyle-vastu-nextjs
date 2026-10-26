@@ -27,7 +27,7 @@ describe('PrivacyPage', () => {
     for (const expected of [
       'Digital Personal Data Protection Act, 2023',
       'Information Technology Act, 2000',
-      'name, phone number, location, property type, service interest',
+      'name, phone number, email address, city or location, the service you need help with',
       'Cloudflare Turnstile',
       'Resend',
       'Hostinger',
