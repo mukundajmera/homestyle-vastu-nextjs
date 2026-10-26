@@ -73,13 +73,13 @@ export default function PrivacyPage() {
           <h2 className={sectionHeadingClass}>2. What information do we collect?</h2>
           <p>If you submit the consultation form, it asks for your name, phone number, email address, city or location, the service you need help with, and your consent to be contacted. A message about your property is optional and may be up to 1,000 characters.</p>
           <p>The form also processes a submission identifier, the time and policy version of your consent, and a fingerprint used to identify a repeated submission. To limit abuse, the service checks a one-way hash of the phone number for a short-lived rate limit. The form includes a hidden anti-spam field.</p>
-          <p>When enabled, Cloudflare Turnstile checks whether a form submission is likely to be automated. It receives the security-check token and technical request information needed to perform that check. Do not include sensitive personal information in the enquiry message.</p>
+          <p>Cloudflare Turnstile checks whether a form submission is likely to be automated. It receives the security-check token and technical request information needed to perform that check. Do not include sensitive personal information in the enquiry message.</p>
         </section>
 
         <section id="why-we-use-information" className="scroll-mt-24 space-y-4">
           <h2 className={sectionHeadingClass}>3. Why do we use it?</h2>
           <p>We use enquiry details to understand what guidance you are seeking, contact you about that enquiry, discuss and arrange a consultation, and keep the related consultation record. We use consent records to document your choice and technical anti-spam information to protect the form and reduce duplicate or abusive submissions.</p>
-          <p>Where configured, the details in your enquiry are sent by email to the consultant as a lead notification. The form does not take payments.</p>
+          <p>The details in your enquiry are sent by email to the consultant as a lead notification. The form does not take payments.</p>
         </section>
 
         <section id="consent-and-law" className="scroll-mt-24 space-y-4">
@@ -90,7 +90,7 @@ export default function PrivacyPage() {
 
         <section id="service-providers" className="scroll-mt-24 space-y-4">
           <h2 className={sectionHeadingClass}>5. Who may process your information?</h2>
-          <p>We do not sell your personal information. We use service providers only as needed to operate the website and handle enquiries. These may include Hostinger for website hosting and MySQL database services, Resend for email delivery when configured, and Cloudflare for Turnstile security checks.</p>
+          <p>We do not sell your personal information. We use service providers only as needed to operate the website and handle enquiries. These may include Hostinger for website hosting and MySQL database services, Resend for email delivery, and Cloudflare for Turnstile security checks.</p>
           <p>These providers may process information on systems in India or other countries, depending on their service and configuration. Where information is processed internationally, we will do so subject to applicable Indian law and any required safeguards. We may also disclose information if the law requires it or to protect rights, safety and the security of the service.</p>
           <p>WhatsApp is opened only if you choose to follow a WhatsApp link. That conversation is handled by WhatsApp under its own terms and privacy practices. Website form details are not placed in the WhatsApp link; the optional hand-off message describes only the service category.</p>
         </section>
@@ -115,7 +115,7 @@ export default function PrivacyPage() {
         <section id="cookies-and-links" className="scroll-mt-24 space-y-4">
           <h2 className={sectionHeadingClass}>9. Cookies, security checks and links</h2>
           <p>The site does not currently use analytics or advertising cookies. Cloudflare Turnstile is a third-party security check and may process technical information or use necessary browser storage to prevent abuse. Your browser may also keep standard technical data needed to load and secure the website.</p>
-          <p>Phone, map and WhatsApp links take you to services operated by third parties only when you select them. Their own privacy notices and terms apply once you leave this site. We do not embed those services in the enquiry form.</p>
+          <p>Phone, map, WhatsApp and Instagram links take you to services operated by third parties only when you select them. Their own privacy notices and terms apply once you leave this site. We do not embed those services in the enquiry form.</p>
         </section>
 
         <section id="changes-and-contact" className="scroll-mt-24 space-y-4">

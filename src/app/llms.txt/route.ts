@@ -1,5 +1,5 @@
 import { consultationFormats, propertyServices } from '@/lib/services-data';
-import { ADDRESS, BRAND_NAME, PERSON_NAME, PERSON_TITLE, PHONE_E164, SITE_ORIGIN, WHATSAPP_URL } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, INSTAGRAM_URL, PERSON_NAME, PERSON_TITLE, PHONE_E164, SITE_ORIGIN, WHATSAPP_URL } from '@/lib/site';
 
 export function GET() {
   const address = `${ADDRESS.street}, ${ADDRESS.locality}, ${ADDRESS.region} ${ADDRESS.postalCode}, ${ADDRESS.country}`;
@@ -13,6 +13,7 @@ export function GET() {
     `Address: ${address}`,
     `Phone: ${PHONE_E164}`,
     `WhatsApp: ${WHATSAPP_URL}`,
+    `Instagram: ${INSTAGRAM_URL}`,
     `Website: ${SITE_ORIGIN}`,
     '',
     '## Consultation formats',

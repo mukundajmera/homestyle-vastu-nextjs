@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { MapPin, MessageCircle, Phone } from 'lucide-react';
-import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_CHAT_URL } from '@/lib/site';
+import { Instagram, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { ADDRESS, BRAND_NAME, PERSON_NAME, INSTAGRAM_URL, PHONE_E164, WHATSAPP_CHAT_URL } from '@/lib/site';
 import { BrandMark } from '@/components/brand-mark';
 
 const linkClass =
@@ -53,6 +53,9 @@ export function Footer() {
             </a>
             <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 ${linkClass}`}>
               <MessageCircle className="h-4 w-4" aria-hidden="true" /> Message on WhatsApp
+            </a>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 ${linkClass}`}>
+              <Instagram className="h-4 w-4" aria-hidden="true" /> Follow on Instagram
             </a>
           </div>
         </div>

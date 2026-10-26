@@ -5,7 +5,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { WhatsAppButton } from '@/components/whatsapp-button';
 import { Toaster } from '@/components/ui/toaster';
-import { ADDRESS, BRAND_NAME, BRAND_TITLE, PERSON_NAME, PHONE_E164, SITE_ORIGIN } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, INSTAGRAM_URL, BRAND_TITLE, PERSON_NAME, PHONE_E164, SITE_ORIGIN } from '@/lib/site';
 
 const bodyFont = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'swap', variable: '--font-body' });
 const headlineFont = Playfair_Display({ subsets: ['latin'], display: 'swap', variable: '--font-headline' });
@@ -61,6 +61,7 @@ export const jsonLd = {
   "name": BRAND_NAME,
   "@id": `${SITE_ORIGIN}/#business`,
   "url": SITE_ORIGIN,
+  "sameAs": [INSTAGRAM_URL],
   "telephone": PHONE_E164,
   "address": {
     "@type": "PostalAddress",

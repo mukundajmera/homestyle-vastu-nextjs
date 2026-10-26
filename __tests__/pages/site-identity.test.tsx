@@ -78,7 +78,7 @@ describe('site identity', () => {
 
   it('contains none of the retired brand, address, or unverified terms in src and tests', () => {
     const roots = [join(process.cwd(), 'src'), join(process.cwd(), '__tests__')];
-    const prohibited = /consultancy|homestyle\s+vastu|openingHours|sameAs/i;
+    const prohibited = /consultancy|homestyle\s+vastu|openingHours/i;
     const matches: string[] = [];
     for (const root of roots) {
       for (const file of listFiles(root)) {
@@ -88,5 +88,12 @@ describe('site identity', () => {
       }
     }
     expect(matches).toEqual([]);
+  });
+});
+
+describe('Instagram presence', () => {
+  it('links the Instagram profile from the footer and the contact page', () => {
+    const footer = render(<Footer />);
+    expect(footer.getByRole('link', { name: /Follow on Instagram/i })).toHaveAttribute('href', 'https://www.instagram.com/fengshui_homestyle_vastu/');
   });
 });

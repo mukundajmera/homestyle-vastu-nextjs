@@ -96,7 +96,7 @@ export default function TermsPage() {
 
         <section id="third-party-services" className="scroll-mt-24 space-y-4">
           <h2 className={sectionHeadingClass}>7. Third-party links and services</h2>
-          <p>This website may link to services such as WhatsApp, phone diallers or map providers. You choose whether to open those services. They are operated by third parties under their own terms and privacy practices, and we do not control their content or availability.</p>
+          <p>This website may link to services such as WhatsApp, Instagram, phone diallers or map providers. You choose whether to open those services. They are operated by third parties under their own terms and privacy practices, and we do not control their content or availability.</p>
         </section>
 
         <section id="liability" className="scroll-mt-24 space-y-4">

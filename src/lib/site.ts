@@ -16,3 +16,5 @@ export const PHONE_E164 = '+919828088678';
 export const WHATSAPP_URL = 'https://wa.me/919828088678';
 export const WHATSAPP_MESSAGE = 'Hello Sanjay ji, I found your website and would like to discuss a Vastu / Feng Shui consultation for my property.';
 export const WHATSAPP_CHAT_URL = `${WHATSAPP_URL}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+export const INSTAGRAM_HANDLE = 'fengshui_homestyle_vastu';
+export const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_HANDLE}/`;

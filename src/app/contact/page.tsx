@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Phone, MapPin, MessageCircle } from 'lucide-react';
+import { Phone, MapPin, MessageCircle, Instagram } from 'lucide-react';
 import { ContactForm } from "@/components/contact-form";
-import { ADDRESS, BRAND_NAME, PERSON_NAME, PHONE_E164, WHATSAPP_CHAT_URL } from '@/lib/site';
+import { ADDRESS, BRAND_NAME, PERSON_NAME, INSTAGRAM_HANDLE, INSTAGRAM_URL, PHONE_E164, WHATSAPP_CHAT_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact in Jaipur',
@@ -65,6 +65,12 @@ export default function ContactPage() {
                 <a href={WHATSAPP_CHAT_URL} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-4 w-4" aria-hidden="true" />
                   Message on WhatsApp
+                </a>
+              </Button>
+              <Button asChild variant="outline" className="mt-3 w-full font-bold border-2">
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                  <Instagram className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Follow @{INSTAGRAM_HANDLE}
                 </a>
               </Button>
             </CardContent>
