@@ -32,13 +32,13 @@ describe('site identity', () => {
     expect(jsonLd.name).toBe(BRAND_NAME);
     expect(metadata.openGraph?.siteName).toBe(BRAND_NAME);
     const response = getLlms();
-    expect(String(response.body).split('\n')[0]).toBe(BRAND_NAME);
+    expect(String(response.body).split('\n')[0]).toBe(`# ${BRAND_NAME}`);
   });
 
-  it('returns llms.txt as UTF-8 plain text beginning with BRAND_NAME', async () => {
+  it('returns llms.txt as UTF-8 plain text beginning with a level-one heading of BRAND_NAME', async () => {
     const response = getLlms();
     expect(response.headers).toMatchObject({ 'Content-Type': 'text/plain; charset=utf-8' });
-    expect(String(response.body).startsWith(`${BRAND_NAME}\n`)).toBe(true);
+    expect(String(response.body).startsWith(`# ${BRAND_NAME}\n`)).toBe(true);
   });
 
   it('includes the full street in JSON-LD and llms.txt', () => {

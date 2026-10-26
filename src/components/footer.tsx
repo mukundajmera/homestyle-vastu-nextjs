@@ -19,7 +19,7 @@ export function Footer() {
             <BrandMark className="h-12 w-12" />
             {BRAND_NAME}
           </Link>
-          <p className="mt-4 max-w-sm text-sm leading-6 text-foreground/85">
+          <p className="mt-4 max-w-sm text-sm leading-6 text-foreground">
             Vastu Shastra and Feng Shui consultation with {PERSON_NAME} for homes, businesses, plots, builds and factories.
           </p>
         </div>
@@ -41,7 +41,7 @@ export function Footer() {
               {ADDRESS.country}
             </span>
           </address>
-          <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className={`mt-2 inline-flex text-sm font-semibold text-primary ${linkClass}`}>
+          <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className={`mt-2 inline-flex text-sm font-semibold text-foreground underline underline-offset-4 ${linkClass}`}>
             Get directions
           </a>
         </div>
