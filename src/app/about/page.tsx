@@ -26,9 +26,9 @@ export default function AboutPage() {
     <div className="container mx-auto max-w-5xl px-4 py-16 md:py-24">
       <div className="flex flex-col gap-12 md:flex-row md:gap-16">
         <aside className="w-full md:w-1/3">
-          <div className="paper-card relative aspect-[3/4] w-full overflow-hidden rounded-t-[6rem] rounded-b-lg">
+          <div className="paper-card relative aspect-[4/5] w-full overflow-hidden rounded-t-[6rem] rounded-b-lg">
             <Image
-              src="/brand/sanjay-about-belt.jpg"
+              src="/brand/sanjay-about-portrait.jpg"
               alt={`${PERSON_NAME}, ${PERSON_TITLE}`}
               fill
               sizes="(min-width: 768px) 30vw, 100vw"

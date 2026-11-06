@@ -45,7 +45,12 @@ export function CompareTool() {
     <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Choose a comparison topic">
       {(Object.keys(comparison) as ComparisonTopic[]).map((item) => <button key={item} type="button" className={control} aria-pressed={topic === item} onClick={() => setTopic(item)}>{item}</button>)}
     </div>
-    <div className="mt-5 overflow-x-auto rounded-lg border border-border">
+    <div className="mt-5 space-y-3 rounded-lg border border-border bg-background p-4 sm:hidden">
+      <h3 className="font-semibold">{topic}</h3>
+      <p className="text-sm leading-6"><strong className="block text-xs font-bold uppercase tracking-[0.08em] text-sage">Vastu perspective</strong>{row.vastu}</p>
+      <p className="text-sm leading-6"><strong className="block text-xs font-bold uppercase tracking-[0.08em] text-sage">Feng Shui perspective</strong>{row.fengShui}</p>
+    </div>
+    <div className="mt-5 hidden overflow-x-auto rounded-lg border border-border sm:block">
       <table className="w-full min-w-[36rem] text-left text-sm leading-6"><caption className="sr-only">Traditional Vastu and Feng Shui discussion prompts for {topic.toLowerCase()}</caption>
         <thead className="bg-secondary"><tr><th scope="col" className="p-3">Topic</th><th scope="col" className="p-3">Vastu perspective</th><th scope="col" className="p-3">Feng Shui perspective</th></tr></thead>
         <tbody><tr><th scope="row" className="p-3 align-top">{topic}</th><td className="p-3 align-top">{row.vastu}</td><td className="p-3 align-top">{row.fengShui}</td></tr></tbody>
