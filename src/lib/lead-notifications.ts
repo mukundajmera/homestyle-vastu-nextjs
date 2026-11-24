@@ -1,5 +1,9 @@
 /** Inbox list that receives every new website inquiry, in addition to the database row. */
-export const LEAD_RECIPIENTS = ['mukundajmera94@gmail.com', 'ajmeramukund94@gmail.com'] as const;
+export const LEAD_RECIPIENTS = [
+  'mukundajmera94@gmail.com',
+  'sanjay240166@gmail.com',
+  'fengshuihomestylevastu@gmail.com',
+] as const;
 
 const RESEND_API_URL = 'https://api.resend.com/emails';
 

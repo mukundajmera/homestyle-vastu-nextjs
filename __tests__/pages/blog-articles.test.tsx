@@ -20,13 +20,14 @@ describe('blog article guides', () => {
   it('compares tradition-specific questions and updates the preparation output', () => {
     render(<BlogArticle post={blogPosts[0]} />);
     fireEvent.click(screen.getByRole('button', { name: 'Kitchen' }));
-    expect(screen.getByText(/Vastu discussion may review the kitchen location/i)).toBeInTheDocument();
-    expect(screen.getByText(/Feng Shui discussion may review the kitchen as part/i)).toBeInTheDocument();
+    // Mobile stacked view and desktop table both render the same prompts (CSS switches them).
+    expect(screen.getAllByText(/Vastu discussion may review the kitchen location/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Feng Shui discussion may review the kitchen as part/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Where are the cooktop, sink, ventilation/i).length).toBeGreaterThan(0);
     fireEvent.click(screen.getByRole('checkbox', { name: 'Kitchen' }));
     expect(screen.getAllByRole('listitem').some((item) => /Kitchen:.*Where are the cooktop, sink/i.test(item.textContent ?? ''))).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: 'Mirrors' }));
-    expect(screen.getByText(/what a mirror reflects/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/what a mirror reflects/i).length).toBeGreaterThan(0);
   });
 
   it('updates plot readiness and encodes checked and unresolved questions for WhatsApp', () => {
